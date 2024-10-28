@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '5.x' # Adjust this if you are using a different .NET version
+
+    - name: Install C++ Build Tools
+      run: |
+        choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional" --no-progress
+
+    - name: Restore NuGet packages
+      run: nuget restore SEOwnedDE.sln
+
+    - name: Build
+      run: msbuild SEOwnedDE.sln /p:Configuration=Release /p:Platform=x64
+
+    - name: Create output directory if not exists
+      run: |
+        if (!(Test-Path "output/x64/Release")) {
+            New-Item -ItemType Directory -Path "output/x64/Release" -Force
+        }
+
+    - name: Archive build outputs
+      if: success()
+      run: |
+        Compress-Archive -Path "output/x64/Release/SEOwnedDEx64Release.dll" -DestinationPath "output/x64/Release/SEOwnedDEx64Release.zip"
+
+    - name: Upload build artifacts
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: output/x64/Release/SEOwnedDEx64Release.zip
+        retention-days: 5
