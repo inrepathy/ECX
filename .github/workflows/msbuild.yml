@@ -56,22 +56,12 @@ jobs:
         run: |
           Get-ChildItem -Path "output/x64/Release" -Recurse -Force || echo "Output directory does not exist."
 
-      # Step 9: Check if the DLL exists
-      - name: Check if DLL exists
-        run: |
-          if (!(Test-Path "output/x64/Release/SEOwnedDEx64Release.dll")) {
-              Write-Error "The DLL was not found at the expected path."
-              exit 1
-          } else {
-              Write-Host "DLL found at the expected path."
-          }
-
-      # Step 10: Archive the built DLL
+      # Step 9: Archive the built DLL
       - name: Archive build output
         run: |
           Compress-Archive -Path "output/x64/Release/SEOwnedDEx64Release.dll" -DestinationPath "output/x64/Release/SEOwnedDEx64Release.zip"
 
-      # Step 11: Upload the DLL artifact
+      # Step 10: Upload DLL artifact
       - name: Upload DLL artifact
         uses: actions/upload-artifact@v3
         with:
