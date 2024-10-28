@@ -40,22 +40,30 @@ jobs:
       - name: Build the SEOwnedDE DLL
         run: msbuild SEOwnedDE.sln /p:Configuration=Release /p:Platform=x64
 
-      # Step 7: Create output directory if it doesn't exist
+      # Step 7: Check if the DLL exists
+      - name: Check if DLL exists
+        run: |
+          if (!(Test-Path "output/x64/Release/SEOwnedDEx64Release.dll")) {
+              Write-Error "The DLL was not found at the expected path."
+              exit 1
+          } else {
+              Write-Host "DLL found at the expected path."
+          }
+
+      # Step 8: Create output directory if it doesn't exist
       - name: Ensure output directory exists
         run: |
           if (!(Test-Path "output/x64/Release")) {
               New-Item -ItemType Directory -Path "output/x64/Release" -Force
           }
 
-      # Step 8: Archive the built DLL
+      # Step 9: Archive the built DLL
       - name: Archive build output
-        if: success()
         run: |
           Compress-Archive -Path "output/x64/Release/SEOwnedDEx64Release.dll" -DestinationPath "output/x64/Release/SEOwnedDEx64Release.zip"
 
-      # Step 9: Upload the DLL artifact
+      # Step 10: Upload the DLL artifact
       - name: Upload DLL artifact
-        if: success()
         uses: actions/upload-artifact@v3
         with:
           name: SEOwnedDE-DLL
