@@ -1,4 +1,4 @@
-name: Build DLL
+name: Build SEOwnedDE DLL
 
 on:
   push:
@@ -9,46 +9,55 @@ on:
       - master
 
 jobs:
-  build-dll:
+  build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up MSBuild
-      uses: microsoft/setup-msbuild@v1
+      # Step 2: Set up MSBuild
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
 
-    - name: Install .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '5.x' # Adjust this if you are using a different .NET version
+      # Step 3: Install .NET SDK
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '5.x'  # Replace '5.x' with your actual .NET version if different
 
-    - name: Install C++ Build Tools
-      run: |
-        choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional" --no-progress
+      # Step 4: Install Visual Studio C++ Build Tools
+      - name: Install C++ Build Tools
+        run: |
+          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional" --no-progress
 
-    - name: Restore NuGet packages
-      run: nuget restore SEOwnedDE.sln
+      # Step 5: Restore NuGet packages
+      - name: Restore NuGet packages
+        run: nuget restore SEOwnedDE.sln
 
-    - name: Build DLL
-      run: msbuild SEOwnedDE.sln /p:Configuration=Release /p:Platform=x64
+      # Step 6: Build the solution to produce the DLL
+      - name: Build the SEOwnedDE DLL
+        run: msbuild SEOwnedDE.sln /p:Configuration=Release /p:Platform=x64
 
-    - name: Create output directory if not exists
-      run: |
-        if (!(Test-Path "output/x64/Release")) {
-            New-Item -ItemType Directory -Path "output/x64/Release" -Force
-        }
+      # Step 7: Create output directory if it doesn't exist
+      - name: Ensure output directory exists
+        run: |
+          if (!(Test-Path "output/x64/Release")) {
+              New-Item -ItemType Directory -Path "output/x64/Release" -Force
+          }
 
-    - name: Archive build outputs
-      if: success()
-      run: |
-        Compress-Archive -Path "output/x64/Release/SEOwnedDEx64Release.dll" -DestinationPath "output/x64/Release/SEOwnedDEx64Release.zip"
+      # Step 8: Archive the built DLL
+      - name: Archive build output
+        if: success()
+        run: |
+          Compress-Archive -Path "output/x64/Release/SEOwnedDEx64Release.dll" -DestinationPath "output/x64/Release/SEOwnedDEx64Release.zip"
 
-    - name: Upload build artifacts
-      if: success()
-      uses: actions/upload-artifact@v3
-      with:
-        name: SEOwnedDE-DLL
-        path: output/x64/Release/SEOwnedDEx64Release.zip
-        retention-days: 5
+      # Step 9: Upload the DLL artifact
+      - name: Upload DLL artifact
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: SEOwnedDE-DLL
+          path: output/x64/Release/SEOwnedDEx64Release.zip
+          retention-days: 5
