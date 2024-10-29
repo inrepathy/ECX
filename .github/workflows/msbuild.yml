@@ -1,25 +1,21 @@
-name: Build SEOwnedDE Solution
+name: MSBuild
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  build:
+  msbuild:
     runs-on: windows-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    strategy:
+      matrix:
+        configuration: [Release, ReleaseAVX2]
+        platform: [x64]
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'  # Adjust if needed
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
 
       - name: Install Visual Studio C++ Build Tools
         shell: cmd
@@ -27,6 +23,20 @@ jobs:
           curl -L -o vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe
           vs_buildtools.exe --quiet --wait --norestart --nocache --installPath "C:\BuildTools" --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional
 
-      - name: Build solution with MSBuild
-        run: |
-          "C:\BuildTools\MSBuild\Current\Bin\MSBuild.exe" SEOwnedDE.sln /p:Configuration=Release
+      - name: Restore NuGet packages
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: nuget restore SEOwnedDE.sln
+
+      - name: Build
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: msbuild SEOwnedDE.sln /p:Platform=${{ matrix.platform }} /p:Configuration=${{ matrix.configuration }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}
+          path: output/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}-PDB
+          path: output/${{ matrix.platform }}/${{ matrix.configuration }}/*.pdb
