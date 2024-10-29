@@ -22,12 +22,10 @@ jobs:
           dotnet-version: '6.0.x'  # Adjust this if needed
 
       - name: Install Visual Studio C++ Build Tools
+        shell: cmd
         run: |
-          vs_buildtools.exe --quiet --wait --norestart --nocache \
-            --installPath "C:\BuildTools" \
-            --add Microsoft.VisualStudio.Workload.VCTools \
-            --includeRecommended \
-            --includeOptional
+          curl -L -o vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe
+          vs_buildtools.exe --quiet --wait --norestart --nocache --installPath "C:\BuildTools" --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional
 
       - name: Restore dependencies
         run: dotnet restore SEOwnedDE.sln
