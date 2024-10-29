@@ -34,11 +34,11 @@ jobs:
       - name: Upload DLLs
         uses: actions/upload-artifact@v4
         with:
-          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}-DLLs
-          path: bin/${{ matrix.configuration }}/${{ matrix.platform }}/*.dll
+          name: SEOwnedDE-DLLs-${{ matrix.platform }}-${{ matrix.configuration }}
+          path: '**/*.dll'
 
       - name: Upload PDBs
         uses: actions/upload-artifact@v4
         with:
-          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}-PDBs
-          path: bin/${{ matrix.configuration }}/${{ matrix.platform }}/*.pdb
+          name: SEOwnedDE-PDBs-${{ matrix.platform }}-${{ matrix.configuration }}
+          path: '**/*.pdb'
