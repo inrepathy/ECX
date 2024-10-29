@@ -1,4 +1,4 @@
-name: Build SEOwnedDE DLL
+name: Build SEOwnedDE Solution
 
 on:
   push:
@@ -13,58 +13,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Step 1: Check out the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up MSBuild
-      - name: Set up MSBuild
-        uses: microsoft/setup-msbuild@v1
-
-      # Step 3: Install .NET SDK
-      - name: Install .NET SDK
-        uses: actions/setup-dotnet@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '5.x'  # Replace '5.x' with your actual .NET version if different
+          dotnet-version: '6.0.x'  # Adjust if you're using a different .NET version
 
-      # Step 4: Install Visual Studio C++ Build Tools
-      - name: Install C++ Build Tools
-        run: |
-          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional" --no-progress
+      - name: Restore dependencies
+        run: dotnet restore SEOwnedDE.sln
 
-      # Step 5: Restore NuGet packages
-      - name: Restore NuGet packages
-        run: nuget restore SEOwnedDE.sln
-
-      # Step 6: Build the solution to produce the DLL
-      - name: Build the SEOwnedDE DLL
-        run: msbuild SEOwnedDE.sln /p:Configuration=Release /p:Platform=x64
-
-      # Step 7: Create output directory if it doesn't exist
-      - name: Ensure output directory exists
-        run: |
-          $outputPath = "output/x64/Release"
-          if (!(Test-Path $outputPath)) {
-              New-Item -ItemType Directory -Path $outputPath -Force
-              Write-Host "Created directory: $outputPath"
-          } else {
-              Write-Host "Directory already exists: $outputPath"
-          }
-
-      # Step 8: List output directory files for diagnostics
-      - name: List output directory files
-        run: |
-          Get-ChildItem -Path "output/x64/Release" -Recurse -Force || echo "Output directory does not exist."
-
-      # Step 10: Archive the built DLL
-      - name: Archive build output
-        run: |
-          Compress-Archive -Path "output/x64/Release/SEOwnedDEx64Release.dll" -DestinationPath "output/x64/Release/SEOwnedDEx64Release.zip"
-
-      # Step 11: Upload DLL artifact
-      - name: Upload DLL artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: SEOwnedDE-DLL
-          path: output/x64/Release/SEOwnedDEx64Release.zip
-          retention-days: 5
+      - name: Build solution
+        run: dotnet build SEOwnedDE.sln --no-restore --configuration Release
