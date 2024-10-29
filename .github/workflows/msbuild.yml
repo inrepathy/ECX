@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # Adjust this if needed
+          dotnet-version: '6.0.x'  # Adjust if needed
 
       - name: Install Visual Studio C++ Build Tools
         shell: cmd
@@ -27,8 +27,6 @@ jobs:
           curl -L -o vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe
           vs_buildtools.exe --quiet --wait --norestart --nocache --installPath "C:\BuildTools" --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional
 
-      - name: Restore dependencies
-        run: dotnet restore SEOwnedDE.sln
-
-      - name: Build solution
-        run: dotnet build SEOwnedDE.sln --no-restore --configuration Release
+      - name: Build solution with MSBuild
+        run: |
+          "C:\BuildTools\MSBuild\Current\Bin\MSBuild.exe" SEOwnedDE.sln /p:Configuration=Release
