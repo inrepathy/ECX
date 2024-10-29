@@ -21,10 +21,13 @@ jobs:
         with:
           dotnet-version: '6.0.x'  # Adjust this if needed
 
-      - name: Install C++ Build Tools
+      - name: Install Visual Studio C++ Build Tools
         run: |
-          choco install visualstudio2022buildtools --version=17.3.1 -y --no-progress
-          choco install visualstudio2022-workload-vctools -y --no-progress
+          vs_buildtools.exe --quiet --wait --norestart --nocache \
+            --installPath "C:\BuildTools" \
+            --add Microsoft.VisualStudio.Workload.VCTools \
+            --includeRecommended \
+            --includeOptional
 
       - name: Restore dependencies
         run: dotnet restore SEOwnedDE.sln
