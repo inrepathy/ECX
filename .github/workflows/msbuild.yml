@@ -31,12 +31,14 @@ jobs:
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         run: msbuild SEOwnedDE.sln /p:Platform=${{ matrix.platform }} /p:Configuration=${{ matrix.configuration }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload DLLs
+        uses: actions/upload-artifact@v4
         with:
-          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}
-          path: output/${{ matrix.platform }}/${{ matrix.configuration }}/*.dll
+          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}-DLLs
+          path: bin/${{ matrix.configuration }}/${{ matrix.platform }}/*.dll
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload PDBs
+        uses: actions/upload-artifact@v4
         with:
-          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}-PDB
-          path: output/${{ matrix.platform }}/${{ matrix.configuration }}/*.pdb
+          name: SEOwnedDE-${{ matrix.platform }}-${{ matrix.configuration }}-PDBs
+          path: bin/${{ matrix.configuration }}/${{ matrix.platform }}/*.pdb
