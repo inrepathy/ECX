@@ -35,10 +35,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SEOwnedDE-DLLs-${{ matrix.platform }}-${{ matrix.configuration }}
-          path: '**/*.dll'
+          path: |
+            **/*.dll
+          retention-days: 1  # Optional: set retention days
 
       - name: Upload PDBs
         uses: actions/upload-artifact@v4
         with:
           name: SEOwnedDE-PDBs-${{ matrix.platform }}-${{ matrix.configuration }}
-          path: '**/*.pdb'
+          path: |
+            **/*.pdb
+          retention-days: 1  # Optional: set retention days
