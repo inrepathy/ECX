@@ -19,7 +19,12 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # Adjust if you're using a different .NET version
+          dotnet-version: '6.0.x'  # Adjust this if needed
+
+      - name: Install C++ Build Tools
+        run: |
+          choco install visualstudio2022buildtools --version=17.3.1 -y --no-progress
+          choco install visualstudio2022-workload-vctools -y --no-progress
 
       - name: Restore dependencies
         run: dotnet restore SEOwnedDE.sln
