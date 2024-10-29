@@ -37,4 +37,5 @@ jobs:
           name: SEOwnedDE-DLLs-${{ matrix.platform }}-${{ matrix.configuration }}
           path: |
             **/*.dll
-          retention-days: 7 # Optional: set retention days
+          retention-days: 7
+          if-no-files-found: error
