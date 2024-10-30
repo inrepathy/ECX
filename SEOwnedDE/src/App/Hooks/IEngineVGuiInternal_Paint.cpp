@@ -5,6 +5,7 @@
 #include "../Features/Radar/Radar.h"
 #include "../Features/MiscVisuals/MiscVisuals.h"
 #include "../Features/SpectatorList/SpectatorList.h"
+#include "../../App/Features/Crits/Crits.h"
 #include "../Features/SpyCamera/SpyCamera.h"
 #include "../Features/SpyWarning/SpyWarning.h"
 #include "../Features/TeamWellBeing/TeamWellBeing.h"
@@ -27,6 +28,7 @@ MAKE_HOOK(IEngineVGuiInternal_Paint, Memory::GetVFunc(I::EngineVGui, 14), void, 
 			F::MiscVisuals->ShiftBar();
 			F::Radar->Run();
 			F::SpectatorList->Run();
+			F::Crits->Indicator();
 			F::BindsList->Run();
 			F::MiscVisuals->AimbotFOVCircle();
 			F::SpyCamera->Run();
