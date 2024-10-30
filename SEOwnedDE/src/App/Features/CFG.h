@@ -554,6 +554,9 @@ namespace CFG
 	CFGVAR(Lagfix, false);
 
 
+	CFGVAR(AutoStop, false);
+	CFGVAR(AutoStopStyle, 0); // 0 normal 1 smart
+
 	CFGVAR(FastAccel, false);
 
 	CFGVAR(BindsList_Active, true);
