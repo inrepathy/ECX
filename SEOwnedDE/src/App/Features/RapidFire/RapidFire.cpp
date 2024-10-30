@@ -64,26 +64,62 @@ void CRapidFire::Run(CUserCmd* pCmd, bool* pSendPacket)
 		m_bShiftSilentAngles = G::bSilentAngles || G::bPSilentAngles;
 		m_bSetCommand = false;
 
-		/*if (CFG::Exploits_RapidFire_Antiwarp)
+		if (CFG::AutoStop)
 		{
-			Vec3 vAngle = {};
-			Math::VectorAngles(pLocal->m_vecVelocity(), vAngle);
+			// regular
+			if (CFG::AutoStopStyle == 0) {
 
-			pCmd->viewangles.x = 90.0f;
-			pCmd->viewangles.y = vAngle.y;
-			pCmd->forwardmove = pCmd->sidemove = 0.0f;
+				Vec3 vAngle = {};
+				Math::VectorAngles(pLocal->m_vecVelocity(), vAngle);
 
-			G::bSilentAngles = true;
-		}*/
+				//	pCmd->viewangles.x = 90.0f;
+				//	pCmd->viewangles.y = vAngle.y;
+				pCmd->forwardmove = pCmd->sidemove = 0.0f;
 
-		pCmd->buttons &= ~IN_ATTACK;
+				G::bSilentAngles = true;
+			}
+			}
 
-		*pSendPacket = true;
+		     // smart
+			if (CFG::AutoStopStyle == 1) {
+				bool bIsShooting = (pCmd->buttons & IN_ATTACK);
 
-		m_vShiftStart = pLocal->m_vecOrigin();
-		m_bStartedShiftOnGround = pLocal->m_fFlags() & FL_ONGROUND;
+				if (bIsShooting)
+				{
+					G::bCanPrimaryAttack = true;
+					return;
+				}
+				else
+				{
+					G::bCanPrimaryAttack = false;
+				}
+
+				if (!G::bCanPrimaryAttack)
+				{
+					Vec3 vAngle = {};
+					Math::VectorAngles(pLocal->m_vecVelocity(), vAngle);
+
+					// meh probably dont need
+					// pCmd->viewangles.x = 90.0f;
+					// pCmd->viewangles.y = vAngle.y;
+
+					// Stop player movement
+					pCmd->forwardmove = 0.0f;
+					pCmd->sidemove = 0.0f;
+
+					//G::bSilentAngles = true; 
+				}
+			}
+
+			pCmd->buttons &= ~IN_ATTACK;
+
+			*pSendPacket = true;
+
+			m_vShiftStart = pLocal->m_vecOrigin();
+			m_bStartedShiftOnGround = pLocal->m_fFlags() & FL_ONGROUND;
+			}
 	}
-}
+
 
 bool CRapidFire::ShouldExitCreateMove(CUserCmd* pCmd)
 {
