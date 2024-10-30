@@ -136,3 +136,96 @@ void CCrits::Run(CUserCmd* pCmd)
 		}
 	}
 }
+
+
+void CCrits::Indicator()
+{
+	if (!CFG::CritIndicator)
+		return;
+
+	if (CFG::Misc_Clean_Screenshot && I::EngineClient->IsTakingScreenshot())
+		return;
+
+	if (I::EngineVGui->IsGameUIVisible() || SDKUtils::BInEndOfMatch())
+		return;
+
+	const auto pLocal = H::Entities->GetLocal();
+
+	if (!pLocal || pLocal->deadflag())
+		return;
+
+	const auto pWeapon = H::Entities->GetWeapon();
+
+	if (!pWeapon)
+		return;
+
+	static int nBarW = 80;
+	static int nBarH = 4;
+
+	const int nBarX = (H::Draw->GetScreenW() / 2) - (nBarW / 2);
+	const int nBarY = (H::Draw->GetScreenH() / 2) + 150; // ShiftBar Y position
+	const int textY = nBarY - 12; 
+	const int jew = nBarY - 8;// Text Y position for ShiftBar
+
+	// Get Bucket value
+	static auto bucket = I::CVar->FindVar("tf_weapon_criticals_bucket_cap");
+
+	// Define colors
+	const Color_t color = CFG::Menu_Accent_Secondary; // Color for the bar fill
+	const Color_t colorDim = { color.r, color.g, color.b, 25 }; // Dimmed color for the background fill
+
+	// Draw the Shifting indicator
+	if (CFG::Exploits_Shifting_Indicator_Style == 0)
+	{
+		H::Draw->Rect(nBarX - 1, nBarY - 1, nBarW + 2, nBarH + 2, CFG::Menu_Background);
+
+		if (Shifting::nAvailableTicks > 0)
+		{
+			const int nFillWidth = static_cast<int>(Math::RemapValClamped(
+				static_cast<float>(Shifting::nAvailableTicks),
+				0.0f, static_cast<float>(MAX_COMMANDS),
+				0.0f, static_cast<float>(nBarW)
+			));
+
+			H::Draw->GradientRect(nBarX, nBarY, nFillWidth, nBarH, colorDim, color, false);
+			H::Draw->OutlinedRect(nBarX, nBarY, nFillWidth, nBarH, color);
+		}
+
+		// Draw Bucket value in the bar
+		if (bucket) // Check if bucket is valid
+		{
+			int bucketValue = std::min(static_cast<int>(bucket->GetInt()), 1000); // Cap at 1000
+			const int bucketFillWidth = static_cast<int>(Math::RemapValClamped(
+				static_cast<float>(bucketValue),
+				0.0f, 1000.0f,
+				0.0f, static_cast<float>(nBarW)
+			));
+
+			// Draw Bucket value within the ShiftBar
+			H::Draw->GradientRect(nBarX, nBarY, bucketFillWidth, nBarH, colorDim, color, false);
+			H::Draw->OutlinedRect(nBarX, nBarY, bucketFillWidth, nBarH, color);
+
+			char bucketText[32];
+			snprintf(bucketText, sizeof(bucketText), "%d", bucketValue);
+			H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX + (bucketFillWidth / 2) - 10, textY, color, 0, bucketText); // Center the Bucket text
+
+			// Check if crit banned and render "Crit Banned" text in the same position
+			if (!pLocal->m_iCritMult())
+			{
+				const char* critBannedText = "Crit Banned";
+				H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX + (bucketFillWidth / 2) - 23, jew + 15, color, 0, critBannedText); // Adjusted Y position
+			}
+		}
+	}
+
+	if (CFG::Exploits_Shifting_Indicator_Style == 1)
+	{
+		const float end{ Math::RemapValClamped(static_cast<float>(Shifting::nAvailableTicks), 0.0f, MAX_COMMANDS, -90.0f, 359.0f) };
+
+		H::Draw->Arc(nBarX + nBarW / 2, nBarY, 21, 6.0f, -90.0f, 359.0f, CFG::Menu_Background);
+		H::Draw->Arc(nBarX + nBarW / 2, nBarY, 20, 4.0f, -90.0f, end, CFG::Menu_Accent_Secondary);
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, CFG::Menu_Accent_Secondary, 0, std::to_wstring(Shifting::nAvailableTicks).c_str());
+	}
+
+	// The crit banned message rendering is handled in the bucket section now.
+}
