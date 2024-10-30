@@ -2404,6 +2404,13 @@ void CMenu::MainWindow()
 			SliderInt("Rapid Fire Ticks", CFG::Exploits_RapidFire_Ticks, 14, MAX_COMMANDS, 1);
 			SliderInt("Rapid Fire Delay Ticks", CFG::Exploits_RapidFire_Min_Ticks_Target_Same, 0, 5, 1);
 			CheckBox("Rapid Fire Antiwarp", CFG::Exploits_RapidFire_Antiwarp);
+			CheckBox("Autostop", CFG::AutoStop);
+			if (CFG::AutoStop) {
+				SelectSingle("Autostop Style", CFG::AutoStopStyle, {
+			{ "Regular", 0 },
+			{ "Smart", 1 }
+					});
+			}
 			InputKey("Warp Key", CFG::Exploits_Warp_Key);
 
 			SelectSingle("Warp Mode", CFG::Exploits_Warp_Mode, {
