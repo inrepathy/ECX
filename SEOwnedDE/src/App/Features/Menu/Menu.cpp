@@ -2542,7 +2542,7 @@ void CMenu::MainWindow()
 
 		int nCount = 0;
 
-		for (const auto &entry : std::filesystem::directory_iterator(configFolder))
+		for (const auto& entry : std::filesystem::directory_iterator(configFolder))
 		{
 			if (std::string(std::filesystem::path(entry).filename().string()).find(".json") == std::string_view::npos)
 				continue;
@@ -2560,18 +2560,18 @@ void CMenu::MainWindow()
 			if (InputText("Create New", "Enter a Name:", strInput))
 			{
 				bool bAlreadyExists = [&]() -> bool
-				{
-					for (const auto &entry : std::filesystem::directory_iterator(configFolder))
 					{
-						if (std::string(std::filesystem::path(entry).filename().string()).find(".json") == std::string_view::npos)
-							continue;
+						for (const auto& entry : std::filesystem::directory_iterator(configFolder))
+						{
+							if (std::string(std::filesystem::path(entry).filename().string()).find(".json") == std::string_view::npos)
+								continue;
 
-						if (!std::string(std::filesystem::path(entry).filename().string()).compare(strInput))
-							return true;
-					}
+							if (!std::string(std::filesystem::path(entry).filename().string()).compare(strInput))
+								return true;
+						}
 
-					return false;
-				}();
+						return false;
+					}();
 
 				if (!bAlreadyExists)
 				{
@@ -2579,8 +2579,15 @@ void CMenu::MainWindow()
 					Config::Save(configFolder / newFile);
 				}
 			}
-			
-			//can't do this nicely after getting rid of std::any..
+
+			m_nCursorX = anchor_x; 
+			m_nCursorY += CFG::Menu_Spacing_Y; 
+
+			if (Button("Open Config Folder"))
+			{
+				std::string command = "explorer \"" + configFolder.string() + "\""; 
+				system(command.c_str());
+			}
 
 			/*auto anchor_x2{ anchor_x };
 
@@ -2611,7 +2618,7 @@ void CMenu::MainWindow()
 				{
 					m_nCursorY += CFG::Menu_Spacing_Y;
 
-					for (const auto &entry : std::filesystem::directory_iterator(configFolder))
+					for (const auto& entry : std::filesystem::directory_iterator(configFolder))
 					{
 						if (std::string(std::filesystem::path(entry).filename().string()).find(".json") == std::string_view::npos)
 							continue;
@@ -2626,7 +2633,6 @@ void CMenu::MainWindow()
 				GroupBoxEnd();
 			}
 		}
-
 		else
 		{
 			GroupBoxStart(strSelected.c_str(), 150);
@@ -2665,6 +2671,7 @@ void CMenu::MainWindow()
 		}
 	}
 }
+
 
 void CMenu::Snow()
 {
