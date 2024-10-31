@@ -42,7 +42,7 @@ void CStickyJump::Run(CUserCmd* cmd)
 	{
 		G::bSilentAngles = true;
 
-		float pitchOffset = Math::RemapValClamped(I::EngineClient->GetViewAngles().x, 0.0f, -25.0f, 0.0f, -4.0f);
+		float pitchOffset = Math::RemapValClamped(I::EngineClient->GetViewAngles().x, 0.0f, 0.0f, 0.0f, -4.0f);
 		if (!(local->m_fFlags() & FL_DUCKING))
 		{
 			pitchOffset = -3.0f;
@@ -88,7 +88,7 @@ void CStickyJump::Run(CUserCmd* cmd)
 			cmd->buttons |= IN_ATTACK2;
 		}
 
-		auto slowdownSpeed = Math::RemapValClamped(I::EngineClient->GetViewAngles().x, 0.0f, -25.0f, 880.0f, 840.0f);
+		auto slowdownSpeed = Math::RemapValClamped(I::EngineClient->GetViewAngles().x, 0.0f, 0.0f, 880.0f, 840.0f);
 
 		if (!(local->m_fFlags() & FL_DUCKING))
 		{
