@@ -159,7 +159,7 @@ void CMenu::GroupBoxEnd()
 	m_nCursorY += CFG::Menu_Spacing_Y;
 }
 
-bool CMenu::CheckBox(const char *szLabel, bool &bVar)
+bool CMenu::CheckBox(const char* szLabel, bool& bVar)
 {
 	bool bCallback = false;
 
@@ -172,7 +172,7 @@ bool CMenu::CheckBox(const char *szLabel, bool &bVar)
 		int w_out = 0, h_out = 0;
 		I::MatSystemSurface->GetTextSize(H::Fonts->Get(EFonts::Menu).m_dwFont, Utils::ConvertUtf8ToWide(szLabel).c_str(), w_out, h_out);
 		return w + w_out + 1;
-	}();
+		}();
 
 	bool bHovered = IsHovered(x, y, w_with_text, h, &bVar);
 
@@ -183,7 +183,7 @@ bool CMenu::CheckBox(const char *szLabel, bool &bVar)
 
 	if (bVar) {
 		Color_t clr = CFG::Menu_Accent_Primary;
-		H::Draw->GradientRect(x, y, w, h, { clr.r, clr.g, clr.b, 25 }, clr, false);
+		H::Draw->Rect(x, y, w, h, clr); 
 	}
 
 	H::Draw->OutlinedRect(
@@ -203,6 +203,7 @@ bool CMenu::CheckBox(const char *szLabel, bool &bVar)
 
 	return bCallback;
 }
+
 
 bool CMenu::SliderFloat(const char *szLabel, float &flVar, float flMin, float flMax, float flStep, const char *szFormat)
 {
