@@ -137,6 +137,15 @@ void CMaterials::Initialize()
 		m_pFlat = I::MaterialSystem->CreateMaterial("seo_material_flat", kv);
 	}
 
+	if (!m_pWireframe)
+	{
+		auto* kv = new KeyValues("Wireframe"); // Use the wireframe material type
+		kv->SetString("$wireframe", "1"); // Enable wireframe rendering
+
+		m_pWireframe = I::MaterialSystem->CreateMaterial("seo_material_wireframe", kv); // Create wireframe material
+	}
+
+
 	if (!m_pShaded)
 	{
 		auto* kv = new KeyValues("VertexLitGeneric");
@@ -422,7 +431,7 @@ void CMaterials::Run()
 
 	auto GetMaterial = [&](int nIndex) -> IMaterial* {
 		//don't forget to change me if more materials are added!
-		m_bRenderingOriginalMat = nIndex == 0 || nIndex > 5;
+		m_bRenderingOriginalMat = nIndex == 0 || nIndex > 6;
 
 		switch (nIndex)
 		{
@@ -432,6 +441,7 @@ void CMaterials::Run()
 		case 3: return m_pGlossy;
 		case 4: return m_pGlow;
 		case 5: return m_pPlastic;
+		case 6: return m_pWireframe;
 		default: return nullptr;
 		}
 	};
@@ -755,6 +765,13 @@ void CMaterials::CleanUp()
 		m_pFlat->DecrementReferenceCount();
 		m_pFlat->DeleteIfUnreferenced();
 		m_pFlat = nullptr;
+	}
+
+	if (m_pWireframe)
+	{
+		m_pWireframe->DecrementReferenceCount();
+		m_pWireframe->DeleteIfUnreferenced();
+		m_pWireframe = nullptr;
 	}
 
 	if (m_pShaded)

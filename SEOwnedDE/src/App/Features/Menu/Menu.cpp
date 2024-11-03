@@ -1824,7 +1824,8 @@ void CMenu::MainWindow()
 					{ "Shaded", 2 },
 					{ "Glossy", 3 },
 					{ "Glow", 4 },
-					{ "Plastic", 5 }
+					{ "Plastic", 5 },
+					{ "Wireframe", 6 }
 					});
 
 				multiselect("Ignore", WorldIgnore, {
@@ -1851,7 +1852,8 @@ void CMenu::MainWindow()
 					{ "Shaded", 2 },
 					{ "Glossy", 3 },
 					{ "Glow", 4 },
-					{ "Plastic", 5 }
+					{ "Plastic", 5 },
+					{ "Wireframe", 6 }
 				});
 
 				SliderFloat("Weapon Alpha", CFG::Materials_ViewModel_Weapon_Alpha, 0.0f, 1.0f, 0.1f, "%.1f");
@@ -1862,7 +1864,8 @@ void CMenu::MainWindow()
 					{ "Shaded", 2 },
 					{ "Glossy", 3 },
 					{ "Glow", 4 },
-					{ "Plastic", 5 }
+					{ "Plastic", 5 },
+					{ "Wireframe", 6 },
 				});
 
 				ColorPicker("Hands", CFG::Color_Hands);
@@ -1887,7 +1890,8 @@ void CMenu::MainWindow()
 					{ "Shaded", 2 },
 					{ "Glossy", 3 },
 					{ "Glow", 4 },
-					{ "Plastic", 5 }
+					{ "Plastic", 5 },
+					{ "Wireframe", 6 }
 					});
 
 				SelectSingle("Lag Records Style", CFG::Materials_Players_LagRecords_Style, {
@@ -1922,7 +1926,8 @@ void CMenu::MainWindow()
 					{ "Shaded", 2 },
 					{ "Glossy", 3 },
 					{ "Glow", 4 },
-					{ "Plastic", 5 }
+					{ "Plastic", 5 },
+					{ "Wireframe", 6}
 					});
 
 				multiselect("Ignore", BuildingIgnore, {

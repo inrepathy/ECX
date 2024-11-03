@@ -20,6 +20,7 @@ public:
 	IMaterial* m_pGlossy = nullptr;
 	IMaterial* m_pGlow = nullptr;
 	IMaterial* m_pPlastic = nullptr;
+	IMaterial* m_pWireframe = nullptr;
 	IMaterialVar* m_pGlowEnvmapTint = nullptr;
 	IMaterialVar* m_pGlowSelfillumTint = nullptr;
 	IMaterial* m_pFlatNoInvis = nullptr;
@@ -51,6 +52,7 @@ public:
 			|| pMaterial == m_pGlow
 			|| pMaterial == m_pPlastic
 			|| pMaterial == m_pFlatNoInvis
+			|| pMaterial == m_pWireframe
 			|| pMaterial == m_pShadedNoInvis;
 	}
 

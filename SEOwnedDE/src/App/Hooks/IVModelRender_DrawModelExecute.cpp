@@ -38,6 +38,7 @@ MAKE_HOOK(IVModelRender_DrawModelExecute, Memory::GetVFunc(I::ModelRender, 19), 
 								case 3: return F::Materials->m_pGlossy;
 								case 4: return F::Materials->m_pGlow;
 								case 5: return F::Materials->m_pPlastic;
+								case 6: return F::Materials->m_pWireframe;
 								default: return nullptr;
 							}
 						};
@@ -165,6 +166,7 @@ MAKE_HOOK(CBaseAnimating_DrawModel, Signatures::CBaseAnimating_DrawModel.Get(), 
 						case 3: return F::Materials->m_pGlossy;
 						case 4: return F::Materials->m_pGlow;
 						case 5: return F::Materials->m_pPlastic;
+						case 6: return F::Materials->m_pWireframe;
 						default: return nullptr;
 					}
 				};
