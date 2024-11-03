@@ -703,21 +703,6 @@ bool CAimbotProjectile::CanSee(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, cons
 	return H::AimUtils->TraceProjectile(target.Entity, vLocalPos, vTo);
 }
 
-// maybe move this to math but whatever
-Vec3 RandomPointInHypersphere(const Vec3& center, float radius) {
-	float u = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-	float v = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-	float theta = 2.0f * PI * u;
-	float phi = acosf(2.0f * v - 1.0f);
-
-	float x = radius * sinf(phi) * cosf(theta);
-	float y = radius * sinf(phi) * sinf(theta);
-	float z = radius * cosf(phi);
-
-	return center + Vec3(x, y, z);
-}
-
-
 bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, const CUserCmd* pCmd, ProjTarget_t& target)
 {
 	Vec3 vLocalPos = pLocal->GetShootPos();
@@ -783,47 +768,68 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 
 			if ((nTargetTick == nTick || nTargetTick == nTick - 1))
 			{
-				auto runSplash = [&]() {
-					const auto isRocketLauncher{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER };
-					const auto isDirectHit{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT };
-					const auto isAirStrike{ pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheAirStrike };
+				auto runSplash = [&]()
+				{
+					auto isRocketLauncher{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER };
+					auto isDirectHit{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT };
+					auto isAirStrike{ pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheAirStrike };
 
-					if (!isRocketLauncher && !isDirectHit && !isAirStrike) {
+					if (!isRocketLauncher && !isDirectHit && !isAirStrike)
+					{
 						return false;
 					}
 
-					Vec3 center = target.Entity->GetCenter();
-					float radius = isRocketLauncher ? 180.0f : 80.0f;
-					if (isAirStrike) {
+					Vec3 mins{ target.Entity->m_vecMins() };
+					Vec3 maxs{ target.Entity->m_vecMaxs() };
+
+					auto center{ F::MovementSimulation->GetOrigin() + Vec3(0.0f, 0.0f, (mins.z + maxs.z) * 0.5f) };
+
+					auto numPoints{ 80 };
+					auto radius{ isRocketLauncher ? 180.0f : 80.0f };
+
+					if (isAirStrike)
+					{
 						radius = 130.0f;
 					}
 
-					std::vector<Vec3> potentialPoints;
+					std::vector<Vec3> potential{};
+					for (int n = 0; n < numPoints; n++)
+					{
+						auto a1{ acosf(1.0f - 2.0f * (static_cast<float>(n) / static_cast<float>(numPoints))) };
+						auto a2{ (static_cast<float>(PI) * (3.0f - sqrtf(5.0f))) * static_cast<float>(n) };
 
-					for (int n = 0; n < 80; n++) { 
-						Vec3 point = RandomPointInHypersphere(center, radius);
+						auto point{ center + Vec3{ sinf(a1) * cosf(a2), sinf(a1) * sinf(a2), cosf(a1) }.Scale(radius) };
 
 						CTraceFilterWorldCustom filter{};
 						trace_t trace{};
 
 						H::AimUtils->Trace(center, point, MASK_SOLID, &filter, &trace);
 
-						if (trace.fraction > 0.99f) {
-							continue; 
+						if (trace.fraction > 0.99f)
+						{
+							continue;
 						}
 
-						potentialPoints.push_back(trace.endpos);
+						potential.push_back(trace.endpos);
 					}
 
-					for (auto& point : potentialPoints) {
-						if (!CalcProjAngle(vLocalPos, point, target.AngleTo, target.TimeToTarget)) {
+					std::ranges::sort(potential, [&](const Vec3& a, const Vec3& b)
+					{
+						return a.DistTo(F::MovementSimulation->GetOrigin()) < b.DistTo(F::MovementSimulation->GetOrigin());
+					});
+
+					for (auto& point : potential)
+					{
+						if (!CalcProjAngle(vLocalPos, point, target.AngleTo, target.TimeToTarget))
+						{
 							continue;
 						}
 
 						trace_t trace = {};
 						CTraceFilterWorldCustom filter = {};
 
-						H::AimUtils->TraceHull(
+						H::AimUtils->TraceHull
+						(
 							GetOffsetShootPos(pLocal, pWeapon, pCmd),
 							point,
 							{ -4.0f, -4.0f, -4.0f },
@@ -833,20 +839,23 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 							&trace
 						);
 
-						if (trace.fraction < 0.9f || trace.startsolid || trace.allsolid) {
-							continue; 
+						if (trace.fraction < 0.9f || trace.startsolid || trace.allsolid)
+						{
+							continue;
 						}
 
 						H::AimUtils->Trace(trace.endpos, point, MASK_SOLID, &filter, &trace);
-						if (trace.fraction < 1.0f) {
-							continue; 
+
+						if (trace.fraction < 1.0f)
+						{
+							continue;
 						}
 
-						return true; 
+						return true;
 					}
 
-					return false; 
-					};
+					return false;
+				};
 
 				if (CFG::Aimbot_Projectile_Rocket_Splash == 2 && runSplash())
 				{
