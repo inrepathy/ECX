@@ -37,7 +37,7 @@ std::string GetMachineGuid() {
 const std::vector<std::string> validMachineGuids = {
     "1479d7a4-5f9b-4c4c-bec3-673a0589bd5d", // grizz
     "cd259989-41f4-4cbc-929a-7caf0e7fa67c", // deadly
-    "YOUR_VALID_GUID_3"
+    "0a8cf01a-db0d-4c92-a4b3-0ea3d7ba2f9c" // narrow
 };
 
 bool IsValidMachineGuid(const std::string& machineGuid) {
