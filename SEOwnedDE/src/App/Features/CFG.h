@@ -569,12 +569,15 @@ namespace CFG
 	CFGVAR(BindsList_Pos_Y, 20);
 	CFGVAR(BindsList_Width, 200);
 
+
+
 	CFGVAR(AutoPeek, true);
 	CFGVAR(AutoPeek_Key, 0);
 
 	CFGVAR(Watermark, true);
 
 	CFGVAR(Fakelag, false); 
+	CFGVAR(Fakelag_Style, 0); // 0 rage 1 legit
 	CFGVAR(Fakelag_DisableWhileFiring, true);
 	CFGVAR(Fakelag_DisableIfDT, false);
 

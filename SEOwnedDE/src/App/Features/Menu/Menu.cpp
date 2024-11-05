@@ -1382,6 +1382,13 @@ void CMenu::MainWindow()
 				CheckBox("Fakelag", CFG::Fakelag);
 				if (CFG::Fakelag) {
 
+					SelectSingle("Mode", CFG::Fakelag_Style,
+						{
+							{ "Rage", 0 },
+							{ "Legit", 1 }
+						});
+
+
 					multiselect("Fakelag Options", FakelagOptions, {
 { "Disable while firing", CFG::Fakelag_DisableWhileFiring },
 { "Disable if DT", CFG::Fakelag_DisableIfDT },

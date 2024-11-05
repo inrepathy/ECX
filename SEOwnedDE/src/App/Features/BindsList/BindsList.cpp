@@ -476,6 +476,40 @@ void CBindsList::Run()
         iPos++;
     }
 
+    if (H::Input->IsDown(CFG::AutoPeek_Key))
+    {
+
+        H::Draw->Rect(
+            CFG::BindsList_Pos_X,
+            CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
+            CFG::BindsList_Width,
+            CFG::Menu_Drag_Bar_Height + 1,
+            bgColor
+        );
+
+
+        H::Draw->String(
+            H::Fonts->Get(EFonts::Menu),
+            CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
+            CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
+            CFG::Menu_Text_Inactive,
+            POS_CENTERXY,
+            "Auto Peek"
+        );
+
+
+        H::Draw->OutlinedRect(
+            CFG::BindsList_Pos_X,
+            CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
+            CFG::BindsList_Width,
+            CFG::Menu_Drag_Bar_Height + 1,
+            outlineColor
+        );
+
+
+        iPos++;
+    }
+
     if (H::Input->IsDown(CFG::Misc_Movement_Lock_Key))
     {
        
