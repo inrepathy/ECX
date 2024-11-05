@@ -569,6 +569,9 @@ namespace CFG
 	CFGVAR(BindsList_Pos_Y, 20);
 	CFGVAR(BindsList_Width, 200);
 
+	CFGVAR(AutoPeek, true);
+	CFGVAR(AutoPeek_Key, 0);
+
 	CFGVAR(Watermark, true);
 
 	CFGVAR(Fakelag, false); 

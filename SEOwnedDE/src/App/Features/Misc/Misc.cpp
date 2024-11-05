@@ -1,6 +1,9 @@
 #include "Misc.h"
 
+
+#include <vector>
 #include "../CFG.h"
+#include "../../SEOwnedDE/src/SDK/SDK.h"
 
 
 void CMisc::Bunnyhop(CUserCmd* pCmd)
@@ -61,6 +64,70 @@ void CMisc::FakeDuck(CUserCmd* pCmd)
 
 
 }
+
+
+static Vec3 savedPeekPosition;
+static bool bReturning = false;
+static bool bKeyHeldDown = false;
+
+void CMisc::AutoPeek(CUserCmd* pCmd)
+{
+	const auto pLocal = H::Entities->GetLocal();
+
+	if (CFG::AutoPeek)
+	{
+		if (H::Input->IsDown(CFG::AutoPeek_Key))
+		{
+			if (!bKeyHeldDown)
+			{
+				bKeyHeldDown = true;
+				const Vec3 localPos = pLocal->GetAbsOrigin();
+				savedPeekPosition = localPos;
+				bReturning = false;
+			}
+		}
+		else
+		{
+			bKeyHeldDown = false;
+		}
+
+		if ((pCmd->buttons & IN_ATTACK) && !bReturning)
+		{
+			bReturning = true;
+		}
+
+		if (bKeyHeldDown)
+		{
+			Vec3 boxMins = Vec3(-2.f, -2.f, 0.f);
+			Vec3 boxMaxs = Vec3(2.f, 2.f, 3.f);
+			QAngle orientation = QAngle(0, 0, 0);
+			Color_t faceColor = bReturning ? Color_t(0, 255, 0, 100) : Color_t(255, 0, 0, 100);
+			Color_t edgeColor = bReturning ? Color_t(0, 255, 0, 255) : Color_t(255, 0, 0, 255);
+
+			I::DebugOverlay->AddBoxOverlay2(savedPeekPosition, boxMins, boxMaxs, orientation, faceColor, edgeColor, 0.1f);
+
+			if (bReturning)
+			{
+				const Vec3 localPos = pLocal->GetAbsOrigin();
+				if (localPos.DistTo(savedPeekPosition) < 7.f)
+				{
+					bReturning = false;
+					return;
+				}
+
+				float movementScale = 1.0f;
+				SDKUtils::WalkTo(pCmd, localPos, savedPeekPosition, movementScale);
+			}
+		}
+	}
+	else
+	{
+		bReturning = false;
+		savedPeekPosition = Vec3(0, 0, 0);
+		bKeyHeldDown = false;
+	}
+}
+
 
 void CMisc::AutoStrafer(CUserCmd* pCmd)
 {

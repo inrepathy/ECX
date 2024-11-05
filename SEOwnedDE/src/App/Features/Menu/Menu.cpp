@@ -1408,6 +1408,14 @@ void CMenu::MainWindow()
 			}
 			GroupBoxEnd();
 
+			GroupBoxStart("Auto Peek", 150);
+			{
+				CheckBox("Main", CFG::AutoPeek);
+				InputKey("Key", CFG::AutoPeek_Key);
+
+			}
+			GroupBoxEnd();
+
 		}
 
 		if (AimTab == EAimTabs::TRIGGERBOT)
