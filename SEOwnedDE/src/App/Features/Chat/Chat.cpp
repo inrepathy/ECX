@@ -18,7 +18,7 @@ const std::vector<std::pair<std::string, std::string>> patterns
 
 const std::vector<std::string> suffixes
 {
-    " UwU", " OwO", " owo", " uwu", " nwn", " :3", " >w<", " ^w^", " <3", " uvu", " TvT"
+    " UwU", " OwO", " owo", " uwu", " nwn", " :3", " >w<", " ^w^", " <3", " uvu", " TvT", " rwar", " :P", " x3"
 };
 
 std::string owoify(std::string text)
