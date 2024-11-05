@@ -128,6 +128,7 @@
     <ClCompile Include="src\App\Features\Resolver\Resolver.cpp" />
     <ClCompile Include="src\App\Features\Fakelag\Fakelag.cpp" />
     <ClCompile Include="src\App\Features\BindsList\BindsList.cpp" />
+    <ClCompile Include="src\App\Features\AnimFix\AnimFix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App\Features\Aimbot\AimbotHitscan\AimbotHitscan.h" />
@@ -320,5 +321,6 @@
     <ClInclude Include="src\App\Features\Resolver\Resolver.h" />
     <ClInclude Include="src\App\Features\Fakelag\Fakelag.h" />
     <ClInclude Include="src\App\Features\BindsList\BindsList.h" />
+    <ClInclude Include="src\App\Features\AnimFix\AnimFix.h" />
   </ItemGroup>
 </Project>

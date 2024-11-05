@@ -2,6 +2,8 @@
 
 #include "../Features/CFG.h"
 
+#include "../Features/AnimFix/AnimFix.h"
+
 #include "../Features/Aimbot/Aimbot.h"
 #include "../Features/EnginePrediction/EnginePrediction.h"
 #include "../Features/Misc/Misc.h"
@@ -118,6 +120,7 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 		C_TFPlayer* localPlayer = nullptr;
 
 		F::Resolver->OnShot(pCmd, localPlayer);
+		F::AnimFix->Update(pCmd);
 
 
 	}

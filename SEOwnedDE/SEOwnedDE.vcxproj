@@ -360,6 +360,7 @@
     <ClCompile Include="src\App\Features\Aimbot\AimbotHitscan\AimbotHitscan.cpp" />
     <ClCompile Include="src\App\Features\Aimbot\AimbotMelee\AimbotMelee.cpp" />
     <ClCompile Include="src\App\Features\Aimbot\AimbotProjectile\AimbotProjectile.cpp" />
+    <ClCompile Include="src\App\Features\AnimFix\AnimFix.cpp" />
     <ClCompile Include="src\App\Features\AntiAim\AntiAim.cpp" />
     <ClCompile Include="src\App\Features\BindsList\BindsList.cpp" />
     <ClCompile Include="src\App\Features\Crits\Crits.cpp" />
@@ -491,6 +492,7 @@
     <ClInclude Include="src\App\Features\Aimbot\AimbotHitscan\AimbotHitscan.h" />
     <ClInclude Include="src\App\Features\Aimbot\AimbotMelee\AimbotMelee.h" />
     <ClInclude Include="src\App\Features\Aimbot\AimbotProjectile\AimbotProjectile.h" />
+    <ClInclude Include="src\App\Features\AnimFix\AnimFix.h" />
     <ClInclude Include="src\App\Features\AntiAim\AntiAim.h" />
     <ClInclude Include="src\App\Features\BindsList\BindsList.h" />
     <ClInclude Include="src\App\Features\Crits\Crits.h" />
