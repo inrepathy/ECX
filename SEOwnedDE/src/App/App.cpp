@@ -63,7 +63,7 @@ void CApp::Start()
         Sleep(500);
     }
 
-    U::Storage->Init("midnight");
+    U::Storage->Init("ECX");
     U::SignatureManager->InitializeAllSignatures();
     U::InterfaceManager->InitializeAllInterfaces();
 
@@ -110,7 +110,7 @@ void CApp::Start()
     }
     I::EngineClient->ClientCmd_Unrestricted("clear");
     Sleep(25);
-    I::CVar->ConsoleColorPrintf(msgColor, "midnight loaded!\n");
+    I::CVar->ConsoleColorPrintf(msgColor, "ECX loaded!\n");
 }
 
 void CApp::Loop()
@@ -153,5 +153,5 @@ void CApp::Shutdown()
     }
     I::EngineClient->ClientCmd_Unrestricted("clear");
     Sleep(25);
-    I::CVar->ConsoleColorPrintf({ 255, 70, 70, 255 }, "midnight unloaded!\n");
+    I::CVar->ConsoleColorPrintf({ 255, 70, 70, 255 }, "ECX unloaded!\n");
 }

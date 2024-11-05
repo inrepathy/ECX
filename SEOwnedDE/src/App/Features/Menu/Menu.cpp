@@ -2768,7 +2768,7 @@ void CMenu::Indicators()
 	H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
 
 	if (CFG::Watermark) {
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75, clr, POS_DEFAULT, "midnight release build");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75, clr, POS_DEFAULT, "ECX release build");
 		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
 		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
 	}
@@ -2785,7 +2785,7 @@ void CMenu::Indicators()
 
 		H::Draw->OutlinedRect(rectX, rectY, rectWidth, rectHeight, CFG::Menu_Accent_Primary);
 
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5, clr, POS_DEFAULT, "midnight release build");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5, clr, POS_DEFAULT, "ECX release build");
 		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5 + 15, clr, POS_DEFAULT, "for public and private use");
 		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5 + 30, clr, POS_DEFAULT, "insert or f11 to open hack client");
 	}*/
@@ -3005,7 +3005,7 @@ void CMenu::Run()
 
 CMenu::CMenu()
 {
-	/*m_strConfigPath = std::filesystem::current_path().string() + "\\midnight\\configs";
+	/*m_strConfigPath = std::filesystem::current_path().string() + "\\ECX\\configs";
 	
 	if (!std::filesystem::exists(m_strConfigPath))
 	{
