@@ -31,6 +31,37 @@ void CMisc::Bunnyhop(CUserCmd* pCmd)
 	}
 }
 
+void CMisc::FakeDuck(CUserCmd* pCmd)
+{
+	if (CFG::FakeDuck) {
+		if (!H::Input->IsDown(CFG::FakeDuck_Key))
+			return;
+
+		bool* pSendPacket = reinterpret_cast<bool*>(uintptr_t(_AddressOfReturnAddress()) + 0x128);
+
+		const auto pLocal = H::Entities->GetLocal();
+
+
+		static auto active{ false };
+
+
+
+		*pSendPacket = false;
+		if (pLocal->m_bDucking() && pLocal->m_vecViewOffset().z == 45 && I::ClientState->chokedcommands > 12)
+		{
+			pCmd->buttons &= ~IN_DUCK;
+			*pSendPacket = true;
+		}
+		else
+		{
+			pCmd->buttons |= IN_DUCK;
+		}
+
+	}
+
+
+}
+
 void CMisc::AutoStrafer(CUserCmd* pCmd)
 {
 	//credits: KGB

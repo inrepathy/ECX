@@ -535,6 +535,9 @@ namespace CFG
 
 	CFGVAR(Menu_Snow, false);
 
+	CFGVAR(FakeDuck, false);
+	CFGVAR(FakeDuck_Key, 0);
+
 	CFGVAR(MovementPath_Color, Color_t({ 0, 20, 20, 255 }));
 	CFGVAR(LongPath_Color, Color_t({ 0, 20, 20, 255 }));
 	CFGVAR(LongColor_Enabled, false);

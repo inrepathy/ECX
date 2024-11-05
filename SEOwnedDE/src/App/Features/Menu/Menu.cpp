@@ -1394,6 +1394,20 @@ void CMenu::MainWindow()
 				}
 			}
 			GroupBoxEnd();
+
+
+
+			m_nCursorX += m_nLastGroupBoxW + (CFG::Menu_Spacing_X * 2);
+			m_nCursorY = anchor_y;
+
+			GroupBoxStart("Fake Duck", 150);
+			{
+				CheckBox("Main", CFG::FakeDuck);
+				InputKey("Key", CFG::FakeDuck_Key);
+
+			}
+			GroupBoxEnd();
+
 		}
 
 		if (AimTab == EAimTabs::TRIGGERBOT)

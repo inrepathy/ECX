@@ -132,6 +132,8 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 	// add this just incase
 	F::Fakelag->Run(pCmd, pSendPacket);
 
+	F::Misc->FakeDuck(pCmd);
+
 	F::AntiAim->Main(pCmd, pSendPacket);
 
 	F::Crits->Run(pCmd);

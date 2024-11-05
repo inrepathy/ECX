@@ -9,6 +9,7 @@ public:
     void AutoStrafer(CUserCmd* pCmd);
     void NoiseMakerSpam();
     void FastStop(CUserCmd* pCmd);
+    void FakeDuck(CUserCmd* pCmd);
     void FastAccel(CUserCmd* pCmd);
     void AutoScoutJump(CUserCmd* pCmd);
 
