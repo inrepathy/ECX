@@ -126,7 +126,7 @@ void CMenu::GroupBoxStart(const char *szLabel, int nWidth)
 
 	int nTextW = [&]() -> int {
 		int w_out = 0, h_out = 0;
-		I::MatSystemSurface->GetTextSize(H::Fonts->Get(EFonts::Menu).m_dwFont, Utils::ConvertUtf8ToWide(szLabel).c_str(), w_out, h_out);
+		I::MatSystemSurface->GetTextSize(H::Fonts->Get(EFonts::VerdanaBold).m_dwFont, Utils::ConvertUtf8ToWide(szLabel).c_str(), w_out, h_out);
 		return w_out;
 	}();
 
@@ -137,7 +137,7 @@ void CMenu::GroupBoxStart(const char *szLabel, int nWidth)
 	H::Draw->Line(x + w, y, x + (w - nSideWidth), y, CFG::Menu_Accent_Primary);
 
 	H::Draw->String(
-		H::Fonts->Get(EFonts::Menu),
+		H::Fonts->Get(EFonts::VerdanaBold),
 		x + (w / 2), y - (CFG::Menu_Spacing_Y - 1), CFG::Menu_Text_Inactive, POS_CENTERXY, szLabel
 	);
 
@@ -2603,7 +2603,6 @@ void CMenu::MainWindow()
 
 			auto anchor_x{ m_nCursorX };
 			auto anchor_y{ m_nCursorY };
-
 			if (InputText("Create New", "Enter a Name:", strInput))
 			{
 				bool bAlreadyExists = [&]() -> bool

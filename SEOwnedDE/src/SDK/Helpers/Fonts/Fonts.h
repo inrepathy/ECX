@@ -5,7 +5,7 @@
 enum class EFonts
 {
 	Menu,
-	ESP, ESP_CONDS, ESP_SMALL
+	ESP, ESP_CONDS, ESP_SMALL, VerdanaBold
 };
 
 class CFont
