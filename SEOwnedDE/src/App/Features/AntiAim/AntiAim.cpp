@@ -148,10 +148,11 @@ void CAntiAim::Main(CUserCmd* pCmd, bool* pSendPacket)
 
                 flLastForceTurnTime = flCurrentTime; 
             }
-
-            Math::ClampAngles(pCmd->viewangles);
+            
         }
 
         CAntiAim::movementFix(pCmd, vOldAngles, fOldSideMove, fOldForward);
+
+        Math::ClampAngles(pCmd->viewangles);
     }
 }
