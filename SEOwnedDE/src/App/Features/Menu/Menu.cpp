@@ -1377,6 +1377,18 @@ void CMenu::MainWindow()
 						SliderFloat("Fake Pitch", CFG::AntiAim_Fake_Pitch, -89.0f, 89.0f, 0.5f, "%.1f"); // you know i would go -90.0f, 90.0f but some cheats (jengaware, ateris, amalgam) have invalid angle detection and we DONT want to be detected so...
 						SliderFloat("Fake Yaw", CFG::AntiAim_Fake_Yaw, -180.0f, 180.0f, 0.5f, "%.1f");
 					}
+
+					CheckBox("Distortion", CFG::AntiAim_Distortion);
+					if (CFG::AntiAim_Distortion) {
+						SliderInt("Distortion Amount", CFG::AntiAim_DistortionAmount, 5, 250, 1);
+						CheckBox("Force Turn", CFG::AntiAim_ForceTurn);
+						if (CFG::AntiAim_ForceTurn) {
+							SliderFloat("Force Turn Angle", CFG::AntiAim_ForceTurnAngle, 5.0f, 180.0f, 0.5f, "%.1f");
+							SliderFloat("Force Turn Interval", CFG::AntiAim_ForceTurnInterval, 0.1f, 5.0f, 0.5f, "%.1f");
+						}
+					}
+
+
 				}
 
 				CheckBox("Fakelag", CFG::Fakelag);

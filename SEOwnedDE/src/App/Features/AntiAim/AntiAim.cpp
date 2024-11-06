@@ -37,7 +37,6 @@ void CAntiAim::movementFix(CUserCmd* pCmd, QAngle vOldAngles, float fOldSidemove
 void CAntiAim::Main(CUserCmd* pCmd, bool* pSendPacket)
 {
     Vec3 vecTargetAngle = pCmd->viewangles;
-
     bool bIsShooting = (pCmd->buttons & IN_ATTACK);
 
     if (bIsShooting)
@@ -47,18 +46,23 @@ void CAntiAim::Main(CUserCmd* pCmd, bool* pSendPacket)
     }
     else
     {
-        G::bCanPrimaryAttack = false; 
+        G::bCanPrimaryAttack = false;
     }
 
     QAngle vOldAngles = pCmd->viewangles;
     float fOldSideMove = pCmd->sidemove;
     float fOldForward = pCmd->forwardmove;
 
+    static float flLastForceTurnTime = 0.0f;
+    float flCurrentTime = I::GlobalVars->curtime; 
+
     if (CFG::AntiAim)
     {
         bool bSilentAngles = CFG::AntiAim;
         bool bFakeAngle = CFG::AntiAim_FakeAngle;
-        bool bJitterPitch = CFG::AntiAim_JitterPitch; 
+        bool bJitterPitch = CFG::AntiAim_JitterPitch;
+        bool bDistortion = CFG::AntiAim_Distortion;  
+        bool bForceTurn = CFG::AntiAim_ForceTurn;   
 
         if (bFakeAngle) {
             *pSendPacket = false;
@@ -82,6 +86,14 @@ void CAntiAim::Main(CUserCmd* pCmd, bool* pSendPacket)
                 if (CFG::AntiAim_FakeAngle) {
                     *pSendPacket = false;
                 }
+            }
+
+            if (bDistortion || (bForceTurn && (flCurrentTime - flLastForceTurnTime >= CFG::AntiAim_ForceTurnInterval))) {
+                static float flDistortOffset = 0.0f;
+                flDistortOffset += CFG::AntiAim_DistortionAmount;  
+                pCmd->viewangles.y += sin(flDistortOffset * 0.0174533) * CFG::AntiAim_ForceTurnAngle;
+
+                flLastForceTurnTime = flCurrentTime; 
             }
 
             Math::ClampAngles(pCmd->viewangles);
@@ -128,10 +140,18 @@ void CAntiAim::Main(CUserCmd* pCmd, bool* pSendPacket)
                 G::bSilentAngles = false;
                 *pSendPacket = false;
             }
+
+            if (bDistortion || (bForceTurn && (flCurrentTime - flLastForceTurnTime >= CFG::AntiAim_ForceTurnInterval))) {
+                static float flDistortOffset = 0.0f;
+                flDistortOffset += CFG::AntiAim_DistortionAmount; 
+                pCmd->viewangles.y += sin(flDistortOffset * 0.0174533) * CFG::AntiAim_ForceTurnAngle;
+
+                flLastForceTurnTime = flCurrentTime; 
+            }
+
+            Math::ClampAngles(pCmd->viewangles);
         }
 
         CAntiAim::movementFix(pCmd, vOldAngles, fOldSideMove, fOldForward);
-
-        Math::ClampAngles(pCmd->viewangles);
     }
 }

@@ -70,3 +70,5 @@ void CFakelag::Run(CUserCmd* pCmd, bool* pSendPacket) {
         }
     }
 }
+
+

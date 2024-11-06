@@ -538,6 +538,12 @@ namespace CFG
 	CFGVAR(FakeDuck, false);
 	CFGVAR(FakeDuck_Key, 0);
 
+	CFGVAR(AntiAim_Distortion, false);
+	CFGVAR(AntiAim_DistortionAmount, 0);  // Amount of yaw distortion
+	CFGVAR(AntiAim_ForceTurn, false);           // Enable forced turn
+	CFGVAR(AntiAim_ForceTurnInterval, 1.0f);    // Interval in seconds for forced turn
+	CFGVAR(AntiAim_ForceTurnAngle, 30.0f);      // Angle to turn when force turn triggers
+
 	CFGVAR(MovementPath_Color, Color_t({ 0, 20, 20, 255 }));
 	CFGVAR(LongPath_Color, Color_t({ 0, 20, 20, 255 }));
 	CFGVAR(LongColor_Enabled, false);
