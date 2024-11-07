@@ -1491,6 +1491,10 @@ void CMenu::MainWindow()
 			GroupBoxStart("Auto Detonate", 150);
 			{
 				CheckBox("Active", CFG::Triggerbot_AutoDetonate_Active);
+				CheckBox("Visualize", CFG::DetonateColor_true);
+					if (CFG::DetonateColor_true) {
+						ColorPicker("Visualize Color", CFG::DetonateColor);
+					}
 
 				multiselect("Targets", DetonateTargets, {
 					{ "Players", CFG::Triggerbot_AutoDetonate_Target_Players },

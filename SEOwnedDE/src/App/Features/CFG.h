@@ -563,6 +563,8 @@ namespace CFG
 
 	CFGVAR(Lagfix, false);
 
+	CFGVAR(DetonateColor_true, false);
+	CFGVAR(DetonateColor, Color_t({ 0, 0, 24, 255 }));
 
 	CFGVAR(AutoStop, false);
 	CFGVAR(AutoStopStyle, 0); // 0 normal 1 smart
