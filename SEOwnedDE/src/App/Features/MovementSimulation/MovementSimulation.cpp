@@ -143,39 +143,6 @@ void CMovementSimulation::SetupMoveData(C_TFPlayer* pPlayer, CMoveData* pMoveDat
 		pMoveData->m_flSideMove = (pMoveData->m_vecVelocity.x - vForward.x * pMoveData->m_flForwardMove) / vRight.x;
 	}
 
-	if (CFG::Aimbot_Projectile_Aim_Prediction_Method == 2)
-	{
-		pMoveData->m_flForwardMove = 450.0f;
-		pMoveData->m_flSideMove = 0.0f;
-
-		Math::ClampAngles(pMoveData->m_vecAngles);
-	}
-	
-	if (CFG::Aimbot_Projectile_Aim_Prediction_Method == 3)
-	{
-		pMoveData->m_flForwardMove = 450.0f;
-		pMoveData->m_flSideMove = 0.0f;
-
-		pMoveData->m_vecAngles.x = Math::NormalizeAngle(pMoveData->m_vecAngles.x);
-		pMoveData->m_vecAngles.y = Math::NormalizeAngle(pMoveData->m_vecAngles.y);
-		pMoveData->m_vecAngles.z = Math::NormalizeAngle(pMoveData->m_vecAngles.z); // prolly dont need this
-
-		Math::ClampAngles(pMoveData->m_vecAngles);
-	}
-
-	if (CFG::Aimbot_Projectile_Aim_Prediction_Method == 4)
-	{
-		pMoveData->m_flForwardMove = 450.0f;
-		pMoveData->m_flSideMove = 0.0f;
-
-		pMoveData->m_vecAngles.x = Math::NormalizeAngle(pMoveData->m_vecAngles.x);
-		pMoveData->m_vecAngles.y = Math::NormalizeAngle(pMoveData->m_vecAngles.y);
-		pMoveData->m_vecAngles.z = Math::NormalizeAngle(pMoveData->m_vecAngles.z); 
-	}
-
-
-
-
 	const float flSpeed = pPlayer->m_vecVelocity().Length2D();
 
 	if (flSpeed <= pMoveData->m_flMaxSpeed * 0.1f)
@@ -237,83 +204,83 @@ void CMovementSimulation::SetupMoveData(C_TFPlayer* pPlayer, CMoveData* pMoveDat
 
 	if (CFG::Aimbot_Projectile_Air_Strafe_Prediction && !(m_PlayerDataBackup.m_fFlags & FL_ONGROUND) && F::LagRecords->HasRecords(pPlayer))
 	{
-		// Define number of records based on sv_airaccelerate value.
-		const int numRecords = (I::CVar->FindVar("sv_airaccelerate")->GetFloat() != 10.0f) ? 15 : 5;
+		const int numRecords = 5;
+		const LagRecord_t* records[numRecords] = {
+			F::LagRecords->GetRecord(pPlayer, 0),
+			F::LagRecords->GetRecord(pPlayer, 1),
+			F::LagRecords->GetRecord(pPlayer, 2),
+			F::LagRecords->GetRecord(pPlayer, 3),
+			F::LagRecords->GetRecord(pPlayer, 4)
+		};
 
-		// Use a dynamic array to store the records.
-		std::vector<const LagRecord_t*> records(numRecords);
-
-		// Retrieve the last numRecords lag records.
-		for (int i = 0; i < numRecords; ++i)
+		// ensure all records are valid.
+		if (std::all_of(std::begin(records), std::end(records), [](const LagRecord_t* rec) { return rec != nullptr; }))
 		{
-			records[i] = F::LagRecords->GetRecord(pPlayer, i);
-		}
-
-		// Ensure all records are valid.
-		if (std::all_of(records.begin(), records.end(), [](const LagRecord_t* rec) { return rec != nullptr; }))
-		{
-			std::vector<float> yaws(numRecords);
-
-			// Extract yaw values and normalize them.
+			// get yaw values for the last 5 ticks.
+			float yaws[numRecords];
 			for (int i = 0; i < numRecords; ++i)
 			{
 				yaws[i] = Math::VelocityToAngles(records[i]->Velocity).y;
-				if (yaws[i] < 0) yaws[i] += 360.0f;  // Normalize yaw to 0-360 range.
 			}
 
-			// Determine if the player is changing direction rapidly.
-			bool rapidChange = false;
+			// adjust for yaw wrapping (from -180 to 180 degrees).
+			for (int i = 0; i < numRecords; ++i)
+			{
+				if (yaws[i] < 0)
+					yaws[i] += 360.0f;  // ensure yaw is in the range 0 to 360 degrees.
+			}
+
+			// check if the yaw is looping (moving in a circle).
+			bool increasing = true, decreasing = true, circular = false;
 			for (int i = 1; i < numRecords; ++i)
 			{
-				if (std::abs(yaws[i] - yaws[i - 1]) > 90.0f) // If yaw change is too abrupt
+				increasing &= yaws[i] > yaws[i - 1];
+				decreasing &= yaws[i] < yaws[i - 1];
+
+				// check for circular motion (wrapping around from high to low values).
+				if (i > 1 && (yaws[i] - yaws[i - 1] > 300.0f || yaws[i - 1] - yaws[i] > 300.0f))
 				{
-					rapidChange = true;
-					break;
+					circular = true;
 				}
 			}
 
-			// Calculate the yaw delta based on yaw behavior.
-			float delta = 0.0f;
-			if (rapidChange)
+			// if yaw is increasing, decreasing, or circular, adjust strafing accordingly.
+			if (increasing || decreasing || circular)
 			{
-				// Use last valid record for prediction if direction is rapidly changing.
-				delta = yaws.back() - yaws.front(); // Simple linear extrapolation
-			}
-			else
-			{
-				// Average calculation for normal behavior.
+				// calculate average yaw delta.
+				float delta = 0.0f;
 				for (int i = 1; i < numRecords; ++i)
 				{
 					float diff = yaws[i - 1] - yaws[i];
-					// Handle yaw wrapping.
+
+					// handle wrapping difference.
 					if (std::abs(diff) > 180.0f)
 					{
-						diff += (diff > 0.0f) ? -360.0f : 360.0f;
+						diff = (diff > 0.0f) ? diff - 360.0f : diff + 360.0f;
 					}
+
 					delta += diff;
 				}
 				delta /= (numRecords - 1);
+
+				m_flYawTurnRate = delta;
+
+				// set side movement based on yaw turn rate.
+				if (circular)
+				{
+					// if player is moving in circles, strafe in the opposite direction to counteract their movement.
+					m_MoveData.m_flSideMove = (m_flYawTurnRate > 0.0f) ? 450.0f : -450.0f;
+				}
+				else
+				{
+					// normal strafing for increasing/decreasing yaw.
+					m_MoveData.m_flSideMove = (m_flYawTurnRate > 0.0f) ? -450.0f : 450.0f;
+				}
+
+				m_MoveData.m_flForwardMove = 0.0f;
 			}
-
-			m_flYawTurnRate = delta;
-
-			// Adjust strafing based on the determined yaw behavior.
-			m_MoveData.m_flSideMove = (m_flYawTurnRate > 0.0f) ? -450.0f : 450.0f; // Normal strafing.
-			m_MoveData.m_flForwardMove = 0.0f; // Forward movement is disabled during this prediction.
-
-			// Include movement speed factor for long-range prediction
-			float speedFactor = 0.5f; // Adjust this factor for the desired sensitivity
-			float adjustedYawTurnRate = m_flYawTurnRate * speedFactor;
-
-			// Apply the adjusted yaw turn rate to the side movement for better accuracy at long range.
-			m_MoveData.m_flSideMove *= adjustedYawTurnRate / 100.0f; // Scale the side movement for accuracy.
 		}
 	}
-
-
-
-
-
 }
 
 bool CMovementSimulation::Initialize(C_TFPlayer* pPlayer)
