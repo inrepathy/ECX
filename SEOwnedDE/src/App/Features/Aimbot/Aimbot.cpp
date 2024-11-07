@@ -110,6 +110,14 @@ void CAimbot::Run(CUserCmd* pCmd)
 		}
 	}
 
+
+	if (CFG::AutoSecondarySwitch && pWeapon->m_iClip1() < 1 && pWeapon->GetSlot() == SLOT_PRIMARY && G::CurItemDefIndex != TF_WEAPON_SNIPERRIFLE
+		&& G::CurItemDefIndex != TF_WEAPON_SNIPERRIFLE_DECAP && G::CurItemDefIndex != TF_WEAPON_SNIPERRIFLE_CLASSIC
+		&& pWeapon->m_iItemDefinitionIndex() != Engi_m_TheWidowmaker && pWeapon->m_iItemDefinitionIndex() != Sniper_m_TheMachina && ((GetAsyncKeyState(CFG::Aimbot_Key) & 0x8000) && H::Input->IsGameFocused()))
+	{
+		I::EngineClient->ClientCmd_Unrestricted("slot2");
+	}
+
 	// Projectile NoSpread
 	if (G::bFiring && nWeaponType == EWeaponType::PROJECTILE && CFG::Aimbot_Projectile_NoSpread)
 	{

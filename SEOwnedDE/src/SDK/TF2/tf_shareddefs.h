@@ -180,6 +180,15 @@ enum
 #define TF_WEAPON_FLAMETHROWER_ROCKET_INTERVAL 0.8f
 #define TF_WEAPON_ZOOM_FOV 20
 
+
+enum EWeaponSlots2
+{
+	SLOT_PRIMARY = 0,
+	SLOT_SECONDARY,
+	SLOT_MELEE
+};
+
+
 enum ETFWeaponType
 {
 	TF_WEAPON_NONE,

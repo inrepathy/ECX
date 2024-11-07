@@ -1194,6 +1194,7 @@ void CMenu::MainWindow()
 			{
 				CheckBox("Active", CFG::Aimbot_Active);
 				CheckBox("Auto Shoot", CFG::Aimbot_AutoShoot);
+				CheckBox("Auto Secondary Switch", CFG::AutoSecondarySwitch);
 			//	CheckBox("Debug Info", CFG::Debug);
 				InputKey("Key", CFG::Aimbot_Key);
 
