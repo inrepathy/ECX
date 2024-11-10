@@ -123,15 +123,28 @@ void CMovementSimulation::SetupMoveData(C_TFPlayer* pPlayer, CMoveData* pMoveDat
 		pMoveData->m_flMaxSpeed *= 0.3333f;
 
 	pMoveData->m_flClientMaxSpeed = pMoveData->m_flMaxSpeed;
+
 	pMoveData->m_vecViewAngles = { 0.0f, Math::VelocityToAngles(pMoveData->m_vecVelocity).y, 0.0f };
 
 	if (CFG::Aimbot_Projectile_Aim_Prediction_Method == 0)
 	{
+
+
 		pMoveData->m_flForwardMove = 450.0f;
 		pMoveData->m_flSideMove = 0.0f;
 	}
 
+	else
+	{
+		Vec3 vForward = {}, vRight = {};
+		Math::AngleVectors(pMoveData->m_vecViewAngles, &vForward, &vRight, nullptr);
+
+		pMoveData->m_flForwardMove = (pMoveData->m_vecVelocity.y - vRight.y / vRight.x * pMoveData->m_vecVelocity.x) / (vForward.y - vRight.y / vRight.x * vForward.x);
+		pMoveData->m_flSideMove = (pMoveData->m_vecVelocity.x - vForward.x * pMoveData->m_flForwardMove) / vRight.x;
+	}
+
 	const float flSpeed = pPlayer->m_vecVelocity().Length2D();
+
 	if (flSpeed <= pMoveData->m_flMaxSpeed * 0.1f)
 		pMoveData->m_flForwardMove = pMoveData->m_flSideMove = 0.0f;
 
@@ -140,8 +153,8 @@ void CMovementSimulation::SetupMoveData(C_TFPlayer* pPlayer, CMoveData* pMoveDat
 
 	if (pPlayer->m_hConstraintEntity())
 		pMoveData->m_vecConstraintCenter = pPlayer->m_hConstraintEntity()->GetAbsOrigin();
-	else
-		pMoveData->m_vecConstraintCenter = pPlayer->m_vecConstraintCenter();
+
+	else pMoveData->m_vecConstraintCenter = pPlayer->m_vecConstraintCenter();
 
 	pMoveData->m_flConstraintRadius = pPlayer->m_flConstraintRadius();
 	pMoveData->m_flConstraintWidth = pPlayer->m_flConstraintWidth();
@@ -151,129 +164,120 @@ void CMovementSimulation::SetupMoveData(C_TFPlayer* pPlayer, CMoveData* pMoveDat
 
 	if (CFG::Aimbot_Projectile_Ground_Strafe_Prediction && (m_PlayerDataBackup.m_fFlags & FL_ONGROUND) && F::LagRecords->HasRecords(pPlayer))
 	{
-		std::vector<const LagRecord_t*> records(5);
-		for (int i = 0; i < 5; ++i)
+		if (m_MoveData.m_vecVelocity.Length2D() < (m_MoveData.m_flMaxSpeed * 0.85f))
 		{
-			records[i] = F::LagRecords->GetRecord(pPlayer, i);
+			return;
 		}
 
-		if (std::all_of(records.begin(), records.end(), [](const LagRecord_t* rec) { return rec != nullptr; }))
+		const auto pRecord0 = F::LagRecords->GetRecord(pPlayer, 0);
+		const auto pRecord1 = F::LagRecords->GetRecord(pPlayer, 1);
+		const auto pRecord2 = F::LagRecords->GetRecord(pPlayer, 2);
+		const auto pRecord3 = F::LagRecords->GetRecord(pPlayer, 3);
+		const auto pRecord4 = F::LagRecords->GetRecord(pPlayer, 4);
+
+		if (pRecord0 && pRecord1 && pRecord2 && pRecord3 && pRecord4)
 		{
-			std::vector<float> yaws(5);
-			for (int i = 0; i < 5; ++i)
+			const float flYaw0 = Math::VelocityToAngles(pRecord0->Velocity).y;
+			const float flYaw1 = Math::VelocityToAngles(pRecord1->Velocity).y;
+			const float flYaw2 = Math::VelocityToAngles(pRecord2->Velocity).y;
+			const float flYaw3 = Math::VelocityToAngles(pRecord3->Velocity).y;
+			const float flYaw4 = Math::VelocityToAngles(pRecord4->Velocity).y;
+
+			const auto inc{ flYaw4 > flYaw3 && flYaw3 > flYaw2 && flYaw2 > flYaw1 && flYaw1 > flYaw0 };
+			const auto dec{ flYaw4 < flYaw3 && flYaw3 < flYaw2 && flYaw2 < flYaw1 && flYaw1 < flYaw0 };
+
+			if (!inc && !dec)
 			{
-				yaws[i] = Math::VelocityToAngles(records[i]->Velocity).y;
-				if (yaws[i] < 0) yaws[i] += 360.0f;
+				return;
 			}
 
-			bool rapidChange = false;
-			for (int i = 1; i < 5; ++i)
+			const float flYawRate = (((flYaw0 - flYaw1) + (flYaw2 - flYaw3) + (flYaw3 - flYaw4)) / 3) / (TICK_INTERVAL * 50.0f);
+
+			if (fabsf(flYawRate) < 1.0f)
 			{
-				if (std::abs(yaws[i] - yaws[i - 1]) > 90.0f)
-				{
-					rapidChange = true;
-					break;
-				}
+				return;
 			}
 
-			float delta = 0.0f;
-			if (rapidChange)
-			{
-				delta = yaws.back() - yaws.front();
-			}
-			else
-			{
-				for (int i = 1; i < 5; ++i)
-				{
-					float diff = yaws[i - 1] - yaws[i];
-					if (std::abs(diff) > 180.0f)
-					{
-						diff += (diff > 0.0f) ? -360.0f : 360.0f;
-					}
-					delta += diff;
-				}
-				delta /= 4;
-			}
-
-			float distanceFactor = pPlayer->GetAbsOrigin().DistTo(pMoveData->m_vecAbsOrigin) / 2000.0f;
-			distanceFactor = std::clamp(distanceFactor, 0.8f, 2.0f);
-
-			const float speedFactor = 1.5f;
-			const float yawIncrement = delta / (TICK_INTERVAL * 25.0f) * distanceFactor;
-
-			if (fabs(yawIncrement) > 0.1f)
-			{
-				m_flYawTurnRate = std::clamp(yawIncrement, -speedFactor, speedFactor);
-			}
-			else
-			{
-				m_flYawTurnRate = (yawIncrement > 0 ? 0.1f : -0.1f);
-			}
+			m_flYawTurnRate = std::clamp(flYawRate, -4.3f, 4.3f);
 		}
 	}
 
 	if (CFG::Aimbot_Projectile_Air_Strafe_Prediction && !(m_PlayerDataBackup.m_fFlags & FL_ONGROUND) && F::LagRecords->HasRecords(pPlayer))
 	{
-		const int numRecords = (I::CVar->FindVar("sv_airaccelerate")->GetFloat() != 10.0f) ? 15 : 5;
-		std::vector<const LagRecord_t*> records(numRecords);
+		const int numRecords = 5;
+		const LagRecord_t* records[numRecords] = {
+			F::LagRecords->GetRecord(pPlayer, 0),
+			F::LagRecords->GetRecord(pPlayer, 1),
+			F::LagRecords->GetRecord(pPlayer, 2),
+			F::LagRecords->GetRecord(pPlayer, 3),
+			F::LagRecords->GetRecord(pPlayer, 4)
+		};
 
-		for (int i = 0; i < numRecords; ++i)
+		// ensure all records are valid.
+		if (std::all_of(std::begin(records), std::end(records), [](const LagRecord_t* rec) { return rec != nullptr; }))
 		{
-			records[i] = F::LagRecords->GetRecord(pPlayer, i);
-		}
-
-		if (std::all_of(records.begin(), records.end(), [](const LagRecord_t* rec) { return rec != nullptr; }))
-		{
-			std::vector<float> yaws(numRecords);
-
+			// get yaw values for the last 5 ticks.
+			float yaws[numRecords];
 			for (int i = 0; i < numRecords; ++i)
 			{
 				yaws[i] = Math::VelocityToAngles(records[i]->Velocity).y;
-				if (yaws[i] < 0) yaws[i] += 360.0f;
 			}
 
-			bool rapidChange = false;
+			// adjust for yaw wrapping (from -180 to 180 degrees).
+			for (int i = 0; i < numRecords; ++i)
+			{
+				if (yaws[i] < 0)
+					yaws[i] += 360.0f;  // ensure yaw is in the range 0 to 360 degrees.
+			}
+
+			// check if the yaw is looping (moving in a circle).
+			bool increasing = true, decreasing = true, circular = false;
 			for (int i = 1; i < numRecords; ++i)
 			{
-				if (std::abs(yaws[i] - yaws[i - 1]) > 90.0f)
+				increasing &= yaws[i] > yaws[i - 1];
+				decreasing &= yaws[i] < yaws[i - 1];
+
+				// check for circular motion (wrapping around from high to low values).
+				if (i > 1 && (yaws[i] - yaws[i - 1] > 300.0f || yaws[i - 1] - yaws[i] > 300.0f))
 				{
-					rapidChange = true;
-					break;
+					circular = true;
 				}
 			}
 
-			float delta = 0.0f;
-			if (rapidChange)
+			// if yaw is increasing, decreasing, or circular, adjust strafing accordingly.
+			if (increasing || decreasing || circular)
 			{
-				delta = yaws.back() - yaws.front();
-			}
-			else
-			{
+				// calculate average yaw delta.
+				float delta = 0.0f;
 				for (int i = 1; i < numRecords; ++i)
 				{
 					float diff = yaws[i - 1] - yaws[i];
+
+					// handle wrapping difference.
 					if (std::abs(diff) > 180.0f)
 					{
-						diff += (diff > 0.0f) ? -360.0f : 360.0f;
+						diff = (diff > 0.0f) ? diff - 360.0f : diff + 360.0f;
 					}
+
 					delta += diff;
 				}
-				delta /= numRecords - 1;
-			}
+				delta /= (numRecords - 1);
 
-			float distanceFactor = pPlayer->GetAbsOrigin().DistTo(pMoveData->m_vecAbsOrigin) / 2000.0f;
-			distanceFactor = std::clamp(distanceFactor, 0.8f, 2.0f);
+				m_flYawTurnRate = delta;
 
-			const float speedFactor = 1.5f;
-			const float yawIncrement = delta / (TICK_INTERVAL * 25.0f) * distanceFactor;
+				// set side movement based on yaw turn rate.
+				if (circular)
+				{
+					// if player is moving in circles, strafe in the opposite direction to counteract their movement.
+					m_MoveData.m_flSideMove = (m_flYawTurnRate > 0.0f) ? 450.0f : -450.0f;
+				}
+				else
+				{
+					// normal strafing for increasing/decreasing yaw.
+					m_MoveData.m_flSideMove = (m_flYawTurnRate > 0.0f) ? -450.0f : 450.0f;
+				}
 
-			if (fabs(yawIncrement) > 0.1f)
-			{
-				m_flYawTurnRate = std::clamp(yawIncrement, -speedFactor, speedFactor);
-			}
-			else
-			{
-				m_flYawTurnRate = (yawIncrement > 0 ? 0.1f : -0.1f);
+				m_MoveData.m_flForwardMove = 0.0f;
 			}
 		}
 	}
