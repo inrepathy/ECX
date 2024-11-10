@@ -2424,7 +2424,7 @@ void CMenu::MainWindow()
 			InputKey("Taunt Spin Key", CFG::Misc_Taunt_Spin_Key);
 			SliderFloat("Taunt Spin Speed", CFG::Misc_Taunt_Spin_Speed, -50.0f, 50.0f, 1.0f, "%.0f");
 			CheckBox("Taunt Spin Sine", CFG::Misc_Taunt_Spin_Sine);
-			CheckBox("Fake Taunt", CFG::Misc_Fake_Taunt);
+			//CheckBox("Fake Taunt", CFG::Misc_Fake_Taunt);
 		}
 		GroupBoxEnd();
 
