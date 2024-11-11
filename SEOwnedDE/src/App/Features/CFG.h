@@ -541,6 +541,8 @@ namespace CFG
 
 	CFGVAR(SafeHitbox, 0); //  0 head, 1 neck, 2 pelvis, 3 body, 4 chest
 
+	CFGVAR(PredictionThreshold, 0.7f);
+
 	CFGVAR(AntiAim_Distortion, false);
 	CFGVAR(AntiAim_DistortionAmount, 0);  // Amount of yaw distortion
 	CFGVAR(AntiAim_ForceTurn, false);           // Enable forced turn

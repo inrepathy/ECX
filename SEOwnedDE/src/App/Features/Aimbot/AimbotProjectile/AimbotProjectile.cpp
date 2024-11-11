@@ -1030,7 +1030,7 @@ bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
 		outputLayerBias);
 
 	// step 4: define a threshold for splash prediction
-	const float predictionThreshold = 0.7f; // if the score is higher than this, a splash is predicted
+	const float predictionThreshold = CFG::PredictionThreshold; // if the score is higher than this, a splash is predicted
 
 	// step 5: make the decision based on the score
 	if (output > predictionThreshold)

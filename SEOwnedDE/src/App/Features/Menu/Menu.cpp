@@ -1326,6 +1326,8 @@ void CMenu::MainWindow()
 					{ "Preferred", 2 }
 				});
 
+				SliderFloat("Prediction Threshold", CFG::PredictionThreshold, 0.1f, 1.0f, 0.1f, "%.1f");
+
 				SelectSingle("Aim Type", CFG::Aimbot_Projectile_Aim_Type, {
 					{ "Normal", 0 },
 					{ "Silent", 1 }
