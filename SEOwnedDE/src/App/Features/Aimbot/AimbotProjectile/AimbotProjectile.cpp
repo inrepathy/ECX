@@ -744,19 +744,6 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 
 			int nTargetTick = TIME_TO_TICKS(flTimeToTarget + SDKUtils::GetLatency());
 
-			//fuck you KGB
-			/*if (CFG::Aimbot_Projectile_Aim_Type == 1)
-				nTargetTick += 1;*/
-
-			//[20:57]
-			//todellinen menninkäinen:
-			//crazy
-			//cant u do me like kgb
-			//do the like
-			//credits: m-fed
-			//for my
-			//original code
-
 			if (pWeapon->GetWeaponID() == TF_WEAPON_PIPEBOMBLAUNCHER)
 			{
 				const auto sticky_arm_time{ SDKUtils::AttribHookValue(0.8f, "sticky_arm_time", pLocal) };
@@ -769,93 +756,99 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 			if ((nTargetTick == nTick || nTargetTick == nTick - 1))
 			{
 				auto runSplash = [&]()
-				{
-					auto isRocketLauncher{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER };
-					auto isDirectHit{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT };
-					auto isAirStrike{ pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheAirStrike };
-
-					if (!isRocketLauncher && !isDirectHit && !isAirStrike)
 					{
+						auto isRocketLauncher{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER };
+						auto isDirectHit{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT };
+						auto isAirStrike{ pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheAirStrike };
+
+						if (!isRocketLauncher && !isDirectHit && !isAirStrike)
+						{
+							return false;
+						}
+
+						Vec3 mins{ target.Entity->m_vecMins() };
+						Vec3 maxs{ target.Entity->m_vecMaxs() };
+
+						auto center{ F::MovementSimulation->GetOrigin() + Vec3(0.0f, 0.0f, (mins.z + maxs.z) * 0.5f) };
+
+						auto numPoints{ 80 };
+						auto radius{ isRocketLauncher ? 180.0f : 80.0f };
+
+						if (isAirStrike)
+						{
+							radius = 130.0f;
+						}
+
+						std::vector<Vec3> potential{};
+
+						// we are getting fREAKY
+						for (int n = 0; n < numPoints; n++)
+						{
+							auto a1{ acosf(1.0f - 2.0f * (static_cast<float>(n) / static_cast<float>(numPoints))) };
+							auto a2{ (static_cast<float>(PI) * (3.0f - sqrtf(5.0f))) * static_cast<float>(n) };
+
+							auto point{ center + Vec3{ sinf(a1) * cosf(a2), sinf(a1) * sinf(a2), cosf(a1) }.Scale(radius) };
+
+							CTraceFilterWorldCustom filter{};
+							trace_t trace{};
+
+							H::AimUtils->Trace(center, point, MASK_SOLID, &filter, &trace);
+
+							if (trace.fraction > 0.99f)
+							{
+								continue;
+							}
+
+							potential.push_back(trace.endpos);
+						}
+
+						std::ranges::sort(potential, [&](const Vec3& a, const Vec3& b)
+							{
+								return a.DistTo(F::MovementSimulation->GetOrigin()) < b.DistTo(F::MovementSimulation->GetOrigin());
+							});
+
+						for (auto& point : potential)
+						{
+							if (!CalcProjAngle(vLocalPos, point, target.AngleTo, target.TimeToTarget))
+							{
+								continue;
+							}
+
+							trace_t trace = {};
+							CTraceFilterWorldCustom filter = {};
+
+							H::AimUtils->TraceHull
+							(
+								GetOffsetShootPos(pLocal, pWeapon, pCmd),
+								point,
+								{ -4.0f, -4.0f, -4.0f },
+								{ 4.0f, 4.0f, 4.0f },
+								MASK_SOLID,
+								&filter,
+								&trace
+							);
+
+							if (trace.fraction < 0.9f || trace.startsolid || trace.allsolid)
+							{
+								continue;
+							}
+
+							H::AimUtils->Trace(trace.endpos, point, MASK_SOLID, &filter, &trace);
+
+							if (trace.fraction < 1.0f)
+							{
+								continue;
+							}
+
+							bool splashDetected = CAimbotProjectile::NeuralNetworkSplashPrediction(point);
+							if (splashDetected)
+							{
+								return true;
+							}
+						}
+
 						return false;
-					}
-
-					Vec3 mins{ target.Entity->m_vecMins() };
-					Vec3 maxs{ target.Entity->m_vecMaxs() };
-
-					auto center{ F::MovementSimulation->GetOrigin() + Vec3(0.0f, 0.0f, (mins.z + maxs.z) * 0.5f) };
-
-					auto numPoints{ 80 };
-					auto radius{ isRocketLauncher ? 180.0f : 80.0f };
-
-					if (isAirStrike)
-					{
-						radius = 130.0f;
-					}
-
-					std::vector<Vec3> potential{};
-					for (int n = 0; n < numPoints; n++)
-					{
-						auto a1{ acosf(1.0f - 2.0f * (static_cast<float>(n) / static_cast<float>(numPoints))) };
-						auto a2{ (static_cast<float>(PI) * (3.0f - sqrtf(5.0f))) * static_cast<float>(n) };
-
-						auto point{ center + Vec3{ sinf(a1) * cosf(a2), sinf(a1) * sinf(a2), cosf(a1) }.Scale(radius) };
-
-						CTraceFilterWorldCustom filter{};
-						trace_t trace{};
-
-						H::AimUtils->Trace(center, point, MASK_SOLID, &filter, &trace);
-
-						if (trace.fraction > 0.99f)
-						{
-							continue;
-						}
-
-						potential.push_back(trace.endpos);
-					}
-
-					std::ranges::sort(potential, [&](const Vec3& a, const Vec3& b)
-					{
-						return a.DistTo(F::MovementSimulation->GetOrigin()) < b.DistTo(F::MovementSimulation->GetOrigin());
-					});
-
-					for (auto& point : potential)
-					{
-						if (!CalcProjAngle(vLocalPos, point, target.AngleTo, target.TimeToTarget))
-						{
-							continue;
-						}
-
-						trace_t trace = {};
-						CTraceFilterWorldCustom filter = {};
-
-						H::AimUtils->TraceHull
-						(
-							GetOffsetShootPos(pLocal, pWeapon, pCmd),
-							point,
-							{ -4.0f, -4.0f, -4.0f },
-							{ 4.0f, 4.0f, 4.0f },
-							MASK_SOLID,
-							&filter,
-							&trace
-						);
-
-						if (trace.fraction < 0.9f || trace.startsolid || trace.allsolid)
-						{
-							continue;
-						}
-
-						H::AimUtils->Trace(trace.endpos, point, MASK_SOLID, &filter, &trace);
-
-						if (trace.fraction < 1.0f)
-						{
-							continue;
-						}
-
-						return true;
-					}
-
-					return false;
-				};
+					};
 
 				if (CFG::Aimbot_Projectile_Rocket_Splash == 2 && runSplash())
 				{
@@ -865,42 +858,6 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 				}
 
 				if (CanSee(pLocal, pWeapon, vLocalPos, vTarget, target, flTimeToTarget))
-				{
-					F::MovementSimulation->Restore();
-
-					return true;
-				}
-
-				if (CFG::Aimbot_Projectile_BBOX_Multipoint && pWeapon->GetWeaponID() != TF_WEAPON_COMPOUND_BOW)
-				{
-					const int nOld = CFG::Aimbot_Projectile_Aim_Position;
-
-					for (int n = 0; n < 3; n++)
-					{
-						if (n == m_LastAimPos)
-							continue;
-
-						CFG::Aimbot_Projectile_Aim_Position = n;
-
-						Vec3 vTargetMp = F::MovementSimulation->GetOrigin();
-
-						OffsetPlayerPosition(pWeapon, vTargetMp, pPlayer, bDucked, bOnGround);
-
-						CFG::Aimbot_Projectile_Aim_Position = nOld;
-
-						if (CalcProjAngle(vLocalPos, vTargetMp, target.AngleTo, target.TimeToTarget))
-						{
-							if (CanSee(pLocal, pWeapon, vLocalPos, vTargetMp, target, target.TimeToTarget))
-							{
-								F::MovementSimulation->Restore();
-
-								return true;
-							}
-						}
-					}
-				}
-
-				if (CFG::Aimbot_Projectile_Rocket_Splash == 1 && runSplash())
 				{
 					F::MovementSimulation->Restore();
 
@@ -919,124 +876,181 @@ bool CAimbotProjectile::SolveTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon,
 		float flTimeToTarget = 0.0f;
 
 		auto runSplash = [&]()
-		{
-			const auto isRocketLauncher{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER };
-			const auto isDirectHit{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT };
-			const auto isAirStrike{ pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheAirStrike };
-
-			if (!isRocketLauncher && !isDirectHit && !isAirStrike)
 			{
+				const auto isRocketLauncher{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER };
+				const auto isDirectHit{ pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT };
+				const auto isAirStrike{ pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheAirStrike };
+
+				if (!isRocketLauncher && !isDirectHit && !isAirStrike)
+				{
+					return false;
+				}
+
+				const auto center{ target.Entity->GetCenter() };
+
+				constexpr auto numPoints{ 80 };
+				auto radius{ isRocketLauncher ? 150.0f : 70.0f };
+
+				if (isAirStrike)
+				{
+					radius = 130.0f;
+				}
+
+				std::vector<Vec3> potential{};
+
+				for (int n = 0; n < numPoints; n++)
+				{
+					const auto a1{ acosf(1.0f - 2.0f * (static_cast<float>(n) / static_cast<float>(numPoints))) };
+					const auto a2{ (static_cast<float>(PI) * (3.0f - sqrtf(5.0f))) * static_cast<float>(n) };
+
+					auto point{ center + Vec3{ sinf(a1) * cosf(a2), sinf(a1) * sinf(a2), cosf(a1) }.Scale(radius) };
+
+					CTraceFilterWorldCustom filter{};
+					trace_t trace{};
+
+					H::AimUtils->Trace(center, point, MASK_SOLID, &filter, &trace);
+
+					if (trace.fraction > 0.99f)
+					{
+						continue;
+					}
+
+					potential.push_back(trace.endpos);
+				}
+
+				std::ranges::sort(potential, [&](const Vec3& a, const Vec3& b)
+					{
+						return a.DistTo(center) < b.DistTo(center);
+					});
+
+				for (auto& point : potential)
+				{
+					if (!CalcProjAngle(vLocalPos, point, target.AngleTo, flTimeToTarget))
+					{
+						continue;
+					}
+
+					trace_t trace = {};
+					CTraceFilterWorldCustom filter = {};
+
+					H::AimUtils->TraceHull
+					(
+						GetOffsetShootPos(pLocal, pWeapon, pCmd),
+						point,
+						{ -4.0f, -4.0f, -4.0f },
+						{ 4.0f, 4.0f, 4.0f },
+						MASK_SOLID,
+						&filter,
+						&trace
+					);
+
+					if (trace.fraction < 0.9f || trace.startsolid || trace.allsolid)
+					{
+						continue;
+					}
+
+					H::AimUtils->Trace(trace.endpos, point, MASK_SOLID, &filter, &trace);
+
+					if (trace.fraction < 1.0f)
+					{
+						continue;
+					}
+
+					bool splashDetected = CAimbotProjectile::NeuralNetworkSplashPrediction(point);
+					if (splashDetected)
+					{
+						return true;
+					}
+				}
+
 				return false;
-			}
+			};
 
-			const auto center{ target.Entity->GetCenter() };
-
-			constexpr auto numPoints{ 80 };
-			auto radius{ isRocketLauncher ? 150.0f : 70.0f };
-
-			if (isAirStrike)
-			{
-				radius = 130.0f;
-			}
-
-			std::vector<Vec3> potential{};
-
-			for (int n = 0; n < numPoints; n++)
-			{
-				const auto a1{ acosf(1.0f - 2.0f * (static_cast<float>(n) / static_cast<float>(numPoints))) };
-				const auto a2{ (static_cast<float>(PI) * (3.0f - sqrtf(5.0f))) * static_cast<float>(n) };
-
-				auto point{ center + Vec3{ sinf(a1) * cosf(a2), sinf(a1) * sinf(a2), cosf(a1) }.Scale(radius) };
-
-				CTraceFilterWorldCustom filter{};
-				trace_t trace{};
-
-				H::AimUtils->Trace(center, point, MASK_SOLID, &filter, &trace);
-
-				if (trace.fraction > 0.99f)
-				{
-					continue;
-				}
-
-				potential.push_back(trace.endpos);
-			}
-
-			std::ranges::sort(potential, [&](const Vec3& a, const Vec3& b)
-			{
-				return a.DistTo(center) < b.DistTo(center);
-			});
-
-			//I::DebugOverlay->ClearAllOverlays();
-
-			for (auto& point : potential)
-			{
-			//	I::DebugOverlay->AddBoxOverlay(point, {}, { 1.0f, 1.0f, 1.0f }, {}, 255, 255, 255, 255, 0.1f);
-
-				if (!CalcProjAngle(vLocalPos, point, target.AngleTo, target.TimeToTarget))
-				{
-					continue;
-				}
-
-				trace_t trace = {};
-				CTraceFilterWorldCustom filter = {};
-
-				H::AimUtils->TraceHull
-				(
-					GetOffsetShootPos(pLocal, pWeapon, pCmd),
-					point,
-					{ -4.0f, -4.0f, -4.0f },
-					{ 4.0f, 4.0f, 4.0f },
-					MASK_SOLID,
-					&filter,
-					&trace
-				);
-
-				if (trace.fraction < 0.9f || trace.startsolid || trace.allsolid)
-				{
-					continue;
-				}
-
-				H::AimUtils->Trace(trace.endpos, point, MASK_SOLID, &filter, &trace);
-
-				if (trace.fraction < 1.0f)
-				{
-					continue;
-				}
-
-				return true;
-			}
-
-			return false;
-		};
-
-		if (!CalcProjAngle(vLocalPos, vTarget, target.AngleTo, flTimeToTarget))
-			return false;
-
-		target.TimeToTarget = flTimeToTarget;
-
-		int nTargetTick = TIME_TO_TICKS(flTimeToTarget + SDKUtils::GetLatency());
-
-		if (pWeapon->GetWeaponID() == TF_WEAPON_PIPEBOMBLAUNCHER)
+		if (CFG::Aimbot_Projectile_Rocket_Splash == 2 && runSplash())
 		{
-			nTargetTick += TIME_TO_TICKS(fabsf(flTimeToTarget - SDKUtils::AttribHookValue(0.8f, "sticky_arm_time", pLocal)));
+			return true;
 		}
 
-		if (nTargetTick <= TIME_TO_TICKS(CFG::Aimbot_Projectile_Max_Simulation_Time))
+		if (CanSee(pLocal, pWeapon, vLocalPos, vTarget, target, flTimeToTarget))
 		{
-			if (CanSee(pLocal, pWeapon, vLocalPos, vTarget, target, flTimeToTarget))
-			{
-				return true;
-			}
-			if (CFG::Aimbot_Projectile_Rocket_Splash && runSplash())
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 
-	m_TargetPath.clear();
 	return false;
 }
+
+
+bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
+{
+	const auto pLocal = H::Entities->GetLocal();  
+
+	if (!pLocal) return false;
+
+	// step 1: gather features from the game state (such as distance from the target, projectile speed, etc.)
+	Vec3 playerPosition = pLocal->GetAbsOrigin();  
+	float distanceToImpact = impactPoint.DistTo(playerPosition);
+
+	float projectileSpeed = 250.0f;  
+	float playerVelocity = pLocal->m_vecVelocity().Length();  
+
+	// step 2: normalize the features to be between 0 and 1 (this could be adjusted based on expected ranges)
+	float normalizedDistance = std::min(distanceToImpact / 1000.0f, 1.0f);  // max distance normalized to 1
+	float normalizedSpeed = std::min(projectileSpeed / 500.0f, 1.0f);  // max speed normalized to 1
+	float normalizedVelocity = std::min(playerVelocity / 300.0f, 1.0f);  // max velocity normalized to 1
+
+	// step 3: neural Network Architecture
+	// inputs: normalizedDistance, normalizedSpeed, normalizedVelocity
+	float inputLayer[3] = { normalizedDistance, normalizedSpeed, normalizedVelocity };
+
+	// hidden Layer
+	const float hiddenLayerWeights[2][3] = {
+		{0.2f, 0.3f, 0.5f},  // weights for first hidden neuron
+		{0.4f, 0.1f, 0.2f}   // weights for second hidden neuron
+	};
+	const float hiddenLayerBias[2] = { 0.1f, -0.2f };  // bias for hidden neurons
+	float hiddenLayerOutput[2];
+
+	// TODO: optimize this
+	// compute the hidden layer outputs using a sigmoid activation
+	for (int i = 0; i < 2; ++i) {
+		hiddenLayerOutput[i] = Sigmoid(inputLayer[0] * hiddenLayerWeights[i][0] +
+			inputLayer[1] * hiddenLayerWeights[i][1] +
+			inputLayer[2] * hiddenLayerWeights[i][2] +
+			hiddenLayerBias[i]);
+	}
+
+	// output Layer
+	const float outputLayerWeights[2] = { 0.7f, 0.9f };  // weights from hidden to output layer
+	const float outputLayerBias = 0.1f;               // bias for output neuron
+
+	// compute the output using sigmoid activation
+	float output = Sigmoid(hiddenLayerOutput[0] * outputLayerWeights[0] +
+		hiddenLayerOutput[1] * outputLayerWeights[1] +
+		outputLayerBias);
+
+	// step 4: define a threshold for splash prediction
+	const float predictionThreshold = 0.7f; // if the score is higher than this, a splash is predicted
+
+	// step 5: make the decision based on the score
+	if (output > predictionThreshold)
+	{
+		// if the output is above the threshold, return true (indicating a splash)
+		return true;
+	}
+
+	// if the output is below the threshold, return false (no splash)
+	return false;
+}
+
+// TODO:: move this to Math.h
+float CAimbotProjectile::Sigmoid(float x)
+{
+	return 1.0f / (1.0f + std::exp(-x));
+}
+
+
+
 
 bool CAimbotProjectile::GetTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, const CUserCmd* pCmd, ProjTarget_t& outTarget)
 {
