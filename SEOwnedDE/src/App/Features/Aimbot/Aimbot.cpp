@@ -61,6 +61,23 @@ void CAimbot::RunMain(CUserCmd* pCmd)
 	}
 }
 
+bool IsHitboxValid(int nHitbox, int index, bool bStatic = false)
+{
+	const int iStatic = CFG::SafeHitbox;
+	switch (nHitbox)
+	{
+	case -1: return true;
+	case HITBOX_HEAD: return (index & (1 << 0) && !(!bStatic && iStatic & (1 << 0)));
+	case HITBOX_NECK: return (index & (1 << 1) && !(!bStatic && iStatic & (1 << 1)));
+	case HITBOX_PELVIS: return (index & (1 << 3) && !(!bStatic && iStatic & (1 << 2)));
+	case HITBOX_BODY: return (index & (1 << 4) && !(!bStatic && iStatic & (1 << 3)));
+	case HITBOX_CHEST: return (index & (1 << 6) && !(!bStatic && iStatic & (1 << 4)));
+	}
+	return false;
+};
+
+
+
 void CAimbot::Run(CUserCmd* pCmd)
 {
 	RunMain(pCmd);

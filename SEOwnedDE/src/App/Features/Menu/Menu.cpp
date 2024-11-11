@@ -1275,6 +1275,14 @@ void CMenu::MainWindow()
 					{ "Auto", 2 }
 					});
 
+				SelectSingle("Safe Hitbox", CFG::SafeHitbox, {
+             	{ "Head", 0 },
+	                { "Neck", 1 },
+		          { "Pelvis", 2 },
+	               { "Body", 3 },
+					{"Chest", 4}
+					});
+
 				SelectSingle("Sort", CFG::Aimbot_Hitscan_Sort, {
 					{ "FOV", 0 },
 					{ "Distance", 1 }

@@ -539,6 +539,8 @@ namespace CFG
 	CFGVAR(FakeDuck, false);
 	CFGVAR(FakeDuck_Key, 0);
 
+	CFGVAR(SafeHitbox, 0); //  0 head, 1 neck, 2 pelvis, 3 body, 4 chest
+
 	CFGVAR(AntiAim_Distortion, false);
 	CFGVAR(AntiAim_DistortionAmount, 0);  // Amount of yaw distortion
 	CFGVAR(AntiAim_ForceTurn, false);           // Enable forced turn
