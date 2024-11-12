@@ -2389,6 +2389,16 @@ void CMenu::MainWindow()
 						cmd->m_nFlags &= ~FCVAR_CHEAT;
 				}
 			}
+
+
+			if (Button("Connect NA SourceHVH"))
+			{
+				I::EngineClient->ClientCmd_Unrestricted("connect usa.sourcehvh.net:27015");
+			}
+			if (Button("Connect EU SourceHVH"))
+			{
+				I::EngineClient->ClientCmd_Unrestricted("connect eu.sourcehvh.net:27015");
+			}
 		}
 		GroupBoxEnd();
 		
