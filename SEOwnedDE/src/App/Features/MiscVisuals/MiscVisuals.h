@@ -12,7 +12,7 @@ public:
 
 	void SniperLines();
 	void ProjectileArc();
-	void AspectRatio();
+	void AAVisualizer();
 
 	void CustomFOV(CViewSetup* pSetup);
 	void Thirdperson(CViewSetup* pSetup);

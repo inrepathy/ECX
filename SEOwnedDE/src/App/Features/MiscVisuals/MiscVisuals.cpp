@@ -70,7 +70,7 @@ void CMiscVisuals::DetailProps()
 		r_drawdetailprops->SetValue(0);
 }
 
-void CMiscVisuals::AspectRatio()
+void CMiscVisuals::AAVisualizer()
 {
 	if (!CFG::AntiAim_Visualizer)
 		return;
