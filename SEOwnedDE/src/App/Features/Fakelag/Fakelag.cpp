@@ -29,15 +29,6 @@ void CFakelag::Run(CUserCmd* pCmd, bool* pSendPacket) {
                         return;
                     }
                 }
-
-                if (CFG::Fakelag_DisableifFD) {
-                    if (H::Input->IsDown(CFG::FakeDuck_Key)) {
-                        *pSendPacket = true;
-                        chokeTicks = 0;
-                        G::bCanPrimaryAttack = true;
-                        return;
-                    }
-                }
             }
             else {
                 G::bCanPrimaryAttack = false;

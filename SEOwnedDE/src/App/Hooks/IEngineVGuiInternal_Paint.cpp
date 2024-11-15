@@ -30,6 +30,7 @@ MAKE_HOOK(IEngineVGuiInternal_Paint, Memory::GetVFunc(I::EngineVGui, 14), void, 
 			F::SpectatorList->Run();
 			F::Crits->Indicator();
 			F::BindsList->Run();
+			F::MiscVisuals->AspectRatio();
 			F::MiscVisuals->AimbotFOVCircle();
 			F::SpyCamera->Run();
 			F::SpyWarning->Run();

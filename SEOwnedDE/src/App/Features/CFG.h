@@ -536,6 +536,7 @@ namespace CFG
 
 	CFGVAR(Menu_Snow, false);
 
+
 	CFGVAR(FakeDuck, false);
 	CFGVAR(FakeDuck_Key, 0);
 
@@ -575,6 +576,11 @@ namespace CFG
 
 	CFGVAR(FastAccel, false);
 
+	CFGVAR(AntiAim_Visualizer, false);
+	CFGVAR(RealColor, Color_t({ 0, 255, 0, 255 }));  
+	CFGVAR(FakeColor, Color_t({ 255, 0, 0, 255 })); 
+
+
 	CFGVAR(BindsList_Active, true);
 	CFGVAR(BindsList_Outline_Alpha, 1.0f);
 	CFGVAR(BindsList_Background_Alpha, 0.9f);
@@ -593,7 +599,6 @@ namespace CFG
 	CFGVAR(Fakelag_Style, 0); // 0 rage 1 legit
 	CFGVAR(Fakelag_DisableWhileFiring, true);
 	CFGVAR(Fakelag_DisableIfDT, false);
-	CFGVAR(Fakelag_DisableifFD, false);
 
 	CFGVAR(Fakelag_Ticks, 2);
 	CFGVAR(CritIndicator, true);

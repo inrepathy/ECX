@@ -67,6 +67,16 @@ namespace Math
 		v.z = 0.0f;
 	}
 
+	inline auto GetRotatedPosition(Vec3 start, const float rotation, const float distance)
+	{
+		const auto rad = DEG2RAD(rotation);
+		start.x += cosf(rad) * distance;
+		start.y += sinf(rad) * distance;
+
+		return start;
+	}
+
+
 	inline void VectorAngles(const Vec3 &forward, Vec3 &angles)
 	{
 		float tmp, yaw, pitch;

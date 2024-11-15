@@ -70,6 +70,45 @@ void CMiscVisuals::DetailProps()
 		r_drawdetailprops->SetValue(0);
 }
 
+void CMiscVisuals::AspectRatio()
+{
+	if (!CFG::AntiAim_Visualizer)
+		return;
+
+	if (CFG::Misc_Clean_Screenshot && I::EngineClient->IsTakingScreenshot())
+		return;
+
+	if (I::EngineVGui->IsGameUIVisible() || SDKUtils::BInEndOfMatch())
+		return;
+
+	const auto pLocal = H::Entities->GetLocal();
+
+	if (!pLocal || pLocal->deadflag())
+		return;
+
+
+		Color_t real_color = CFG::RealColor;
+		Color_t fake_color = CFG::FakeColor;
+
+		constexpr auto distance = 50.f;
+
+		const auto origin = pLocal->GetAbsOrigin();
+
+
+		// this doesn't accommodate for view angles nor AntiAim_Distortion
+		Vec3 screen1, screen2;
+		if (H::Draw->W2S(origin, screen1))
+		{
+			if (H::Draw->W2S(Math::GetRotatedPosition(origin, CFG::AntiAim_Yaw, distance), screen2))
+				H::Draw->Line(screen1.x, screen1.y, screen2.x, screen2.y, real_color);
+
+			if (CFG::AntiAim_FakeAngle) {
+				if (H::Draw->W2S(Math::GetRotatedPosition(origin, CFG::AntiAim_Fake_Yaw, distance), screen2))
+					H::Draw->Line(screen1.x, screen1.y, screen2.x, screen2.y, fake_color);
+			}
+		}
+}
+
 void CMiscVisuals::ShiftBar()
 {
 	if (!CFG::Exploits_Shifting_Draw_Indicator)

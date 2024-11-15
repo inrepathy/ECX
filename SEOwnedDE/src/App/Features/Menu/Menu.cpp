@@ -1380,6 +1380,12 @@ void CMenu::MainWindow()
 				}
 				CheckBox("Anti Aim", CFG::AntiAim);
 				if (CFG::AntiAim) {
+					CheckBox("Visualize", CFG::AntiAim_Visualizer);
+					if (CFG::AntiAim_Visualizer) {
+						ColorPicker("Real Color", CFG::RealColor);
+						ColorPicker("Fake Color", CFG::FakeColor);
+					}
+
 					SliderFloat("Pitch", CFG::AntiAim_Pitch, -89.0f, 89.0f, 0.5f, "%.1f"); // you know i would go -90.0f, 90.0f but some cheats (jengaware, ateris, amalgam) have invalid angle detection and we DONT want to be detected so...
 					SliderFloat("Yaw", CFG::AntiAim_Yaw, -180.0f, 180.0f, 0.5f, "%.1f");
 					CheckBox("Jitter Pitch", CFG::AntiAim_JitterPitch);
@@ -1415,7 +1421,6 @@ void CMenu::MainWindow()
 					multiselect("Fakelag Options", FakelagOptions, {
 { "Disable while firing", CFG::Fakelag_DisableWhileFiring },
 { "Disable if DT", CFG::Fakelag_DisableIfDT },
-{ "Disable if FD", CFG::Fakelag_DisableifFD },
 						});
 
 
