@@ -1415,6 +1415,7 @@ void CMenu::MainWindow()
 					multiselect("Fakelag Options", FakelagOptions, {
 { "Disable while firing", CFG::Fakelag_DisableWhileFiring },
 { "Disable if DT", CFG::Fakelag_DisableIfDT },
+{ "Disable if FD", CFG::Fakelag_DisableifFD },
 						});
 
 

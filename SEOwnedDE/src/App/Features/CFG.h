@@ -593,6 +593,7 @@ namespace CFG
 	CFGVAR(Fakelag_Style, 0); // 0 rage 1 legit
 	CFGVAR(Fakelag_DisableWhileFiring, true);
 	CFGVAR(Fakelag_DisableIfDT, false);
+	CFGVAR(Fakelag_DisableifFD, false);
 
 	CFGVAR(Fakelag_Ticks, 2);
 	CFGVAR(CritIndicator, true);
