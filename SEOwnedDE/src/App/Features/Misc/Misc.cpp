@@ -610,3 +610,21 @@ void CMisc::FastAccel(CUserCmd* pCmd)
 	}
 }
 
+void CMisc::RageRetry()
+{
+	const auto pLocal = H::Entities->GetLocal();
+
+	if (!pLocal) 
+		return;
+
+	if (pLocal->deadflag()) 
+		return;
+
+	if (CFG::RageRetry)
+	{
+		if (pLocal->m_iHealth() <= (pLocal->GetMaxHealth() * (CFG::RageRetryHealth * 0.01f)))
+		{
+			I::EngineClient->ClientCmd_Unrestricted("retry");
+		}
+	}
+}

@@ -95,7 +95,7 @@ void CMiscVisuals::AAVisualizer()
 		const auto origin = pLocal->GetAbsOrigin();
 
 
-		// this doesn't accommodate for view angles nor AntiAim_Distortion
+		// this doesn't accommodate for view angles nor AntiAim_Distortion.. but i guess its better than nothing
 		Vec3 screen1, screen2;
 		if (H::Draw->W2S(origin, screen1))
 		{

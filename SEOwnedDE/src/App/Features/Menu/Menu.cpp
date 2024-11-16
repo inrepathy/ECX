@@ -1453,6 +1453,16 @@ void CMenu::MainWindow()
 			}
 			GroupBoxEnd();
 
+			m_nCursorX += m_nLastGroupBoxW + (CFG::Menu_Spacing_X * 2);
+			m_nCursorY = anchor_y;
+
+			GroupBoxStart("Rage Retry", 150);
+			{
+				CheckBox("Main", CFG::RageRetry);
+				SliderFloat("Health", CFG::RageRetryHealth, 1.0f, 99.0f, 1.0f, "%.1f");
+
+			}
+			GroupBoxEnd();
 		}
 
 		if (AimTab == EAimTabs::TRIGGERBOT)

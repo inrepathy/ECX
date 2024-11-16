@@ -498,7 +498,7 @@ namespace CFG
 	CFGVAR_NOSAVE(Menu_Pos_X, 500);
 	CFGVAR_NOSAVE(Menu_Pos_Y, 200);
 	CFGVAR_NOSAVE(Menu_Width, 555);
-	CFGVAR_NOSAVE(Menu_Height, 490);
+	CFGVAR_NOSAVE(Menu_Height, 500);
 	CFGVAR_NOSAVE(Menu_Drag_Bar_Height, 15);
 
 	CFGVAR_NOSAVE(Menu_Spacing_X, 3);
@@ -543,6 +543,10 @@ namespace CFG
 	CFGVAR(SafeHitbox, 0); //  0 head, 1 neck, 2 pelvis, 3 body, 4 chest
 
 	CFGVAR(PredictionThreshold, 0.7f);
+
+
+	CFGVAR(RageRetry, false);
+	CFGVAR(RageRetryHealth, 20.0f);
 
 	CFGVAR(AntiAim_Distortion, false);
 	CFGVAR(AntiAim_DistortionAmount, 0);  // Amount of yaw distortion
