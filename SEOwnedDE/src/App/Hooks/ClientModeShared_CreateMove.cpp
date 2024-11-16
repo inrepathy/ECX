@@ -98,6 +98,7 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 	F::Misc->FastStop(pCmd);
 	F::Misc->NoiseMakerSpam();
 	F::Misc->AutoRocketJump(pCmd);
+	F::Misc->AntiAfk(pCmd);
 	F::Misc->RageRetry();
 	F::Misc->AutoDisguise(pCmd);
 	F::Misc->MovementLock(pCmd);

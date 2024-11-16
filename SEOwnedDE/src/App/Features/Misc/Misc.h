@@ -14,7 +14,8 @@ public:
     void FastStop(CUserCmd* pCmd);
     void FakeDuck(CUserCmd* pCmd);
     void FastAccel(CUserCmd* pCmd);
-    void AutoScoutJump(CUserCmd* pCmd);
+    void AntiAfk(CUserCmd* pCmd);
+
 
     void AutoRocketJump(CUserCmd* cmd);
     void AutoDisguise(CUserCmd* cmd);

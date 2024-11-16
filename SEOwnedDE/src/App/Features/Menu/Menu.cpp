@@ -2376,6 +2376,7 @@ void CMenu::MainWindow()
 			CheckBox("Bypass sv_pure", CFG::Misc_Pure_Bypass);
 			CheckBox("Noise Maker Spam", CFG::Misc_NoiseMaker_Spam);
 			CheckBox("No Push", CFG::Misc_No_Push);
+			CheckBox("Anti AFK", CFG::AntiAfk);
 			CheckBox("Giant Weapon Sounds", CFG::Misc_MVM_Giant_Weapon_Sounds);
 			CheckBox("Equip Region Unlock", CFG::Misc_Equip_Region_Unlock);
 			CheckBox("Fast Stop", CFG::Misc_Fast_Stop);

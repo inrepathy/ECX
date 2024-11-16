@@ -544,6 +544,7 @@ namespace CFG
 
 	CFGVAR(PredictionThreshold, 0.7f);
 
+	CFGVAR(AntiAfk, false);
 
 	CFGVAR(RageRetry, false);
 	CFGVAR(RageRetryHealth, 20.0f);

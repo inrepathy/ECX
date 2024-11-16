@@ -628,3 +628,16 @@ void CMisc::RageRetry()
 		}
 	}
 }
+
+
+
+void CMisc::AntiAfk(CUserCmd* pCmd)
+{
+	if (CFG::AntiAfk && I::CVar->FindVar("mp_idlemaxtime") != 0)
+	{
+		if (pCmd->command_number % 2)
+		{
+			pCmd->buttons |= 1 << 27;
+		}
+	}
+}
