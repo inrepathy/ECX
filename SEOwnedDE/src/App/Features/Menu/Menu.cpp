@@ -2538,9 +2538,8 @@ void CMenu::MainWindow()
 		{
 			CheckBox("Active", CFG::Exploits_SeedPred_Active);
 			CheckBox("Draw Indicator", CFG::Exploits_SeedPred_DrawIndicator);
-			if (Button("Reset Seed")) { // cool idea, bad execution
-				bool* pSendPacket = reinterpret_cast<bool*>(uintptr_t(_AddressOfReturnAddress()) + 0x128);
-				*pSendPacket = false;
+			if (Button("Reset Seed")) { 
+				F::SeedPred->Reset();
 			}
 		}
 		GroupBoxEnd();
