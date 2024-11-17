@@ -555,6 +555,10 @@ namespace CFG
 	CFGVAR(AntiAim_ForceTurnInterval, 1.0f);    // Interval in seconds for forced turn
 	CFGVAR(AntiAim_ForceTurnAngle, 30.0f);      // Angle to turn when force turn triggers
 
+
+
+	CFGVAR(AutoEdgebug, false);
+
 	CFGVAR(MovementPath_Color, Color_t({ 0, 20, 20, 255 }));
 	CFGVAR(LongPath_Color, Color_t({ 0, 20, 20, 255 }));
 	CFGVAR(LongColor_Enabled, false);

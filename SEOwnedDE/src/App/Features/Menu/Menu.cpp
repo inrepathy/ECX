@@ -2475,6 +2475,7 @@ void CMenu::MainWindow()
 				{ "Everyone", 0 },
 				{ "Friends Only", 1 }
 			});
+			CheckBox("Auto Edgebug", CFG::AutoEdgebug);
 			CheckBox("Auto Strafe", CFG::Misc_Auto_Strafe);
 			SliderFloat("Auto Strafe Turn Scale", CFG::Misc_Auto_Strafe_Turn_Scale, 0.0f, 1.0f, 0.1f, "%.1f");
 			InputKey("Circle Strafe", CFG::CircleStraferKey);

@@ -9,6 +9,7 @@ public:
     void Bunnyhop(CUserCmd* pCmd);
     void AutoStrafer(CUserCmd* pCmd);
     void NoiseMakerSpam();
+    void AutoEdgebug(CUserCmd* pCmd);
     void RageRetry();
     void CircleStrafer(CUserCmd* pCmd);
     void DuckInAir(CUserCmd* pCmd);

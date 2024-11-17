@@ -150,6 +150,59 @@ void CMisc::DuckInAir(CUserCmd* pCmd)
 	}
 }
 
+void CMisc::AutoEdgebug(CUserCmd* pCmd)
+{
+	if (!CFG::AutoEdgebug)
+		return;
+
+	if (const auto pLocal = H::Entities->GetLocal())
+	{
+		if (pLocal->deadflag() || (pLocal->m_fFlags() & FL_ONGROUND))
+			return;
+
+		if (pLocal->m_nWaterLevel() > static_cast<byte>(WL_Feet) || pLocal->GetMoveType() != MOVETYPE_WALK)
+			return;
+		Vec3 vLocalPos = pLocal->GetAbsOrigin();
+		Vector vForward, vRight, vUp;
+		Math::AngleVectors(pCmd->viewangles, &vForward, &vRight, &vUp);
+
+		const float forwardDistance = 30.0f;   
+		const float downwardDistance = 50.0f;  
+		const float ledgeDistance = 5.0f;      
+		const float edgeHeight = 15.0f;       
+
+		Ray_t rayDown;
+		trace_t traceDown;
+		rayDown.Init(vLocalPos, vLocalPos - vUp * downwardDistance); 
+		I::EngineTrace->TraceRay(rayDown, MASK_PLAYERSOLID, nullptr, &traceDown);
+		Ray_t rayForward;
+		trace_t traceForward;
+		rayForward.Init(vLocalPos, vLocalPos + vForward * forwardDistance); 
+		I::EngineTrace->TraceRay(rayForward, MASK_PLAYERSOLID, nullptr, &traceForward);
+
+		Ray_t rayDiagonal;
+		trace_t traceDiagonal;
+		rayDiagonal.Init(vLocalPos, vLocalPos + vForward * forwardDistance - vUp * edgeHeight); 
+		I::EngineTrace->TraceRay(rayDiagonal, MASK_PLAYERSOLID, nullptr, &traceDiagonal);
+
+		if (traceForward.DidHit() && !traceDown.DidHit()) 
+		{
+			if (!(pCmd->buttons & IN_DUCK)) 
+			{
+				pCmd->buttons |= IN_DUCK;  
+			}
+			pCmd->forwardmove = 0.0f;
+		}
+		else if (traceDiagonal.DidHit() && !traceDown.DidHit())
+		{
+			if (!(pCmd->buttons & IN_DUCK)) 
+			{
+				pCmd->buttons |= IN_DUCK;  
+			}
+		}
+	}
+}
+
 
 
 void CMisc::AutoStrafer(CUserCmd* pCmd)
