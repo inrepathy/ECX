@@ -129,6 +129,29 @@ void CMisc::AutoPeek(CUserCmd* pCmd)
 }
 
 
+void CMisc::DuckInAir(CUserCmd* pCmd)
+{
+	if (!CFG::DuckInAir)
+		return;
+
+	if (const auto pLocal = H::Entities->GetLocal())
+	{
+		if (pLocal->deadflag() || (pLocal->m_fFlags() & FL_ONGROUND))
+			return;
+
+		if (pLocal->m_nWaterLevel() > static_cast<byte>(WL_Feet) || pLocal->GetMoveType() != MOVETYPE_WALK)
+			return;
+
+		// hacky
+		if (!(pCmd->buttons & IN_DUCK))
+		{
+			pCmd->buttons |= IN_DUCK;
+		}
+	}
+}
+
+
+
 void CMisc::AutoStrafer(CUserCmd* pCmd)
 {
 	//credits: KGB
@@ -178,6 +201,46 @@ void CMisc::AutoStrafer(CUserCmd* pCmd)
 		}
 	}
 }
+
+
+// fuck you
+void CMisc::CircleStrafer(CUserCmd* pCmd)
+{
+
+	if (!H::Input->IsDown(CFG::CircleStraferKey)
+		|| I::EngineVGui->IsGameUIVisible()
+		|| I::MatSystemSurface->IsCursorVisible()
+		|| SDKUtils::BInEndOfMatch())
+	{
+		return;
+	}
+	if (const auto pLocal = H::Entities->GetLocal())
+	{
+		if (pLocal->deadflag() || (pLocal->m_fFlags() & FL_ONGROUND))
+			return;
+
+		if (pLocal->m_nWaterLevel() > static_cast<byte>(WL_Feet) || pLocal->GetMoveType() != MOVETYPE_WALK)
+			return;
+
+		if (!(pLocal->m_afButtonLast() & IN_JUMP) && (pCmd->buttons & IN_JUMP))
+			return;
+
+		static float flCircleTime = 0.0f;
+		flCircleTime += 0.07f; 
+		if (flCircleTime > 360.0f) flCircleTime = 0.0f;
+
+		const float flCos = cosf(DEG2RAD(flCircleTime));
+		const float flSin = sinf(DEG2RAD(flCircleTime));
+
+		const float flForwardMove = pCmd->forwardmove;
+		const float flSideMove = pCmd->sidemove;
+
+		pCmd->forwardmove = (flCos * flForwardMove) - (flSin * flSideMove);
+		pCmd->sidemove = (flSin * flForwardMove) + (flCos * flSideMove);
+	}
+}
+
+
 
 void CMisc::NoiseMakerSpam()
 {
