@@ -10,6 +10,8 @@ public:
     void AutoStrafer(CUserCmd* pCmd);
     void NoiseMakerSpam();
     void RageRetry();
+    void CircleStrafer(CUserCmd* pCmd);
+    void DuckInAir(CUserCmd* pCmd);
     void AutoPeek(CUserCmd* pCmd);
     void FastStop(CUserCmd* pCmd);
     void FakeDuck(CUserCmd* pCmd);

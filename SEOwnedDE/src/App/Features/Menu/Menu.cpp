@@ -2373,6 +2373,7 @@ void CMenu::MainWindow()
 		{
 			CheckBox("Bunnyhop", CFG::Misc_Bunnyhop);
 			CheckBox("Choke on Bunnyhop", CFG::Misc_Choke_On_Bhop);
+			CheckBox("Duck In Air", CFG::DuckInAir);
 			CheckBox("Bypass sv_pure", CFG::Misc_Pure_Bypass);
 			CheckBox("Noise Maker Spam", CFG::Misc_NoiseMaker_Spam);
 			CheckBox("No Push", CFG::Misc_No_Push);
@@ -2476,6 +2477,7 @@ void CMenu::MainWindow()
 			});
 			CheckBox("Auto Strafe", CFG::Misc_Auto_Strafe);
 			SliderFloat("Auto Strafe Turn Scale", CFG::Misc_Auto_Strafe_Turn_Scale, 0.0f, 1.0f, 0.1f, "%.1f");
+			InputKey("Circle Strafe", CFG::CircleStraferKey);
 			InputKey("Auto RJ Key", CFG::Misc_Auto_Rocket_Jump_Key);
 			InputKey("Auto AP Key", CFG::Misc_Auto_Air_Pogo_Key);
 			InputKey("Auto Heal Key", CFG::Misc_Auto_Medigun_Key);

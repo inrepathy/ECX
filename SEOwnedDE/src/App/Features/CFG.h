@@ -609,6 +609,11 @@ namespace CFG
 	CFGVAR(Fakelag_Ticks, 2);
 	CFGVAR(CritIndicator, true);
 
+
+	CFGVAR(DuckInAir, true);
+
+	CFGVAR(CircleStraferKey, 0);
+
 	// AntiAim_FakeAngle
 	CFGVAR(AntiAim, false);
 
