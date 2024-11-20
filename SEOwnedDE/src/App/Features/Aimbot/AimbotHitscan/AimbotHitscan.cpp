@@ -541,7 +541,7 @@ bool CAimbotHitscan::ShouldFire(const CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWe
 	{
 		if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
 		{
-			if (pLocal->GetAbsOrigin().DistTo(target.Position) >= 900.0f)
+			if (pLocal->GetAbsOrigin().DistTo(target.Position) >= CFG::TapfireDistance)
 			{
 				if ((pLocal->m_nTickBase() * TICK_INTERVAL) - pWeapon->m_flLastFireTime() <= 0.25f)
 					return false;

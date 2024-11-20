@@ -1262,6 +1262,7 @@ void CMenu::MainWindow()
 				CheckBox("Wait For Headshot", CFG::Aimbot_Hitscan_Wait_For_Headshot);
 				CheckBox("Wait For Charge", CFG::Aimbot_Hitscan_Wait_For_Charge);
 				CheckBox("Minigun Tapfire", CFG::Aimbot_Hitscan_Minigun_TapFire);
+				SliderFloat("Tapfire Distance", CFG::TapfireDistance, 650.0f, 1100.0f, 10.0f, "%.1f");
 
 				SelectSingle("Aim Type", CFG::Aimbot_Hitscan_Aim_Type, {
 					{ "Normal", 0 },

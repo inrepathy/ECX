@@ -615,6 +615,7 @@ namespace CFG
 	CFGVAR(Fakelag_Ticks, 2);
 	CFGVAR(CritIndicator, true);
 
+	CFGVAR(TapfireDistance, 90.0f);
 
 	CFGVAR(DuckInAir, true);
 
