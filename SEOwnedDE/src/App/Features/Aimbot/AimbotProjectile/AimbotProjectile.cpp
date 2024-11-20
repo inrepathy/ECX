@@ -1016,7 +1016,7 @@ bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
 	// TODO: optimize this
 	// compute the hidden layer outputs using a sigmoid activation
 	for (int i = 0; i < 2; ++i) {
-		hiddenLayerOutput[i] = Sigmoid(inputLayer[0] * hiddenLayerWeights[i][0] +
+		hiddenLayerOutput[i] = Math::Sigmoid(inputLayer[0] * hiddenLayerWeights[i][0] +
 			inputLayer[1] * hiddenLayerWeights[i][1] +
 			inputLayer[2] * hiddenLayerWeights[i][2] +
 			hiddenLayerBias[i]);
@@ -1027,7 +1027,7 @@ bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
 	const float outputLayerBias = 0.1f;               // bias for output neuron
 
 	// compute the output using sigmoid activation
-	float output = Sigmoid(hiddenLayerOutput[0] * outputLayerWeights[0] +
+	float output = Math::Sigmoid(hiddenLayerOutput[0] * outputLayerWeights[0] +
 		hiddenLayerOutput[1] * outputLayerWeights[1] +
 		outputLayerBias);
 
@@ -1045,11 +1045,6 @@ bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
 	return false;
 }
 
-// TODO:: move this to Math.h
-float CAimbotProjectile::Sigmoid(float x)
-{
-	return 1.0f / (1.0f + std::exp(-x));
-}
 
 
 
@@ -1185,7 +1180,7 @@ bool CAimbotProjectile::GetTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, c
 	return false;
 }
 
-#include <cstdlib>  // for rand()
+
 
 bool CAimbotProjectile::ShouldAim(const CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon)
 {

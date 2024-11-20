@@ -110,6 +110,11 @@ namespace Math
 		angles[2] = 0;
 	}
 
+	inline float Sigmoid(float x)
+	{
+		return 1.0f / (1.0f + std::exp(-x));
+	}
+
 	inline void AngleVectors(const Vec3 &angles, Vec3 *forward)
 	{
 		float sp, sy, cp, cy;
