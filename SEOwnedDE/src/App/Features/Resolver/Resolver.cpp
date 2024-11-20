@@ -2,7 +2,6 @@
 
 #include "../src/SDK/TF2/igameevents.h"
 
-
 #include "vector"
 #include "../../../Utils/Math/Math.h"
 #include "../src/SDK/TF2/c_baseplayer.h"
@@ -18,20 +17,17 @@ void CResolver::OnShot(CUserCmd* cmd, C_TFPlayer* player) {
 
         AntiAimPattern pattern = DetectAntiAimPattern(player);
 
-        Vector adjustedAngles = AdjustAnglesBasedOnPattern(currentAngles, pattern);
+        Vector newAngles = AdjustAnglesBasedOnPattern(currentAngles, pattern);
 
-        adjustedAngles = PitchResolver(adjustedAngles, pitch::down);
+        newAngles = PitchResolver(newAngles, pitch::down);
 
         if (CFG::ResolverClamp) {
-            Math::ClampAngles(adjustedAngles);
+            Math::ClampAngles(newAngles);
         }
-        
 
-        player->SetAbsAngles(adjustedAngles);
+        player->SetAbsAngles(newAngles);
     }
 }
-
-
 
 AntiAimPattern CResolver::DetectAntiAimPattern(C_TFPlayer* player) {
     return AntiAimPattern::Edge;
@@ -59,7 +55,6 @@ Vector CResolver::AdjustAnglesBasedOnPattern(const Vector& angles, AntiAimPatter
             break;
         default:
             break;
-
         }
     }
 
@@ -85,10 +80,6 @@ Vector CResolver::PitchResolver(const Vector& angles, pitch pattern) {
     return newAngles; 
 }
 
-
-
-// IGameEvent* event
-
 void CResolver::OnPlayerHurt(IGameEvent* pEvent)
 {
     const bool bLocal = I::EngineClient->GetPlayerForUserID(pEvent->GetInt("attacker")) == I::EngineClient->GetLocalPlayer();
@@ -105,7 +96,6 @@ void CResolver::OnPlayerHurt(IGameEvent* pEvent)
             if (!bCrit)
                 return;
         }
-       
     }
     return;
 }
