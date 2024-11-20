@@ -610,6 +610,8 @@ namespace CFG
 	CFGVAR(Fakelag_DisableIfDT, false);
 	CFGVAR(Fakelag_DisableifFD, false);
 
+	CFGVAR(ProjectileHC, 10.0f);
+
 	CFGVAR(Fakelag_Ticks, 2);
 	CFGVAR(CritIndicator, true);
 

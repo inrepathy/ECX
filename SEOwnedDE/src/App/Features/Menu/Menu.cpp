@@ -1356,6 +1356,7 @@ void CMenu::MainWindow()
 				SliderFloat("FOV", CFG::Aimbot_Projectile_FOV, 1.0f, 180.0f, 1.0f, "%.0f");
 				SliderFloat("Max Simulation Time", CFG::Aimbot_Projectile_Max_Simulation_Time, 1.0f, 25.0f, 0.5f, "%.1fs");
 				SliderInt("Max Targets", CFG::Aimbot_Projectile_Max_Processing_Targets, 1, 6, 1);
+				SliderFloat("Hitchance", CFG::ProjectileHC, 0.0f, 100.0f, 1.0f, "%.1f");
 			}
 			GroupBoxEnd();
 		}

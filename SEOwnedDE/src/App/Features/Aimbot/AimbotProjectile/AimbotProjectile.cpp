@@ -4,6 +4,8 @@
 #include "../../MovementSimulation/MovementSimulation.h"
 #include "../../ProjectileSim/ProjectileSim.h"
 
+#include <cstdlib>  // rand()
+
 void DrawProjPath(const CUserCmd* pCmd, float time)
 {
 	if (!pCmd || !G::bFiring)
@@ -1183,10 +1185,23 @@ bool CAimbotProjectile::GetTarget(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, c
 	return false;
 }
 
+#include <cstdlib>  // for rand()
+
 bool CAimbotProjectile::ShouldAim(const CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon)
 {
-	return CFG::Aimbot_Projectile_Aim_Type != 1 || IsFiring(pCmd, pLocal, pWeapon) && pWeapon->HasPrimaryAmmoForShot();
+	if (CFG::Aimbot_Projectile_Aim_Type != 1 || !IsFiring(pCmd, pLocal, pWeapon) || !pWeapon->HasPrimaryAmmoForShot())
+		return false;
+
+	float hitChance = CFG::ProjectileHC; 
+	if (hitChance < 0.0f || hitChance > 100.0f) // probably bad 
+		return false; 
+
+	float randomChance = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 100.0f;
+
+	return randomChance <= hitChance;
 }
+
+
 
 void CAimbotProjectile::Aim(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, const Vec3& vAngles)
 {
