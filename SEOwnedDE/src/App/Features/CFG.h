@@ -18,6 +18,8 @@ namespace CFG
 	CFGVAR(Aimbot_Ignore_Invulnerable, true);
 	CFGVAR(Aimbot_Ignore_Taunting, false);
 
+	CFGVAR(ViewmodelFlipper, false);
+
 	CFGVAR(Aimbot_Hitscan_Active, true);
 	CFGVAR(Aimbot_Hitscan_Target_LagRecords, true);
 	CFGVAR(Aimbot_Hitscan_Target_Stickies, true);

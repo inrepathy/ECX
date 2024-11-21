@@ -30,6 +30,7 @@ namespace Utils
 		return result;
     }
 
+
     static std::string ConvertWideToUTF8(const std::wstring& unicode)
     {
         const int size = WideCharToMultiByte(CP_UTF8, 0, unicode.c_str(), -1, nullptr, 0, nullptr, nullptr);

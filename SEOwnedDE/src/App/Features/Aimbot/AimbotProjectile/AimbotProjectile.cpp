@@ -1261,6 +1261,50 @@ bool CAimbotProjectile::ShouldFire(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeapo
 	return true;
 }
 
+void CAimbotProjectile::ViewmodelFlipper(C_BaseEntity* pLocal, CUserCmd* pCmd)
+{
+	if (!CFG::ViewmodelFlipper)
+		return;
+
+	if (static_cast<int>(G::CurItemDefIndex) == static_cast<int>(EWeaponType::PROJECTILE)) // hacky
+		return;
+
+
+	static auto cl_flipviewmodels = I::CVar->FindVar("cl_flipviewmodels");
+	static bool defaultValue = cl_flipviewmodels->GetBool();
+
+
+	const auto aimTarget = I::ClientEntityList->GetClientEntity(G::nTargetIndexEarly);
+	if (G::nTargetIndexEarly <= 0 || !aimTarget)
+	{
+		cl_flipviewmodels->SetValue(defaultValue);
+		return;
+	}
+
+	const auto localAngles = I::EngineClient->GetViewAngles();
+
+	Vec3 source = localAngles;  
+	Vec3 destination = Vec3(pCmd->viewangles.y, 0, 0); 
+
+	const auto aimAngles = Math::CalcAngle(source, destination);
+
+	auto mod = [](float a, float n)
+		{
+			return a - std::floor(a / n) * n;
+		};
+
+	const auto angleDelta = mod((aimAngles.y - localAngles.y) + 180.f, 360.f) - 180.f;
+	if (angleDelta < -5.f)
+	{
+		cl_flipviewmodels->SetValue(true);
+	}
+	else if (angleDelta > 5.f)
+	{
+		cl_flipviewmodels->SetValue(false);
+	}
+}
+
+
 void CAimbotProjectile::HandleFire(CUserCmd* pCmd, C_TFWeaponBase* pWeapon, C_TFPlayer* pLocal, const ProjTarget_t& target)
 {
 	const bool bIsBazooka = pWeapon->m_iItemDefinitionIndex() == Soldier_m_TheBeggarsBazooka;

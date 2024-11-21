@@ -25,6 +25,7 @@ class CAimbotProjectile
 	bool GetProjectileInfo(C_TFWeaponBase* pWeapon);
 	bool NeuralNetworkSplashPrediction(const Vec3& impactPoint);
 	float Sigmoid(float x);
+//	void ViewmodelFlipper(C_BaseEntity* pLocal, CUserCmd* pCmd);
 	bool CalcProjAngle(const Vec3& vFrom, const Vec3& vTo, Vec3& vAngleOut, float& flTimeOut);
 	void OffsetPlayerPosition(C_TFWeaponBase* pWeapon, Vec3& vPos, C_TFPlayer* pPlayer, bool bDucked, bool bOnGround);
 	bool CanArcReach(const Vec3& vFrom, const Vec3& vTo, const Vec3& vAngleTo, float flTargetTime, C_BaseEntity* pTarget);
@@ -40,6 +41,7 @@ class CAimbotProjectile
 public:
 	bool IsFiring(const CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon);
 	void Run(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon);
+	void ViewmodelFlipper(C_BaseEntity* pLocal, CUserCmd* pCmd);
 };
 
 MAKE_SINGLETON_SCOPED(CAimbotProjectile, AimbotProjectile, F);

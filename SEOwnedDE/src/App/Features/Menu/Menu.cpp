@@ -1195,6 +1195,7 @@ void CMenu::MainWindow()
 				CheckBox("Active", CFG::Aimbot_Active);
 				CheckBox("Auto Shoot", CFG::Aimbot_AutoShoot);
 				CheckBox("Auto Secondary Switch", CFG::AutoSecondarySwitch);
+				CheckBox("Viewmodel Flipper", CFG::ViewmodelFlipper);
 			//	CheckBox("Debug Info", CFG::Debug);
 				InputKey("Key", CFG::Aimbot_Key);
 
@@ -1262,7 +1263,7 @@ void CMenu::MainWindow()
 				CheckBox("Wait For Headshot", CFG::Aimbot_Hitscan_Wait_For_Headshot);
 				CheckBox("Wait For Charge", CFG::Aimbot_Hitscan_Wait_For_Charge);
 				CheckBox("Minigun Tapfire", CFG::Aimbot_Hitscan_Minigun_TapFire);
-				SliderFloat("Tapfire Distance", CFG::TapfireDistance, 650.0f, 1100.0f, 10.0f, "%.1f");
+				SliderFloat("Tapfire Distance", CFG::TapfireDistance, 650.0f, 11000.0f, 10.0f, "%.1f");
 
 				SelectSingle("Aim Type", CFG::Aimbot_Hitscan_Aim_Type, {
 					{ "Normal", 0 },

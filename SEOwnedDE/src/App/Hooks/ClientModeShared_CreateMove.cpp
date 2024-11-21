@@ -6,6 +6,8 @@
 
 #include "../Features/Aimbot/Aimbot.h"
 #include "../Features/EnginePrediction/EnginePrediction.h"
+
+#include "../Features/Aimbot/AimbotProjectile/AimbotProjectile.h"
 #include "../Features/Misc/Misc.h"
 #include "../Features/RapidFire/RapidFire.h"
 #include "../Features/Triggerbot/Triggerbot.h"
@@ -120,6 +122,10 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 			}
 		}
 		F::Misc->AutoMedigun(pCmd);
+
+		const auto pLocal = H::Entities->GetLocal();
+
+		F::AimbotProjectile->ViewmodelFlipper(pLocal, pCmd);
 		F::Aimbot->Run(pCmd);
 		F::Triggerbot->Run(pCmd);
 		C_TFPlayer* localPlayer = nullptr;
