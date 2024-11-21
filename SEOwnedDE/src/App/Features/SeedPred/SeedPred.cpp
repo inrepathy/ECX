@@ -168,8 +168,9 @@ void CSeedPred::AdjustAngles(CUserCmd* cmd)
 	if (spread <= 0.0f)
 		return;
 
-	auto bulletsPerShot{weapon->GetWeaponInfo()->GetWeaponData(TF_WEAPON_PRIMARY_MODE).m_nBulletsPerShot};
+	auto bulletsPerShot = weapon->GetWeaponInfo()->GetWeaponData(TF_WEAPON_PRIMARY_MODE).m_nBulletsPerShot;
 	bulletsPerShot = static_cast<int>(SDKUtils::AttribHookValue(static_cast<float>(bulletsPerShot), "mult_bullets_per_shot", weapon));
+
 
 	//credits to cathook for average spread stuff
 
@@ -210,11 +211,12 @@ void CSeedPred::AdjustAngles(CUserCmd* cmd)
 	averageSpread /= static_cast<float>(bulletsPerShot);
 
 	// Find the closest spread to average
-	const auto fixedSpread = std::ranges::min_element(bulletCorrections,
-	                                                  [&](const Vec3& lhs, const Vec3& rhs)
-	                                                  {
-		                                                  return lhs.DistTo(averageSpread) < rhs.DistTo(averageSpread);
-	                                                  });
+	const auto fixedSpread = std::ranges::min_element(
+		bulletCorrections,
+		[&](const Vec3& lhs, const Vec3& rhs)
+		{
+			return lhs.DistTo(averageSpread) < rhs.DistTo(averageSpread);
+		});
 
 	// Is there a minimum?
 	if (fixedSpread == bulletCorrections.end())
