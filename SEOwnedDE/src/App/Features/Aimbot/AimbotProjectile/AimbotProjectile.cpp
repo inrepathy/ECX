@@ -362,41 +362,43 @@ bool CAimbotProjectile::CalcProjAngle(const Vec3& vFrom, const Vec3& vTo, Vec3& 
 
 		if (m_CurProjInfo.Pipes)
 		{
-			// Use physics to calculate the drag coefficient based on weapon type
-			float dragCoefficient = 0.0f;
-			switch (pWeapon->GetWeaponID()) {
-			case TF_WEAPON_GRENADELAUNCHER:
-				dragCoefficient = (pWeapon->m_iItemDefinitionIndex() == Demoman_m_TheLochnLoad) ? 0.07f : 0.11f;
-				break;
-			case TF_WEAPON_PIPEBOMBLAUNCHER:
-				dragCoefficient = 0.16f;
-				break;
-			case TF_WEAPON_CANNON:
-				dragCoefficient = 0.35f;
-				break;
-			default:
-				dragCoefficient = 0.0f; // Default case
-				break;
+			//do 2nd pass for drag | TODO: Math > Magic
+
+			auto magic{ 0.0f };
+
+			if (pWeapon->GetWeaponID() == TF_WEAPON_GRENADELAUNCHER)
+			{
+				if (pWeapon->m_iItemDefinitionIndex() == Demoman_m_TheLochnLoad)
+				{
+					magic = 0.07f;
+				}
+
+				else
+				{
+					magic = 0.11f;
+				}
 			}
 
-			// Calculate the drag effect on the velocity
-			v0 *= (1.0f - dragCoefficient * flTimeOut); // Reduce velocity based on drag
+			if (pWeapon->GetWeaponID() == TF_WEAPON_PIPEBOMBLAUNCHER)
+			{
+				magic = 0.16f;
+			}
 
-			// Calculate the projectile motion root value
-			float root = v0 * v0 * v0 * v0 - g * (g * dx * dx + 2.0f * dy * v0 * v0);
+			if (pWeapon->GetWeaponID() == TF_WEAPON_CANNON)
+			{
+				magic = 0.35f;
+			}
 
-			// Check if the root is valid
+			v0 -= (v0 * flTimeOut) * magic;
+
+			auto root{ v0 * v0 * v0 * v0 - g * (g * dx * dx + 2.0f * dy * v0 * v0) };
+
 			if (root < 0.0f)
 			{
-				return false; // Invalid motion parameters
+				return false;
 			}
 
-			// Calculate output angles based on the valid root
-			vAngleOut.x = -RAD2DEG(atanf((v0 * v0 - sqrtf(root)) / (g * dx)));
-			vAngleOut.y = RAD2DEG(atan2f(v.y, v.x));
-			vAngleOut.z = 0.0f;
-
-			// Calculate the time to reach the target based on the angle and velocity
+			vAngleOut = { -RAD2DEG(atanf((v0 * v0 - sqrtf(root)) / (g * dx))), RAD2DEG(atan2f(v.y, v.x)), 0.0f };
 			flTimeOut = dx / (cosf(-DEG2RAD(vAngleOut.x)) * v0);
 		}
 	}
@@ -443,6 +445,7 @@ bool CAimbotProjectile::CalcProjAngle(const Vec3& vFrom, const Vec3& vTo, Vec3& 
 
 	return true;
 }
+
 
 void CAimbotProjectile::OffsetPlayerPosition(C_TFWeaponBase* pWeapon, Vec3& vPos, C_TFPlayer* pPlayer, bool bDucked, bool bOnGround)
 {

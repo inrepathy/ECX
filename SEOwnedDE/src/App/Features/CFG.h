@@ -408,10 +408,10 @@ namespace CFG
 	CFGVAR(Misc_Choke_On_Bhop, false);
 	CFGVAR(Misc_Taunt_Slide, false);
 	CFGVAR(Misc_Taunt_Slide_Control, false);
-	CFGVAR(Misc_Taunt_Spin_Key, 0);
+	CFGVAR(Misc_Taunt_Spin_Key, 0);	
 	CFGVAR(Misc_Taunt_Spin_Speed, 12.0f);
 	CFGVAR(Misc_Taunt_Spin_Sine, false);
-	CFGVAR_NOSAVE(Misc_Accuracy_Improvements, true);
+	CFGVAR(Misc_Accuracy_Improvements, true);
 	CFGVAR(Misc_Pure_Bypass, true);
 	CFGVAR(Misc_NoiseMaker_Spam, false);
 	CFGVAR(Misc_No_Push, true);

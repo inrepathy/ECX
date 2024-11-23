@@ -2426,15 +2426,7 @@ void CMenu::MainWindow()
 		
 		GroupBoxStart("Game", 160);
 		{
-			//at this point this does so much and lots of stuff relies on it, better make it impossible to turn off
-			/*if (CheckBox("Accuracy Improvements", CFG::Misc_Accuracy_Improvements))
-			{
-				if (I::EngineClient->IsConnected())
-				{
-					I::EngineClient->ClientCmd_Unrestricted("retry");
-				}
-			}*/
-
+			CheckBox("Accuracy Improvements", CFG::Misc_Accuracy_Improvements);
 			CheckBox("Network Fix", CFG::Misc_Ping_Reducer);
 			CheckBox("Prediction Error Jitter Fix", CFG::Misc_Pred_Error_Jitter_Fix);
 			CheckBox("ComputeLightingOrigin Fix", CFG::Misc_ComputeLightingOrigin_Fix);
@@ -2836,29 +2828,29 @@ void CMenu::Indicators()
 	auto pLocal = H::Entities->GetLocal();
 
 	int x = 2;
-	int tall = H::Fonts->Get(EFonts::ESP_SMALL).m_nTall;
+	int tall = H::Fonts->Get(EFonts::ESP).m_nTall;
 	int numitems = (pLocal && GetTFPlayerResource()) ? 3 : 2;
 	int y = H::Draw->GetScreenH() - ((numitems * tall) + 2);
 	int offset = 0;
 	Color_t clr = { 200, 200, 200, 255 };
 
-	H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "fps %d", static_cast<int>(1.0f / I::GlobalVars->absoluteframetime));
+	H::Draw->String(H::Fonts->Get(EFonts::ESP), x, y + (offset++ * tall), clr, POS_DEFAULT, "fps %d", static_cast<int>(1.0f / I::GlobalVars->absoluteframetime));
 
 	if (auto pPR = GetTFPlayerResource())
 	{
 		if (pLocal)
 		{
-			H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "ping %d", pPR->GetPing(pLocal->entindex()));
+			H::Draw->String(H::Fonts->Get(EFonts::ESP), x, y + (offset++ * tall), clr, POS_DEFAULT, "ping %d", pPR->GetPing(pLocal->entindex()));
 		}
 	}
 
 
-	H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
+	H::Draw->String(H::Fonts->Get(EFonts::ESP), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
 
 	if (CFG::Watermark) {
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75, clr, POS_DEFAULT, "ECX release build");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP), x, 75, clr, POS_DEFAULT, "ECX release build");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
 	}
 
 	/*if (CFG::Watermark) {
@@ -2900,9 +2892,6 @@ void CMenu::Indicators()
 		/*int* randomseed = SDKUtils::RandomSeed();
 		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "randomseed: %d", randomseed);*/
 	}
-
-
-
 }
 
 
