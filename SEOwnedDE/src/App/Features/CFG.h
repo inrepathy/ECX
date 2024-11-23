@@ -557,7 +557,7 @@ namespace CFG
 	CFGVAR(AntiAim_ForceTurnInterval, 1.0f);    // Interval in seconds for forced turn
 	CFGVAR(AntiAim_ForceTurnAngle, 30.0f);      // Angle to turn when force turn triggers
 
-
+	CFGVAR(LegJitter, false);
 
 	CFGVAR(AutoEdgebug, false);
 

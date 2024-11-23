@@ -150,6 +150,29 @@ void CMisc::DuckInAir(CUserCmd* pCmd)
 	}
 }
 
+void CMisc::LegJitter(CUserCmd* pCmd)
+{
+	if (!CFG::LegJitter)
+		return;
+
+	const auto pLocal = H::Entities->GetLocal();
+
+	if (!pLocal->m_nSolidType()  || pLocal->deadflag()) { return; }
+	static bool pos = true;
+	const float scale = pLocal->m_bDucked() ? 14.f : 1.0f;
+
+	if (G::bFiring)
+		return;
+
+	
+	if (pCmd->forwardmove == 0.f && pCmd->sidemove == 0.f && pLocal->m_vecVelocity().Length2D() < 10.f)
+	{
+		pos ? pCmd->forwardmove = scale : pCmd->forwardmove = -scale;
+		pos ? pCmd->sidemove = scale : pCmd->sidemove = -scale;
+		pos = !pos;
+	}
+}
+
 void CMisc::AutoEdgebug(CUserCmd* pCmd)
 {
 	if (!CFG::AutoEdgebug)

@@ -2377,6 +2377,7 @@ void CMenu::MainWindow()
 			CheckBox("Bunnyhop", CFG::Misc_Bunnyhop);
 			CheckBox("Choke on Bunnyhop", CFG::Misc_Choke_On_Bhop);
 			CheckBox("Duck In Air", CFG::DuckInAir);
+			CheckBox("Leg Jitter", CFG::LegJitter);
 			CheckBox("Bypass sv_pure", CFG::Misc_Pure_Bypass);
 			CheckBox("Noise Maker Spam", CFG::Misc_NoiseMaker_Spam);
 			CheckBox("No Push", CFG::Misc_No_Push);

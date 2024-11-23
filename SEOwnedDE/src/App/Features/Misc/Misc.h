@@ -20,6 +20,9 @@ public:
     void AntiAfk(CUserCmd* pCmd);
 
 
+    void LegJitter(CUserCmd* pCmd);
+
+
     void AutoRocketJump(CUserCmd* cmd);
     void AutoDisguise(CUserCmd* cmd);
     void AutoMedigun(CUserCmd* cmd);
