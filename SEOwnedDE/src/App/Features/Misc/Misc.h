@@ -19,6 +19,8 @@ public:
     void FastAccel(CUserCmd* pCmd);
     void AntiAfk(CUserCmd* pCmd);
 
+    void SequenceFreeze(CUserCmd* pCmd, bool *pSendpacket);
+
 
     void LegJitter(CUserCmd* pCmd);
 

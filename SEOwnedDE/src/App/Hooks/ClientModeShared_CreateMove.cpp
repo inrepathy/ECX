@@ -104,6 +104,7 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 	F::Misc->AutoEdgebug(pCmd);
 	F::Misc->AutoRocketJump(pCmd);
 	F::Misc->LegJitter(pCmd);
+	F::Misc->SequenceFreeze(pCmd, pSendPacket);
 	F::Misc->AntiAfk(pCmd);
 	F::Misc->RageRetry();
 	F::Misc->AutoDisguise(pCmd);

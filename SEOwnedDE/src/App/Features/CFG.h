@@ -559,6 +559,9 @@ namespace CFG
 
 	CFGVAR(LegJitter, false);
 
+	CFGVAR(SequenceFreeze, false);
+	CFGVAR(SequenceFreezeKey, 0);
+
 	CFGVAR(AutoEdgebug, false);
 
 	CFGVAR(MovementPath_Color, Color_t({ 0, 20, 20, 255 }));
@@ -620,6 +623,8 @@ namespace CFG
 	CFGVAR(TapfireDistance, 90.0f);
 
 	CFGVAR(DuckInAir, true);
+
+	CFGVAR(Indicators, false);
 
 	CFGVAR(CircleStraferKey, 0);
 

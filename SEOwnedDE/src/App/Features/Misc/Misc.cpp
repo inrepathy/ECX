@@ -150,6 +150,46 @@ void CMisc::DuckInAir(CUserCmd* pCmd)
 	}
 }
 
+
+
+
+void CMisc::SequenceFreeze(CUserCmd* pCmd, bool* pSendPacket) {
+	if (!CFG::SequenceFreeze)
+		return;
+
+	if (!H::Input->IsDown(CFG::SequenceFreezeKey) ||
+		I::EngineVGui->IsGameUIVisible() ||
+		I::MatSystemSurface->IsCursorVisible() ||
+		SDKUtils::BInEndOfMatch())
+		return;
+
+	static int freezeTicks = 0;
+	static const int maxFreezeTicks = 16;
+
+	if (freezeTicks > 0) {
+		pCmd->tick_count += freezeTicks;
+		*pSendPacket = false;
+		freezeTicks--;
+	}
+	else {
+		pCmd->tick_count = pCmd->command_number;
+		*pSendPacket = true;
+
+		if (H::Input->IsDown(CFG::SequenceFreezeKey)) {
+			freezeTicks = maxFreezeTicks;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
 void CMisc::LegJitter(CUserCmd* pCmd)
 {
 	if (!CFG::LegJitter)

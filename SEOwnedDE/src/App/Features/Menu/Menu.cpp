@@ -1196,7 +1196,7 @@ void CMenu::MainWindow()
 				CheckBox("Auto Shoot", CFG::Aimbot_AutoShoot);
 				CheckBox("Auto Secondary Switch", CFG::AutoSecondarySwitch);
 				CheckBox("Viewmodel Flipper", CFG::ViewmodelFlipper);
-			//	CheckBox("Debug Info", CFG::Debug);
+				//CheckBox("Debug Info", CFG::Debug);
 				InputKey("Key", CFG::Aimbot_Key);
 
 				multiselect("Accuracy", Accuracy, {
@@ -2100,6 +2100,7 @@ void CMenu::MainWindow()
 			GroupBoxStart("Local", 150);
 			{
 				CheckBox("Watermark", CFG::Watermark);
+				CheckBox("Indicators", CFG::Indicators);
 				CheckBox("Aimbot FOV Circle", CFG::Visuals_Aimbot_FOV_Circle);
 				SliderFloat("FOV Circle Alpha", CFG::Visuals_Aimbot_FOV_Circle_Alpha, 0.01f, 1.0f, 0.01f, "%.2f");
 				CheckBox("Draw Projectile Arc", CFG::Visuals_Draw_Projectile_Arc);
@@ -2521,6 +2522,10 @@ void CMenu::MainWindow()
 				{ "Rectangle", 0 },
 				{ "Circle", 1 },
 			});*/
+
+			CheckBox("Desync", CFG::SequenceFreeze);
+			InputKey("Desync", CFG::SequenceFreezeKey);
+
 		}
 		GroupBoxEnd();
 
@@ -2829,29 +2834,32 @@ void CMenu::Indicators()
 	auto pLocal = H::Entities->GetLocal();
 
 	int x = 2;
-	int tall = H::Fonts->Get(EFonts::ESP).m_nTall;
+	int tall = H::Fonts->Get(EFonts::ESP_CONDS).m_nTall;
 	int numitems = (pLocal && GetTFPlayerResource()) ? 3 : 2;
 	int y = H::Draw->GetScreenH() - ((numitems * tall) + 2);
 	int offset = 0;
 	Color_t clr = { 200, 200, 200, 255 };
 
-	H::Draw->String(H::Fonts->Get(EFonts::ESP), x, y + (offset++ * tall), clr, POS_DEFAULT, "fps %d", static_cast<int>(1.0f / I::GlobalVars->absoluteframetime));
+	if (CFG::Indicators) {
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_CONDS), x, y + (offset++ * tall), clr, POS_DEFAULT, "fps %d", static_cast<int>(1.0f / I::GlobalVars->absoluteframetime));
 
-	if (auto pPR = GetTFPlayerResource())
-	{
-		if (pLocal)
+		if (auto pPR = GetTFPlayerResource())
 		{
-			H::Draw->String(H::Fonts->Get(EFonts::ESP), x, y + (offset++ * tall), clr, POS_DEFAULT, "ping %d", pPR->GetPing(pLocal->entindex()));
+			if (pLocal)
+			{
+				H::Draw->String(H::Fonts->Get(EFonts::ESP_CONDS), x, y + (offset++ * tall), clr, POS_DEFAULT, "ping %d", pPR->GetPing(pLocal->entindex()));
+			}
 		}
+
+
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_CONDS), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
 	}
 
 
-	H::Draw->String(H::Fonts->Get(EFonts::ESP), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
-
 	if (CFG::Watermark) {
-		H::Draw->String(H::Fonts->Get(EFonts::ESP), x, 75, clr, POS_DEFAULT, "ECX release build");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_CONDS), x, 75, clr, POS_DEFAULT, "ECX release build");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_CONDS), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
+		H::Draw->String(H::Fonts->Get(EFonts::ESP_CONDS), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
 	}
 
 	/*if (CFG::Watermark) {
