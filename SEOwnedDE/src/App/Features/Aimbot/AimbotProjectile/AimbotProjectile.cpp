@@ -992,32 +992,26 @@ bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
 
 	if (!pLocal) return false;
 
-	// step 1: gather features from the game state (such as distance from the target, projectile speed, etc.)
 	Vec3 playerPosition = pLocal->GetAbsOrigin();  
 	float distanceToImpact = impactPoint.DistTo(playerPosition);
 
 	float projectileSpeed = 250.0f;  
 	float playerVelocity = pLocal->m_vecVelocity().Length();  
 
-	// step 2: normalize the features to be between 0 and 1 (this could be adjusted based on expected ranges)
-	float normalizedDistance = std::min(distanceToImpact / 1000.0f, 1.0f);  // max distance normalized to 1
-	float normalizedSpeed = std::min(projectileSpeed / 500.0f, 1.0f);  // max speed normalized to 1
-	float normalizedVelocity = std::min(playerVelocity / 300.0f, 1.0f);  // max velocity normalized to 1
+	float normalizedDistance = std::min(distanceToImpact / 1000.0f, 1.0f);  
+	float normalizedSpeed = std::min(projectileSpeed / 500.0f, 1.0f);  
+	float normalizedVelocity = std::min(playerVelocity / 300.0f, 1.0f);  
 
-	// step 3: neural Network Architecture
-	// inputs: normalizedDistance, normalizedSpeed, normalizedVelocity
 	float inputLayer[3] = { normalizedDistance, normalizedSpeed, normalizedVelocity };
 
-	// hidden Layer
 	const float hiddenLayerWeights[2][3] = {
-		{0.2f, 0.3f, 0.5f},  // weights for first hidden neuron
-		{0.4f, 0.1f, 0.2f}   // weights for second hidden neuron
+		{0.2f, 0.3f, 0.5f},  
+		{0.4f, 0.1f, 0.2f}   
 	};
-	const float hiddenLayerBias[2] = { 0.1f, -0.2f };  // bias for hidden neurons
+	const float hiddenLayerBias[2] = { 0.1f, -0.2f };  
 	float hiddenLayerOutput[2];
 
 	// TODO: optimize this
-	// compute the hidden layer outputs using a sigmoid activation
 	for (int i = 0; i < 2; ++i) {
 		hiddenLayerOutput[i] = Math::Sigmoid(inputLayer[0] * hiddenLayerWeights[i][0] +
 			inputLayer[1] * hiddenLayerWeights[i][1] +
@@ -1025,26 +1019,20 @@ bool CAimbotProjectile::NeuralNetworkSplashPrediction(const Vec3& impactPoint)
 			hiddenLayerBias[i]);
 	}
 
-	// output Layer
-	const float outputLayerWeights[2] = { 0.7f, 0.9f };  // weights from hidden to output layer
-	const float outputLayerBias = 0.1f;               // bias for output neuron
+	const float outputLayerWeights[2] = { 0.7f, 0.9f };  
+	const float outputLayerBias = 0.1f;               
 
-	// compute the output using sigmoid activation
 	float output = Math::Sigmoid(hiddenLayerOutput[0] * outputLayerWeights[0] +
 		hiddenLayerOutput[1] * outputLayerWeights[1] +
 		outputLayerBias);
 
-	// step 4: define a threshold for splash prediction
-	const float predictionThreshold = CFG::PredictionThreshold; // if the score is higher than this, a splash is predicted
+	const float predictionThreshold = CFG::PredictionThreshold; 
 
-	// step 5: make the decision based on the score
 	if (output > predictionThreshold)
 	{
-		// if the output is above the threshold, return true (indicating a splash)
 		return true;
 	}
 
-	// if the output is below the threshold, return false (no splash)
 	return false;
 }
 

@@ -35,6 +35,8 @@
 #include "TF2/MD5.h"
 #include "TF2/c_tf_player.h"
 
+#include "../App/Features/CFG.h"
+
 #include "Helpers/Draw/Draw.h"
 #include "Helpers/Entities/Entities.h"
 #include "Helpers/Fonts/Fonts.h"

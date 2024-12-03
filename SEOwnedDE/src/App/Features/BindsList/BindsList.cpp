@@ -3,7 +3,7 @@
 #include "../Menu/Menu.h"
 #include "../VisualUtils/VisualUtils.h"
 
-#define LIST_WIDTH CFG::BindsList_Width  // Updated to BindsList_Width
+#define LIST_WIDTH CFG::BindsList_Width 
 
 void CBindsList::Drag()
 {
@@ -18,8 +18,8 @@ void CBindsList::Drag()
     static int nDeltaX = 0;
     static int nDeltaY = 0;
 
-    const int nListX = CFG::BindsList_Pos_X;  // Updated to BindsList_Pos_X
-    const int nListY = CFG::BindsList_Pos_Y;  // Updated to BindsList_Pos_Y
+    const int nListX = CFG::BindsList_Pos_X;  
+    const int nListY = CFG::BindsList_Pos_Y; 
 
     const bool bHovered = nMouseX > nListX && nMouseX < nListX + LIST_WIDTH && nMouseY > nListY && nMouseY < nListY + CFG::Menu_Drag_Bar_Height;
 
@@ -38,8 +38,8 @@ void CBindsList::Drag()
     // Update the location
     if (bDragging)
     {
-        CFG::BindsList_Pos_X = nMouseX - nDeltaX;  // Updated to BindsList_Pos_X
-        CFG::BindsList_Pos_Y = nMouseY - nDeltaY;  // Updated to BindsList_Pos_Y
+        CFG::BindsList_Pos_X = nMouseX - nDeltaX;  
+        CFG::BindsList_Pos_Y = nMouseY - nDeltaY; 
     }
 }
 
@@ -65,7 +65,7 @@ void CBindsList::Run()
     const auto outlineColor = F::VisualUtils->GetAlphaColor(CFG::Menu_Accent_Secondary, CFG::BindsList_Outline_Alpha);
     const auto bgColor = F::VisualUtils->GetAlphaColor(CFG::Menu_Background, CFG::BindsList_Background_Alpha);
 
-    // Background
+
     H::Draw->Rect(
         CFG::BindsList_Pos_X,
         CFG::BindsList_Pos_Y,
@@ -74,7 +74,7 @@ void CBindsList::Run()
         bgColor
     );
 
-    // Title
+
     H::Draw->String(
         H::Fonts->Get(EFonts::Menu),
         CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
@@ -84,7 +84,7 @@ void CBindsList::Run()
         "Binds List"
     );
 
-    // Outline
+
     H::Draw->OutlinedRect(
         CFG::BindsList_Pos_X,
         CFG::BindsList_Pos_Y,
@@ -93,10 +93,8 @@ void CBindsList::Run()
         outlineColor
     );
 
-    // Start rendering binds
-    int iPos = 1; // Start from 1 for the first bind
+    int iPos = 1; 
 
-    // Check Aimbot Key and render if active
     if (H::Input->IsDown(CFG::Aimbot_Key))
     {
        
@@ -143,7 +141,6 @@ void CBindsList::Run()
             bgColor
         );
 
-        // Draw the active Triggerbot text
         H::Draw->String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
@@ -153,7 +150,6 @@ void CBindsList::Run()
             "Triggerbot"
         );
 
-        // Draw the outline for the Triggerbot bind
         H::Draw->OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
@@ -162,12 +158,11 @@ void CBindsList::Run()
             outlineColor
         );
 
-        // Increment iPos for the next bind after rendering Triggerbot
         iPos++;
     }
 
 
-    if (H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key) || H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key_Melee)) // Assuming you have a key defined for the Triggerbot
+    if (H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key) || H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key_Melee)) 
     {
        
         H::Draw->Rect(
