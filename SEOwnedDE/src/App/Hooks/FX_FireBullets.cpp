@@ -19,9 +19,12 @@ MAKE_HOOK(FX_FireBullets, Signatures::FX_FireBullets.Get(), void, __cdecl,
 		iSeed = F::SeedPred->GetSeed();
 	}
 
+	int iIndex = 0;
+	Vec3 vAngles;
+
 	if (CFG::Resolver) // TODO: make this change if you only have clamp on and so forth.. but like i have it already in OnShot so like whats the point??? maybe im  jsut retarded
 	{
-		F::Resolver->OnShot(pCmd, pPlayer);
+		F::Resolver->OnShot(pCmd, pPlayer, iIndex, vAngles);
 	}
 
 	CALL_ORIGINAL(pWpn, iPlayer, vecOrigin, vecAngles, iWeapon, iMode, iSeed, flSpread, flDamage, bCritical, ecx, flInputSampleTime, pCmd);
