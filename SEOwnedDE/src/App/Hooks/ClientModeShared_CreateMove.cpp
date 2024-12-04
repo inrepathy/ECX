@@ -132,7 +132,7 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 		F::Triggerbot->Run(pCmd);
 		C_TFPlayer* localPlayer = nullptr;
 
-		F::Resolver->OnShot(pCmd, localPlayer);
+		//F::Resolver->OnShot(pCmd, localPlayer);
 		F::AnimFix->Update(pCmd);
 
 

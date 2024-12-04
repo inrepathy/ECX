@@ -65,7 +65,8 @@ void CApp::Start()
     }
     I::EngineClient->ClientCmd_Unrestricted("clear");
     Sleep(25);
-    I::CVar->ConsoleColorPrintf(msgColor, "ECX loaded!\n");
+    I::CVar->ConsoleColorPrintf(msgColor, "ecx framework, developed by grizz\n");
+    I::CVar->ConsoleColorPrintf(msgColor, "based on lak3 and spook's seownedde\n");
 
     Beep(1000, 250); 
     Sleep(100);     
@@ -111,8 +112,8 @@ void CApp::Shutdown()
         }
     }
     I::EngineClient->ClientCmd_Unrestricted("clear");
-    Sleep(25);
-    I::CVar->ConsoleColorPrintf({ 255, 70, 70, 255 }, "ECX unloaded!\n");
+  //  Sleep(25); // since im not gonna print for uninject whats the point in sleeping?
+  //  I::CVar->ConsoleColorPrintf({ 255, 70, 70, 255 }, "ecx unloaded!\n");
 
     Beep(500, 250); 
     Sleep(100);     
