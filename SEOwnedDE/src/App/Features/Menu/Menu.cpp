@@ -1382,19 +1382,19 @@ void CMenu::MainWindow()
 						});
 				}
 				CheckBox("Anti Aim", CFG::AntiAim);
+				CheckBox("Visualize Fake Angles", CFG::AntiAim_Visualizer);
+				if (CFG::AntiAim_Visualizer) {
+					ColorPicker("Real Color", CFG::RealColor);
+					ColorPicker("Fake Color", CFG::FakeColor);
+				}
 				if (CFG::AntiAim) {
-					CheckBox("Visualize", CFG::AntiAim_Visualizer);
-					if (CFG::AntiAim_Visualizer) {
-						ColorPicker("Real Color", CFG::RealColor);
-						ColorPicker("Fake Color", CFG::FakeColor);
-					}
 
-					SliderFloat("Pitch", CFG::AntiAim_Pitch, -89.0f, 89.0f, 0.5f, "%.1f"); // you know i would go -90.0f, 90.0f but some cheats (jengaware, ateris, amalgam) have invalid angle detection and we DONT want to be detected so...
+					SliderFloat("Pitch", CFG::AntiAim_Pitch, -89.0f, 89.0f, 0.5f, "%.1f"); // you know i would go -90.0f, 90.0f but some cheats (jengaware, ateris, amalgam) have invalid angle detection and we DONT want to be detected so... // edit 12/4/2024: i just found out that u fake pitch WITH invalid angles. :frown:
 					SliderFloat("Yaw", CFG::AntiAim_Yaw, -180.0f, 180.0f, 0.5f, "%.1f");
 					CheckBox("Jitter Pitch", CFG::AntiAim_JitterPitch);
 					CheckBox("Fake Angles", CFG::AntiAim_FakeAngle);
 					if (CFG::AntiAim_FakeAngle) {
-						SliderFloat("Fake Pitch", CFG::AntiAim_Fake_Pitch, -89.0f, 89.0f, 0.5f, "%.1f"); // you know i would go -90.0f, 90.0f but some cheats (jengaware, ateris, amalgam) have invalid angle detection and we DONT want to be detected so...
+						SliderFloat("Fake Pitch", CFG::AntiAim_Fake_Pitch, -89.0f, 89.0f, 0.5f, "%.1f"); // you know i would go -90.0f, 90.0f but some cheats (jengaware, ateris, amalgam) have invalid angle detection and we DONT want to be detected so... 
 						SliderFloat("Fake Yaw", CFG::AntiAim_Fake_Yaw, -180.0f, 180.0f, 0.5f, "%.1f");
 					}
 
