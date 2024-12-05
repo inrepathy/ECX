@@ -536,6 +536,12 @@ namespace CFG
 	CFGVAR(Menu_Accent_Secondary, Color_t({ 0, 23,  103, 255 }));
 	CFGVAR(Menu_Background, Color_t({ 0, 0, 24, 255 }));
 
+	CFGVAR(Trail, false);
+	CFGVAR(OnlyTrailInTP, false);
+	//CFGVAR(TrailOnlyIfWarp, false);
+	//CFGVAR(TLifetime, 10);
+	CFGVAR(TrailColor, Color_t({ 43, 203, 186, 255 }));
+
 	CFGVAR(Menu_Snow, false);
 
 

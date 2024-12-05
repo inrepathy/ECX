@@ -2105,6 +2105,13 @@ void CMenu::MainWindow()
 				SliderFloat("FOV Circle Alpha", CFG::Visuals_Aimbot_FOV_Circle_Alpha, 0.01f, 1.0f, 0.01f, "%.2f");
 				CheckBox("Draw Projectile Arc", CFG::Visuals_Draw_Projectile_Arc);
 				ColorPicker("Projectile Arc", CFG::Color_Projectile_Arc);
+				CheckBox("Trail", CFG::Trail);
+				if (CFG::Trail) {
+					CheckBox("Only Trail in Thirdperson", CFG::OnlyTrailInTP);
+					//CheckBox("Only Trail if Warp", CFG::TrailOnlyIfWarp);
+					ColorPicker("Trail Color", CFG::TrailColor);
+					//SliderFloat("Trail Lifetime", CFG::TLifetime, 10.0f, 100.0f, 10.0f, "%.0f");
+				}
 				CheckBox("Reveal Scoreboard", CFG::Visuals_Reveal_Scoreboard);
 				CheckBox("Clean Screenshot", CFG::Misc_Clean_Screenshot);
 				SliderFloat("FOV Override", CFG::Visuals_FOV_Override, 70.0f, 170.0f, 1.0f, "%.0f");

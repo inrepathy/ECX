@@ -109,6 +109,61 @@ void CMiscVisuals::AAVisualizer()
 		}
 }
 
+struct TrailPoint {
+	Vec3 position;
+	float time;    
+};
+
+void CMiscVisuals::TrailVisualizer() {
+	static std::deque<TrailPoint> trail;
+	constexpr float trailLifetime = 1.0f;
+	constexpr int maxTrailPoints = 50;
+
+	if (CFG::OnlyTrailInTP) {
+		if (!CFG::Visuals_Thirdperson_Active) // 12/4/2024: reality gave me this idea to do it only in thirdperson
+			return;
+	}
+
+	/*if (CFG::TrailOnlyIfWarp) {
+		if (!I::ClientState->chokedcommands > 1)
+			return;
+	}*/
+
+	if (CFG::Misc_Clean_Screenshot && I::EngineClient->IsTakingScreenshot())
+		return;
+
+	if (I::EngineVGui->IsGameUIVisible() || SDKUtils::BInEndOfMatch())
+		return;
+
+	if (!CFG::Trail)
+		return;
+
+	const auto pLocal = H::Entities->GetLocal();
+	if (!pLocal || pLocal->deadflag())
+		return;
+
+	const auto origin = pLocal->GetAbsOrigin();
+
+	trail.emplace_back(TrailPoint{ origin, I::GlobalVars->curtime });
+
+	while (!trail.empty() && (I::GlobalVars->curtime - trail.front().time > trailLifetime)) {
+		trail.pop_front();
+	}
+
+	if (trail.size() > maxTrailPoints)
+		trail.pop_front();
+
+	for (size_t i = 1; i < trail.size(); ++i) {
+		Vec3 screen1, screen2;
+		if (H::Draw->W2S(trail[i - 1].position, screen1) && H::Draw->W2S(trail[i].position, screen2)) {
+			Color_t trailColor = CFG::TrailColor;
+			H::Draw->Line(screen1.x, screen1.y, screen2.x, screen2.y, trailColor);
+		}
+	}
+}
+
+
+
 void CMiscVisuals::ShiftBar()
 {
 	if (!CFG::Exploits_Shifting_Draw_Indicator)

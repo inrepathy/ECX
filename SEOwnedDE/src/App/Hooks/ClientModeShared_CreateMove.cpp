@@ -77,6 +77,15 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 		}
 	}
 
+	/* {
+		static bool bWasSet = false;
+		const bool bOverchoking = I::ClientState->chokedcommands >= 21 || G::ShiftedTicks + I::ClientState->chokedcommands == G::MaxShift; // failsafe
+		if (G::bPSilentAngles && !bOverchoking)
+			*pSendPacket = false, bWasSet = true;
+		else if (bWasSet || bOverchoking)
+			*pSendPacket = true, bWasSet = false;
+	}*/
+
 	//nTicksSinceCanFire
 	{
 		static bool bOldCanFire = G::bCanPrimaryAttack;

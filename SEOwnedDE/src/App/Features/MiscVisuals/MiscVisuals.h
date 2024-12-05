@@ -14,6 +14,8 @@ public:
 	void ProjectileArc();
 	void AAVisualizer();
 
+	void TrailVisualizer();
+
 	void CustomFOV(CViewSetup* pSetup);
 	void Thirdperson(CViewSetup* pSetup);
 };
