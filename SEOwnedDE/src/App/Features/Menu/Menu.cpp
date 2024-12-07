@@ -2426,13 +2426,10 @@ void CMenu::MainWindow()
 			}
 
 
-<<<<<<< HEAD
 			CheckBox("Fake Latency", CFG::FakeLatency);
 			SliderInt("Latency Time", CFG::FakeLatencyTime, 0, 800, 10);
 
 
-=======
->>>>>>> parent of eacaef0 (w)
 			if (Button("Connect NA SourceHVH"))
 			{
 				I::EngineClient->ClientCmd_Unrestricted("connect usa.sourcehvh.net:27015");

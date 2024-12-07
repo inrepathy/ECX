@@ -18,14 +18,9 @@ const std::vector<std::pair<std::string, std::string>> patterns
 
 const std::vector<std::string> suffixes
 {
-<<<<<<< HEAD
     " UwU", " OwO", " owo", " uwu", " nwn", " :3", " >w<", " ^w^", " <3", " uvu", " TvT", " rwar", " :P", " x3",
     " ^_^", " :3c", " -w-", " :D", " :)", " <.<", " >.>", " -.-", " o.o", " :o", " :T", " :|"
 }; 
-=======
-    " UwU", " OwO", " owo", " uwu", " nwn", " :3", " >w<", " ^w^", " <3", " uvu", " TvT", " rwar", " :P", " x3"
-};
->>>>>>> parent of eacaef0 (w)
 
 std::string owoify(std::string text)
 {

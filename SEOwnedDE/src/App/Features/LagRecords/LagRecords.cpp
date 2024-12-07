@@ -165,7 +165,6 @@ bool CLagRecords::DiffersFromCurrent(const LagRecord_t* pRecord)
 	return false;
 }
 
-<<<<<<< HEAD
 float CLagRecordMatrixHelper::GetLerp()
 {
 	if (!CFG::FakeLatency)
@@ -266,8 +265,6 @@ void CLagRecordMatrixHelper::RestorePing(CNetChannel* pNetChan)
 	pNetChan->m_nInSequenceNr = m_nOldInSequenceNr, pNetChan->m_nInReliableState = m_nOldInReliableState;
 }
 
-=======
->>>>>>> parent of eacaef0 (w)
 void CLagRecordMatrixHelper::Set(const LagRecord_t* pRecord)
 {
 	if (!pRecord)
@@ -316,7 +313,6 @@ void CLagRecordMatrixHelper::Restore()
 	std::memset(m_BoneMatrix, 0, sizeof(matrix3x4_t) * 128);
 	m_bSuccessfullyStored = false;
 }
-<<<<<<< HEAD
 
 Timer::Timer() {
 }
@@ -340,5 +336,3 @@ void CLagRecordMatrixHelper::Run(CUserCmd* pCmd)
 {
 	CLagRecordMatrixHelper::SendLerp();
 }
-=======
->>>>>>> parent of eacaef0 (w)
