@@ -35,7 +35,6 @@ public:
 
 MAKE_SINGLETON_SCOPED(CLagRecords, LagRecords, F);
 
-<<<<<<< HEAD
 class CIncomingSequence
 {
 public:
@@ -63,8 +62,6 @@ public:
 	inline void Update();
 };
 
-=======
->>>>>>> parent of eacaef0 (w)
 class CLagRecordMatrixHelper
 {
 	C_TFPlayer* m_pPlayer = nullptr;
@@ -77,14 +74,11 @@ class CLagRecordMatrixHelper
 public:
 	void Set(const LagRecord_t* pRecord);
 	void Restore();
-<<<<<<< HEAD
 	float GetLerp();
 	void Run(CUserCmd* pCmd);
 	void SendLerp();
 	void AdjustPing(CNetChannel* pNetChan);
 	void RestorePing(CNetChannel* pNetChan);
-=======
->>>>>>> parent of eacaef0 (w)
 };
 
 MAKE_SINGLETON_SCOPED(CLagRecordMatrixHelper, LagRecordMatrixHelper, F);
