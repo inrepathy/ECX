@@ -281,7 +281,10 @@ namespace G
 	inline bool bPSilentAngles = false;
 	inline int nTargetIndex = -1;
 	inline int ShiftedTicks = 0;
+<<<<<<< HEAD
 	inline float Lerp = 0.015f;
+=======
+>>>>>>> parent of eacaef0 (w)
 	inline int MaxShift = 24;
 	inline int CurItemDefIndex = 0;
 	inline bool FakeMatrixBuilt = false;
