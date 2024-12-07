@@ -43,7 +43,7 @@ void CResolver::OnShot(CUserCmd* cmd, C_TFPlayer* player, int iIndex, const Vec3
     }
     
 
- //   mResolverData[pPlayer].pLastFirevAngles = { { I::GlobalVars->tickcount, true }, vAngStore };
+   mResolverData[player].pLastFireAngles = { { I::GlobalVars->tickcount, true }, vAngStore };
     SetAngles(vAngAdjusted, player);
 
     /*if (SetvAngles(vAngAdjusted, player))
