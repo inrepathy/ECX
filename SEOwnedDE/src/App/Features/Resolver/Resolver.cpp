@@ -12,7 +12,7 @@
 #include "../src/SDK/SDK.h"
 
 
-void CResolver::OnShot(CUserCmd* cmd, C_TFPlayer* player, int iIndex, const Vec3 vvAngles) {
+void CResolver::OnShot(CUserCmd* cmd, C_TFPlayer* player, int iIndex, const Vec3 vAngles) {
    
     
     if (!CFG::Resolver && player)
@@ -23,12 +23,12 @@ void CResolver::OnShot(CUserCmd* cmd, C_TFPlayer* player, int iIndex, const Vec3
     if (!pEntity)
         return;
 
-    Vec3 vAngAdjusted = vvAngles;
-    Vec3 vAngStore = vvAngles;
+    Vec3 vAngAdjusted = vAngles;
+    Vec3 vAngStore = vAngles;
 
-    if (!IsOnShotPitchReliable(vvAngles.x))
+    if (!IsOnShotPitchReliable(vAngles.x))
     {
-        float flAdjustedPitch = vvAngles.x;
+        float flAdjustedPitch = vAngles.x;
 
         vAngStore.x += 360.f;
         vAngStore.x *= -1;
@@ -57,14 +57,14 @@ void CResolver::OnShot(CUserCmd* cmd, C_TFPlayer* player, int iIndex, const Vec3
 
 }
 
-void CResolver::SetAngles(const Vec3 vvAngles, C_TFPlayer* pEntity)
+void CResolver::SetAngles(const Vec3 vAngles, C_TFPlayer* pEntity)
 {
     if (auto pAnimState = pEntity->GetAnimState())
     {
-        pEntity->m_angEyeAnglesX() = vvAngles.x;
-        pAnimState->m_flCurrentFeetYaw = vvAngles.y;
-        pAnimState->m_flGoalFeetYaw = vvAngles.y;
-        pAnimState->Update(vvAngles.y, vvAngles.x);
+        pEntity->m_angEyeAnglesX() = vAngles.x;
+        pAnimState->m_flCurrentFeetYaw = vAngles.y;
+        pAnimState->m_flGoalFeetYaw = vAngles.y;
+        pAnimState->Update(vAngles.y, vAngles.x);
     }
 }
 
