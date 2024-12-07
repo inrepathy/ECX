@@ -544,8 +544,11 @@ namespace CFG
 
 	CFGVAR(Menu_Snow, false);
 
+<<<<<<< HEAD
 	CFGVAR(FakeLatency, false);
 	CFGVAR(FakeLatencyTime, 0);
+=======
+>>>>>>> parent of eacaef0 (w)
 
 	CFGVAR(FakeDuck, false);
 	CFGVAR(FakeDuck_Key, 0);

@@ -10,7 +10,10 @@
 #include "../Features/Aimbot/AimbotProjectile/AimbotProjectile.h"
 #include "../Features/Misc/Misc.h"
 #include "../Features/RapidFire/RapidFire.h"
+<<<<<<< HEAD
 #include "../Features/LagRecords/LagRecords.h"
+=======
+>>>>>>> parent of eacaef0 (w)
 #include "../Features/Triggerbot/Triggerbot.h"
 #include "../Features/Triggerbot/AutoVaccinator/AutoVaccinator.h"
 #include "../Features/SeedPred/SeedPred.h"
@@ -161,8 +164,11 @@ MAKE_HOOK(ClientModeShared_CreateMove, Memory::GetVFunc(I::ClientModeShared, 21)
 
 	F::AntiAim->Main(pCmd, pSendPacket);
 
+<<<<<<< HEAD
 	F::LagRecordMatrixHelper->Run(pCmd);
 
+=======
+>>>>>>> parent of eacaef0 (w)
 	F::Crits->Run(pCmd);
 
 	//nTicksTargetSame

@@ -382,7 +382,10 @@
     <ClCompile Include="src\App\Hooks\CL_Move.cpp" />
     <ClCompile Include="src\App\Hooks\CMaterial_Uncache.cpp" />
     <ClCompile Include="src\App\Hooks\CMultiPlayerAnimState_ResetGestureSlot.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="src\App\Hooks\CNetChannel_SendDatagram.cpp" />
+=======
+>>>>>>> parent of eacaef0 (w)
     <ClCompile Include="src\App\Hooks\CParticleSystemMgr_DrawRenderCache.cpp" />
     <ClCompile Include="src\App\Hooks\CPrediction_RunCommand.cpp" />
     <ClCompile Include="src\App\Hooks\CRendering3dView_EnableWorldFog.cpp" />

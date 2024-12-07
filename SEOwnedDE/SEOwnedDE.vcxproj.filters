@@ -129,7 +129,10 @@
     <ClCompile Include="src\App\Features\Fakelag\Fakelag.cpp" />
     <ClCompile Include="src\App\Features\BindsList\BindsList.cpp" />
     <ClCompile Include="src\App\Features\AnimFix\AnimFix.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="src\App\Hooks\CNetChannel_SendDatagram.cpp" />
+=======
+>>>>>>> parent of eacaef0 (w)
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App\Features\Aimbot\AimbotHitscan\AimbotHitscan.h" />

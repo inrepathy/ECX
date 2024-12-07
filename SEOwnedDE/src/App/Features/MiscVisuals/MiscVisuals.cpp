@@ -140,7 +140,11 @@ void CMiscVisuals::TrailVisualizer() {
 	}
 
 	/*if (CFG::TrailOnlyIfWarp) {
+<<<<<<< HEAD
 		if (!Shifting::bShiftingWarp)
+=======
+		if (!I::ClientState->chokedcommands > 1)
+>>>>>>> parent of eacaef0 (w)
 			return;
 	}*/
 
