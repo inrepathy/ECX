@@ -2204,6 +2204,9 @@ void CMenu::MainWindow()
 				});
 
 				SliderFloat("Particles Rainbow Rate", CFG::Visuals_Particles_Rainbow_Rate, 1.0f, 10.0f, 1.0f, "%.0f");
+
+				CheckBox("Custom Aspect Ratio", CFG::AspectRatio);
+				SliderFloat("Aspect Ratio Value", CFG::AspectRatioValue, 0.1f, 3.0f, 0.1f, "%.1f");
 			}
 			GroupBoxEnd();
 

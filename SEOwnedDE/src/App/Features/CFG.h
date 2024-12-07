@@ -557,6 +557,9 @@ namespace CFG
 	CFGVAR(RageRetry, false);
 	CFGVAR(RageRetryHealth, 20.0f);
 
+	CFGVAR(AspectRatio, false);
+	CFGVAR(AspectRatioValue, 20.0f);
+
 	CFGVAR(AntiAim_Distortion, false);
 	CFGVAR(AntiAim_DistortionAmount, 0);  // Amount of yaw distortion
 	CFGVAR(AntiAim_ForceTurn, false);           // Enable forced turn

@@ -9,6 +9,7 @@ public:
 	void ViewModelSway();
 	void DetailProps();
 	void ShiftBar();
+	void AspectRatio();
 
 	void SniperLines();
 	void ProjectileArc();

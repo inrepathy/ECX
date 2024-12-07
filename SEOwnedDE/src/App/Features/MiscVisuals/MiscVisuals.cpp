@@ -78,6 +78,13 @@ void CMiscVisuals::DetailProps()
 		r_drawdetailprops->SetValue(0);
 }
 
+void CMiscVisuals::AspectRatio() {
+	if (CFG::AspectRatio) {
+		static auto aspect = I::CVar->FindVar("r_aspectratio");
+
+		aspect->SetValue(CFG::AspectRatioValue);
+	}
+}
 void CMiscVisuals::AAVisualizer()
 {
 	if (!CFG::AntiAim_Visualizer)
