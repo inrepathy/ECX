@@ -27,6 +27,7 @@ void CApp::Start()
     gDraw().UpdateScreenSize();
     H::Fonts->Reload();
 
+
     if (I::EngineClient->IsInGame() && I::EngineClient->IsConnected())
     {
         H::Entities->UpdateModelIndexes();

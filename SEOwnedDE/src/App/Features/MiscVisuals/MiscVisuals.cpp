@@ -41,6 +41,14 @@ void CMiscVisuals::ViewModelSway()
 	if (!pLocal)
 		return;
 
+	if (CFG::RemoveBob) {
+		static auto cv_bobup = I::CVar->FindVar("cl_bobup");
+		static auto cv_bobcycle = I::CVar->FindVar("cl_bobcycle");
+
+		cv_bobup->SetValue(0.f);
+		cv_bobcycle->SetValue(65535.f);
+	}
+
 	if (CFG::Visuals_ViewModel_Active && CFG::Visuals_ViewModel_Sway && !pLocal->deadflag())
 	{
 		if (const auto pWeapon = H::Entities->GetWeapon())

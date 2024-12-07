@@ -588,6 +588,8 @@ namespace CFG
 
 	CFGVAR(Lagfix, false);
 
+	CFGVAR(RemoveBob, true);
+
 	CFGVAR(DetonateColor_true, false);
 	CFGVAR(DetonateColor, Color_t({ 0, 0, 24, 255 }));
 

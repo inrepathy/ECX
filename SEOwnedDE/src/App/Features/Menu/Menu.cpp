@@ -2234,6 +2234,7 @@ void CMenu::MainWindow()
 			GroupBoxStart("View Model", 150);
 			{
 				CheckBox("Active", CFG::Visuals_ViewModel_Active);
+				CheckBox("Remove Bob", CFG::RemoveBob);
 				CheckBox("Sway", CFG::Visuals_ViewModel_Sway);
 				SliderFloat("Sway Scale", CFG::Visuals_ViewModel_Sway_Scale, 0.1f, 1.0f, 0.1f, "%.1f");
 				SliderFloat("Offset Forward", CFG::Visuals_ViewModel_Offset_Forward, -50.00f, 50.0f, 1.0f, "%.0f");

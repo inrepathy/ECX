@@ -32,14 +32,10 @@ public:
     void MvmInstaRespawn();
 
 private:
-    // Variables for AutoPeek feature
-    std::vector<Vec3> savedPeekPositions;  // List to store multiple saved spots
-    bool bReturning = false;  // Flag to check if we're returning to a spot
-    int currentSpotIndex = -1;  // Index of the current spot to return to
-
-    // Define bFastAccel as a boolean variable, defaulting to false
+    std::vector<Vec3> savedPeekPositions;  
+    bool bReturning = false; 
+    int currentSpotIndex = -1;  
     bool bFastAccel = false;
 };
 
-// Singleton definition macro (assuming it's defined elsewhere)
 MAKE_SINGLETON_SCOPED(CMisc, Misc, F);
