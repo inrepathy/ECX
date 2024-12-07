@@ -48,7 +48,7 @@ void CAutoDetonate::Run(C_TFPlayer* pLocal, C_TFWeaponBase* pWeapon, CUserCmd* p
                 Vector point2(center.x + flRadius * cos(angle2), center.y + flRadius * sin(angle2), center.z);
 
 
-                // todo: do this with H::Draw->
+                // todo: do this with gDraw().
                 I::DebugOverlay->AddLineOverlay(point1, point2, CFG::DetonateColor.r, CFG::DetonateColor.g, CFG::DetonateColor.b, false, 0.1f);
             }
         }

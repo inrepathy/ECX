@@ -127,8 +127,8 @@ void COutlines::RunModels()
 	if (!CFG::Outlines_Active || I::EngineVGui->IsGameUIVisible() || F::SpyCamera->IsRendering())
 		return;
 
-	const int w = H::Draw->GetScreenW();
-	const int h = H::Draw->GetScreenH();
+	const int w = gDraw().GetScreenW();
+	const int h = gDraw().GetScreenH();
 
 	if (w < 1 || h < 1 || w > 4096 || h > 2160)
 		return;
@@ -398,8 +398,8 @@ void COutlines::Run()
 		return;
 	}
 
-	const int w = H::Draw->GetScreenW();
-	const int h = H::Draw->GetScreenH();
+	const int w = gDraw().GetScreenW();
+	const int h = gDraw().GetScreenH();
 
 	if (w < 1 || h < 1 || w > 4096 || h > 2160)
 		return;

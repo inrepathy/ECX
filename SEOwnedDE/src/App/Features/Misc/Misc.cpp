@@ -181,15 +181,6 @@ void CMisc::SequenceFreeze(CUserCmd* pCmd, bool* pSendPacket) {
 	}
 }
 
-
-
-
-
-
-
-
-
-
 void CMisc::LegJitter(CUserCmd* pCmd)
 {
 	if (!CFG::LegJitter)

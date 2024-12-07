@@ -133,10 +133,10 @@ void CMenu::GroupBoxStart(const char *szLabel, int nWidth)
 	int nWidthRemaining = w - (nTextW + (CFG::Menu_Spacing_X * 4));
 	int nSideWidth = nWidthRemaining / 2;
 
-	H::Draw->Line(x, y, x + nSideWidth, y, CFG::Menu_Accent_Primary);
-	H::Draw->Line(x + w, y, x + (w - nSideWidth), y, CFG::Menu_Accent_Primary);
+	gDraw().Line(x, y, x + nSideWidth, y, CFG::Menu_Accent_Primary);
+	gDraw().Line(x + w, y, x + (w - nSideWidth), y, CFG::Menu_Accent_Primary);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::VerdanaBold),
 		x + (w / 2), y - (CFG::Menu_Spacing_Y - 1), CFG::Menu_Text_Inactive, POS_CENTERXY, szLabel
 	);
@@ -152,9 +152,9 @@ void CMenu::GroupBoxEnd()
 
 	Color_t clr = CFG::Menu_Accent_Primary;
 
-	H::Draw->Line(m_nCursorX, m_nLastGroupBoxY, m_nCursorX, m_nCursorY, clr);
-	H::Draw->Line(m_nCursorX + m_nLastGroupBoxW, m_nLastGroupBoxY, m_nCursorX + m_nLastGroupBoxW, m_nCursorY, clr);
-	H::Draw->Line(m_nCursorX, m_nCursorY, m_nCursorX + m_nLastGroupBoxW, m_nCursorY, clr);
+	gDraw().Line(m_nCursorX, m_nLastGroupBoxY, m_nCursorX, m_nCursorY, clr);
+	gDraw().Line(m_nCursorX + m_nLastGroupBoxW, m_nLastGroupBoxY, m_nCursorX + m_nLastGroupBoxW, m_nCursorY, clr);
+	gDraw().Line(m_nCursorX, m_nCursorY, m_nCursorX + m_nLastGroupBoxW, m_nCursorY, clr);
 
 	m_nCursorY += CFG::Menu_Spacing_Y;
 }
@@ -183,14 +183,14 @@ bool CMenu::CheckBox(const char* szLabel, bool& bVar)
 
 	if (bVar) {
 		Color_t clr = CFG::Menu_Accent_Primary;
-		H::Draw->Rect(x, y, w, h, clr); 
+		gDraw().Rect(x, y, w, h, clr); 
 	}
 
-	H::Draw->OutlinedRect(
+	gDraw().OutlinedRect(
 		x, y, w, h, CFG::Menu_Accent_Primary
 	);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + w + CFG::Menu_Spacing_X,
 		y + (h / 2),
@@ -282,7 +282,7 @@ bool CMenu::SliderFloat(const char *szLabel, float &flVar, float flMin, float fl
 		0.0f, static_cast<float>(w)
 	));
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x, y,
 		(bHovered || m_mapStates[&flVar]) ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -293,12 +293,12 @@ bool CMenu::SliderFloat(const char *szLabel, float &flVar, float flMin, float fl
 	Color_t clr = CFG::Menu_Accent_Primary;
 	Color_t clr_dim = { clr.r, clr.g, clr.b, 25 };
 
-	H::Draw->Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
-	H::Draw->GradientRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr_dim, clr, false);
-	H::Draw->OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr);
-	H::Draw->Rect(x + (nFillWidth - 1), y + (nTextH + CFG::Menu_Spacing_Y) - 1, 2, h + 2, CFG::Menu_Text_Active);
+	gDraw().Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
+	gDraw().GradientRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr_dim, clr, false);
+	gDraw().OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr);
+	gDraw().Rect(x + (nFillWidth - 1), y + (nTextH + CFG::Menu_Spacing_Y) - 1, 2, h + 2, CFG::Menu_Text_Active);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + (w + CFG::Menu_Spacing_X),
 		y + (nTextH - 1),
@@ -388,7 +388,7 @@ bool CMenu::SliderInt(const char *szLabel, int &nVar, int nMin, int nMax, int nS
 		0.0f, static_cast<float>(w)
 	));
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x, y,
 		(bHovered || m_mapStates[&nVar]) ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -399,12 +399,12 @@ bool CMenu::SliderInt(const char *szLabel, int &nVar, int nMin, int nMax, int nS
 	Color_t clr = CFG::Menu_Accent_Primary;
 	Color_t clr_dim = { clr.r, clr.g, clr.b, 25 };
 
-	H::Draw->Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
-	H::Draw->GradientRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr_dim, clr, false);
-	H::Draw->OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr);
-	H::Draw->Rect(x + (nFillWidth - 1), y + (nTextH + CFG::Menu_Spacing_Y) - 1, 2, h + 2, CFG::Menu_Text_Active);
+	gDraw().Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
+	gDraw().GradientRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr_dim, clr, false);
+	gDraw().OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), nFillWidth, h, clr);
+	gDraw().Rect(x + (nFillWidth - 1), y + (nTextH + CFG::Menu_Spacing_Y) - 1, 2, h + 2, CFG::Menu_Text_Active);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + (w + CFG::Menu_Spacing_X),
 		y + (nTextH - 1),
@@ -522,13 +522,13 @@ bool CMenu::InputKey(const char *szLabel, int &nKeyOut)
 	Color_t clr = CFG::Menu_Accent_Primary;
 
 	if (bActive)
-		H::Draw->Rect(x, y, w, h, { clr.r, clr.g, clr.b, 25 });
+		gDraw().Rect(x, y, w, h, { clr.r, clr.g, clr.b, 25 });
 
-	H::Draw->OutlinedRect(x, y, w, h, clr);
+	gDraw().OutlinedRect(x, y, w, h, clr);
 
 	if (m_mapStates[&nKeyOut])
 	{
-		H::Draw->String(
+		gDraw().String(
 			H::Fonts->Get(EFonts::Menu),
 			x + (w / 2),
 			y + (h / 2),
@@ -539,7 +539,7 @@ bool CMenu::InputKey(const char *szLabel, int &nKeyOut)
 
 	else
 	{
-		H::Draw->String(
+		gDraw().String(
 			H::Fonts->Get(EFonts::Menu),
 			x + (w / 2),
 			y + (h / 2),
@@ -548,7 +548,7 @@ bool CMenu::InputKey(const char *szLabel, int &nKeyOut)
 			VK2STR(nKeyOut).c_str());
 	}
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + (w + CFG::Menu_Spacing_X),
 		y + (h / 2),
@@ -589,10 +589,10 @@ bool CMenu::Button(const char *szLabel, bool bActive, int nCustomWidth)
 	Color_t clr = CFG::Menu_Accent_Primary;
 	Color_t clr_dim = { clr.r, clr.g, clr.b, (bHovered || bActive) ? static_cast<byte>(50) : static_cast<byte>(0) };
 
-	H::Draw->Rect(x, y, w, h, clr_dim);
-	H::Draw->OutlinedRect(x, y, w, h, clr);
+	gDraw().Rect(x, y, w, h, clr_dim);
+	gDraw().OutlinedRect(x, y, w, h, clr);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + (w / 2), y + (h / 2) - 1,
 		(bHovered || bActive) ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -625,14 +625,14 @@ bool CMenu::playerListButton(const wchar_t *label, int nCustomWidth, Color_t clr
 	Color_t clrA = CFG::Menu_Accent_Primary;
 	Color_t clr_dim = { clrA.r, clrA.g, clrA.b, bHovered ? static_cast<byte>(50) : static_cast<byte>(0) };
 
-	H::Draw->Rect(x, y, w, h, clr_dim);
-	H::Draw->OutlinedRect(x, y, w, h, clrA);
+	gDraw().Rect(x, y, w, h, clr_dim);
+	gDraw().OutlinedRect(x, y, w, h, clrA);
 
-	H::Draw->StartClipping(x, y, w, h);
+	gDraw().StartClipping(x, y, w, h);
 
 	if (center_txt)
 	{
-		H::Draw->String
+		gDraw().String
 		(
 			H::Fonts->Get(EFonts::Menu),
 			x + (w / 2), y + (h / 2) - 1,
@@ -643,7 +643,7 @@ bool CMenu::playerListButton(const wchar_t *label, int nCustomWidth, Color_t clr
 
 	else
 	{
-		H::Draw->String
+		gDraw().String
 		(
 			H::Fonts->Get(EFonts::Menu),
 			x + CFG::Menu_Spacing_X, y + (h / 2) - 1,
@@ -652,7 +652,7 @@ bool CMenu::playerListButton(const wchar_t *label, int nCustomWidth, Color_t clr
 		);
 	}
 
-	H::Draw->EndClipping();
+	gDraw().EndClipping();
 
 	m_nCursorY += h + CFG::Menu_Spacing_Y;
 	m_nLastButtonW = w;
@@ -684,9 +684,9 @@ bool CMenu::InputText(const char *szLabel, const char *szLabel2, std::string &st
 
 	if (!m_mapStates[&strOutput])
 	{
-		H::Draw->Rect(x, y, w, h, clr_dim);
-		H::Draw->OutlinedRect(x, y, w, h, clr);
-		H::Draw->String(
+		gDraw().Rect(x, y, w, h, clr_dim);
+		gDraw().OutlinedRect(x, y, w, h, clr);
+		gDraw().String(
 			H::Fonts->Get(EFonts::Menu),
 			x + (w / 2), y + (h / 2) - 1,
 			bHovered ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -818,12 +818,12 @@ bool CMenu::SelectSingle(const char *szLabel, int &nVar, const std::vector<std::
 	Color_t bg{ CFG::Menu_Background };
 	Color_t clr_dim = { bg.r, bg.g, bg.b, 253 };
 
-	H::Draw->Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
+	gDraw().Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
 
 	if (!m_mapStates[&nVar])
-		H::Draw->OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr);
+		gDraw().OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + (w / 2), y + (h / 2) + (nTextH + CFG::Menu_Spacing_Y) - 1,
 		bActive ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -831,7 +831,7 @@ bool CMenu::SelectSingle(const char *szLabel, int &nVar, const std::vector<std::
 		pszCurSelected
 	);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x, y,
 		(bHovered || m_mapStates[&nVar]) ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -916,12 +916,12 @@ bool CMenu::SelectMulti(const char *szLabel, std::vector<std::pair<const char *,
 	Color_t bg{ CFG::Menu_Background };
 	Color_t clr_dim = { bg.r, bg.g, bg.b, 253 };
 
-	H::Draw->Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
+	gDraw().Rect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr_dim);
 
 	if (!m_mapStates[&vecSelects])
-		H::Draw->OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr);
+		gDraw().OutlinedRect(x, y + (nTextH + CFG::Menu_Spacing_Y), w, h, clr);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x, y,
 		(bHovered || m_mapStates[&vecSelects]) ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -945,7 +945,7 @@ bool CMenu::SelectMulti(const char *szLabel, std::vector<std::pair<const char *,
 	I::MatSystemSurface->DisableClipping(false);
 	I::MatSystemSurface->SetClippingRect(x, y + (nTextH + CFG::Menu_Spacing_Y), x + (w - CFG::Menu_Spacing_X), y + (nTextH + CFG::Menu_Spacing_Y) + h);
 
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + CFG::Menu_Spacing_X, y + (nTextH + CFG::Menu_Spacing_Y) + (h / 2) - 1,
 		bActive ? CFG::Menu_Text_Active : CFG::Menu_Text_Inactive,
@@ -1037,9 +1037,9 @@ bool CMenu::ColorPicker(const char *szLabel, Color_t &colVar)
 	if (H::Input->IsPressed(VK_ESCAPE) || H::Input->IsPressed(VK_INSERT) || H::Input->IsPressed(VK_F3))
 		m_mapStates[&colVar] = false;
 
-	H::Draw->Rect(x, y, w, h, colVar);
-	H::Draw->OutlinedRect(x, y, w, h, CFG::Menu_Accent_Primary);
-	H::Draw->String(
+	gDraw().Rect(x, y, w, h, colVar);
+	gDraw().OutlinedRect(x, y, w, h, CFG::Menu_Accent_Primary);
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		x + w + CFG::Menu_Spacing_X,
 		y + (h / 2),
@@ -1094,7 +1094,7 @@ void CMenu::MainWindow()
 		CFG::Menu_Height
 	);
 
-	H::Draw->Rect(
+	gDraw().Rect(
 		CFG::Menu_Pos_X,
 		CFG::Menu_Pos_Y,
 		CFG::Menu_Width,
@@ -1102,7 +1102,7 @@ void CMenu::MainWindow()
 		CFG::Menu_Background
 	);
 
-	H::Draw->OutlinedRect(
+	gDraw().OutlinedRect(
 		CFG::Menu_Pos_X,
 		CFG::Menu_Pos_Y,
 		CFG::Menu_Width,
@@ -1112,7 +1112,7 @@ void CMenu::MainWindow()
 
 	
 
-	H::Draw->Line(
+	gDraw().Line(
 		CFG::Menu_Pos_X,
 		CFG::Menu_Pos_Y + CFG::Menu_Drag_Bar_Height - 1,
 		CFG::Menu_Pos_X + CFG::Menu_Width - 1,
@@ -1141,7 +1141,7 @@ void CMenu::MainWindow()
 	if (Button("Configs", MainTab == EMainTabs::CONFIGS, CFG::Menu_Tab_Button_Width))
 		MainTab = EMainTabs::CONFIGS;
 
-	H::Draw->Line(
+	gDraw().Line(
 		CFG::Menu_Pos_X + m_nLastButtonW + (CFG::Menu_Spacing_X * 2) - 1,
 		CFG::Menu_Pos_Y + CFG::Menu_Drag_Bar_Height,
 		CFG::Menu_Pos_X + m_nLastButtonW + (CFG::Menu_Spacing_X * 2) - 1,
@@ -1175,7 +1175,7 @@ void CMenu::MainWindow()
 		if (Button("HvH", AimTab == EAimTabs::HVH))
 			AimTab = EAimTabs::HVH;
 
-		H::Draw->Line(
+		gDraw().Line(
 			anchor_x - CFG::Menu_Spacing_X,
 			m_nCursorY,
 			CFG::Menu_Pos_X + CFG::Menu_Width - 1,
@@ -1652,7 +1652,7 @@ void CMenu::MainWindow()
 			VisualsTab = EVisualsTabs::OTHER2;
 
 	
-		H::Draw->Line(
+		gDraw().Line(
 			anchor_x - CFG::Menu_Spacing_X,
 			m_nCursorY,
 			CFG::Menu_Pos_X + CFG::Menu_Width - 1,
@@ -2800,8 +2800,8 @@ void CMenu::Snow()
 	{
 		SnowFlake_t Out = {};
 
-		Out.m_flPosX = static_cast<float>(Utils::RandInt(-(H::Draw->GetScreenW() / 2), H::Draw->GetScreenW()));
-		Out.m_flPosY = static_cast<float>(Utils::RandInt(bFirstTime ? -(H::Draw->GetScreenH() * 2) : -100, -50));
+		Out.m_flPosX = static_cast<float>(Utils::RandInt(-(gDraw().GetScreenW() / 2), gDraw().GetScreenW()));
+		Out.m_flPosY = static_cast<float>(Utils::RandInt(bFirstTime ? -(gDraw().GetScreenH() * 2) : -100, -50));
 		Out.m_flFallSpeed = static_cast<float>(Utils::RandInt(100, 200));
 		Out.m_flDriftXSpeed = static_cast<float>(Utils::RandInt(10, 70));
 		Out.m_nAlpha = static_cast<byte>(Utils::RandInt(5, 255));
@@ -2820,7 +2820,7 @@ void CMenu::Snow()
 
 	for (auto &SnowFlake : vecSnowFlakes)
 	{
-		if (SnowFlake.m_flPosY > H::Draw->GetScreenH() + 50)
+		if (SnowFlake.m_flPosY > gDraw().GetScreenH() + 50)
 		{
 			SnowFlake = GenerateSnowFlake();
 
@@ -2832,7 +2832,7 @@ void CMenu::Snow()
 
 		int nSize = SnowFlake.m_nSize;
 
-		H::Draw->Rect(static_cast<int>(SnowFlake.m_flPosX), static_cast<int>(SnowFlake.m_flPosY), nSize, nSize, { 230, 230, 230, SnowFlake.m_nAlpha });
+		gDraw().Rect(static_cast<int>(SnowFlake.m_flPosX), static_cast<int>(SnowFlake.m_flPosY), nSize, nSize, { 230, 230, 230, SnowFlake.m_nAlpha });
 	}
 }
 
@@ -2843,30 +2843,30 @@ void CMenu::Indicators()
 	int x = 2;
 	int tall = H::Fonts->Get(EFonts::ESP_SMALL).m_nTall;
 	int numitems = (pLocal && GetTFPlayerResource()) ? 3 : 2;
-	int y = H::Draw->GetScreenH() - ((numitems * tall) + 2);
+	int y = gDraw().GetScreenH() - ((numitems * tall) + 2);
 	int offset = 0;
 	Color_t clr = { 200, 200, 200, 255 };
 
 	if (CFG::Indicators) {
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "fps %d", static_cast<int>(1.0f / I::GlobalVars->absoluteframetime));
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "fps %d", static_cast<int>(1.0f / I::GlobalVars->absoluteframetime));
 
 		if (auto pPR = GetTFPlayerResource())
 		{
 			if (pLocal)
 			{
-				H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "ping %d", pPR->GetPing(pLocal->entindex()));
+				gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "ping %d", pPR->GetPing(pLocal->entindex()));
 			}
 		}
 
 
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, y + (offset++ * tall), clr, POS_DEFAULT, "build %hs", __DATE__);
 	}
 
 
 	if (CFG::Watermark) {
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75, clr, POS_DEFAULT, "ECX release build");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75, clr, POS_DEFAULT, "ECX release build");
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15, clr, POS_DEFAULT, "for public and private use");
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 75 + 15 + 15, clr, POS_DEFAULT, "insert or f11 to open hack client");
 	}
 
 	/*if (CFG::Watermark) {
@@ -2877,36 +2877,36 @@ void CMenu::Indicators()
 		Color_t colVar = CFG::Menu_Background;
 
 
-		H::Draw->Rect(rectX, rectY, rectWidth, rectHeight, colVar);
+		gDraw().Rect(rectX, rectY, rectWidth, rectHeight, colVar);
 
-		H::Draw->OutlinedRect(rectX, rectY, rectWidth, rectHeight, CFG::Menu_Accent_Primary);
+		gDraw().OutlinedRect(rectX, rectY, rectWidth, rectHeight, CFG::Menu_Accent_Primary);
 
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5, clr, POS_DEFAULT, "ECX release build");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5 + 15, clr, POS_DEFAULT, "for public and private use");
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5 + 30, clr, POS_DEFAULT, "insert or f11 to open hack client");
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5, clr, POS_DEFAULT, "ECX release build");
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5 + 15, clr, POS_DEFAULT, "for public and private use");
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), rectX + 5, rectY + 5 + 30, clr, POS_DEFAULT, "insert or f11 to open hack client");
 	}*/
 
 	if (CFG::Debug) {
 		float randomValue = SDKUtils::RandomFloat(0.0f, 100.0f);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115, clr, POS_DEFAULT, "RandomFloat: %.2f", randomValue);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15, clr, POS_DEFAULT, "m_ChokedCommands: %d", I::ClientState->chokedcommands);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15, clr, POS_DEFAULT, "m_LastOutgoingCommand: %d", I::ClientState->lastoutgoingcommand);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15, clr, POS_DEFAULT, "m_Socket: %d", I::ClientState->m_Socket);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_NetChannel: %p", I::ClientState->m_NetChannel);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_flNextCmdTime: %.2f", I::ClientState->m_flNextCmdTime);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115, clr, POS_DEFAULT, "RandomFloat: %.2f", randomValue);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15, clr, POS_DEFAULT, "m_ChokedCommands: %d", I::ClientState->chokedcommands);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15, clr, POS_DEFAULT, "m_LastOutgoingCommand: %d", I::ClientState->lastoutgoingcommand);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15, clr, POS_DEFAULT, "m_Socket: %d", I::ClientState->m_Socket);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_NetChannel: %p", I::ClientState->m_NetChannel);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_flNextCmdTime: %.2f", I::ClientState->m_flNextCmdTime);
 		char tickText[32];
 		snprintf(tickText, sizeof(tickText), "%d", Shifting::nAvailableTicks);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_AvailableTicks: %s", tickText);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_AvailableTicks: %s", tickText);
 		if (auto pPR = GetTFPlayerResource()) {
 			int currentPing = pPR->GetPing(pLocal->entindex());
-			H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_Ping: %d ms", currentPing);
+			gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_Ping: %d ms", currentPing);
 		}
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nDeltaTick: %d", I::ClientState->m_nDeltaTick);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nServerCount: %d", I::ClientState->m_nServerCount);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nChallengeNr: %d", I::ClientState->m_nChallengeNr);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nSignonState: %d", I::ClientState->m_nSignonState);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nDeltaTick: %d", I::ClientState->m_nDeltaTick);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nServerCount: %d", I::ClientState->m_nServerCount);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nChallengeNr: %d", I::ClientState->m_nChallengeNr);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "m_nSignonState: %d", I::ClientState->m_nSignonState);
 		/*int* randomseed = SDKUtils::RandomSeed();
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "randomseed: %d", randomseed);*/
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, 115 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15 + 15, clr, POS_DEFAULT, "randomseed: %d", randomseed);*/
 	}
 }
 
@@ -3002,7 +3002,7 @@ void CMenu::Run()
 					}
 				}
 
-				H::Draw->StartClipping(CFG::Menu_Pos_X, 0, CFG::Menu_Width, H::Draw->GetScreenH());
+				gDraw().StartClipping(CFG::Menu_Pos_X, 0, CFG::Menu_Width, gDraw().GetScreenH());
 
 				int offset{ 0 };
 
@@ -3012,7 +3012,7 @@ void CMenu::Run()
 				}
 
 				//run test
-				H::Draw->Texture
+				gDraw().Texture
 				(
 					CFG::Menu_Pos_X + static_cast<int>(progress),
 					CFG::Menu_Pos_Y - (13 + offset),
@@ -3022,7 +3022,7 @@ void CMenu::Run()
 					POS_DEFAULT
 				);
 
-				H::Draw->EndClipping();
+				gDraw().EndClipping();
 			}
 		}
 
@@ -3046,7 +3046,7 @@ void CMenu::Run()
 					}
 				}
 
-				H::Draw->Texture(CFG::Menu_Pos_X + 5, CFG::Menu_Pos_Y - 12, 12, 12, F::VisualUtils->GetCat(nFrame), POS_DEFAULT);
+				gDraw().Texture(CFG::Menu_Pos_X + 5, CFG::Menu_Pos_Y - 12, 12, 12, F::VisualUtils->GetCat(nFrame), POS_DEFAULT);
 			}
 
 			//idle right
@@ -3067,7 +3067,7 @@ void CMenu::Run()
 					}
 				}
 
-				H::Draw->Texture(CFG::Menu_Pos_X + 5 + 40, CFG::Menu_Pos_Y - 12, 12, 12, F::VisualUtils->GetCat2(nFrame), POS_DEFAULT);
+				gDraw().Texture(CFG::Menu_Pos_X + 5 + 40, CFG::Menu_Pos_Y - 12, 12, 12, F::VisualUtils->GetCat2(nFrame), POS_DEFAULT);
 			}
 
 			//sleep
@@ -3088,7 +3088,7 @@ void CMenu::Run()
 					}
 				}
 
-				H::Draw->Texture(CFG::Menu_Pos_X + 5 + 20, CFG::Menu_Pos_Y - 8, 12, 8, F::VisualUtils->GetCatSleep(nFrame), POS_DEFAULT);
+				gDraw().Texture(CFG::Menu_Pos_X + 5 + 20, CFG::Menu_Pos_Y - 8, 12, 8, F::VisualUtils->GetCatSleep(nFrame), POS_DEFAULT);
 			}
 		}
 

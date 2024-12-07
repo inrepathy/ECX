@@ -66,7 +66,7 @@ void CBindsList::Run()
     const auto bgColor = F::VisualUtils->GetAlphaColor(CFG::Menu_Background, CFG::BindsList_Background_Alpha);
 
 
-    H::Draw->Rect(
+    gDraw().Rect(
         CFG::BindsList_Pos_X,
         CFG::BindsList_Pos_Y,
         CFG::BindsList_Width, 
@@ -75,7 +75,7 @@ void CBindsList::Run()
     );
 
 
-    H::Draw->String(
+    gDraw().String(
         H::Fonts->Get(EFonts::Menu),
         CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
         CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height / 2),
@@ -85,7 +85,7 @@ void CBindsList::Run()
     );
 
 
-    H::Draw->OutlinedRect(
+    gDraw().OutlinedRect(
         CFG::BindsList_Pos_X,
         CFG::BindsList_Pos_Y,
         CFG::BindsList_Width, 
@@ -98,7 +98,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Aimbot_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -107,7 +107,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -117,7 +117,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -133,7 +133,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Triggerbot_Key)) 
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -141,7 +141,7 @@ void CBindsList::Run()
             bgColor
         );
 
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -150,7 +150,7 @@ void CBindsList::Run()
             "Triggerbot"
         );
 
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -165,7 +165,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key) || H::Input->IsDown(CFG::Exploits_Crits_Force_Crit_Key_Melee)) 
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -174,7 +174,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -184,7 +184,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -199,7 +199,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Visuals_Thirdperson_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -208,7 +208,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -218,7 +218,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -233,7 +233,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::SequenceFreezeKey))
     {
 
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -242,7 +242,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -252,7 +252,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -268,7 +268,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Visuals_Paint_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -277,7 +277,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -287,7 +287,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -302,7 +302,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Visuals_Paint_Erase_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -311,7 +311,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -321,7 +321,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -336,7 +336,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_Taunt_Spin_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -345,7 +345,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -355,7 +355,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -372,7 +372,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_Edge_Jump_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -381,7 +381,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -391,7 +391,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -406,7 +406,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_MVM_Instant_Respawn_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -415,7 +415,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -425,7 +425,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -440,7 +440,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::FakeDuck_Key))
     {
 
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -449,7 +449,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -459,7 +459,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -474,7 +474,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_Auto_Medigun_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -483,7 +483,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -493,7 +493,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -508,7 +508,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::AutoPeek_Key))
     {
 
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -517,7 +517,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -527,7 +527,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -542,7 +542,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_Movement_Lock_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -551,7 +551,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -561,7 +561,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -576,7 +576,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_Auto_Rocket_Jump_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -585,7 +585,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -595,7 +595,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -611,7 +611,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::CircleStraferKey))
     {
 
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -620,7 +620,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -630,7 +630,7 @@ void CBindsList::Run()
         );
 
 
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -645,7 +645,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Misc_Auto_Air_Pogo_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -654,7 +654,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -664,7 +664,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -679,7 +679,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Exploits_RapidFire_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -688,7 +688,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -698,7 +698,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -713,7 +713,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Exploits_Shifting_Recharge_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -722,7 +722,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -732,7 +732,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,
@@ -747,7 +747,7 @@ void CBindsList::Run()
     if (H::Input->IsDown(CFG::Exploits_Warp_Key))
     {
        
-        H::Draw->Rect(
+        gDraw().Rect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width, 
@@ -756,7 +756,7 @@ void CBindsList::Run()
         );
 
   
-        H::Draw->String(
+        gDraw().String(
             H::Fonts->Get(EFonts::Menu),
             CFG::BindsList_Pos_X + (CFG::BindsList_Width / 2),  
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) + (CFG::Menu_Drag_Bar_Height / 2),
@@ -766,7 +766,7 @@ void CBindsList::Run()
         );
 
        
-        H::Draw->OutlinedRect(
+        gDraw().OutlinedRect(
             CFG::BindsList_Pos_X,
             CFG::BindsList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos),
             CFG::BindsList_Width,

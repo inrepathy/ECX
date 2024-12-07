@@ -220,12 +220,12 @@ bool CVisualUtils::IsOnScreen(const C_TFPlayer* pLocal, const C_BaseEntity* pEnt
 	{
 		Vec3 vScreen = {};
 
-		if (H::Draw->W2S(vPos, vScreen))
+		if (gDraw().W2S(vPos, vScreen))
 		{
 			if (vScreen.x < -400
-				|| vScreen.x > H::Draw->GetScreenW() + 400
+				|| vScreen.x > gDraw().GetScreenW() + 400
 				|| vScreen.y < -400
-				|| vScreen.y > H::Draw->GetScreenH() + 400)
+				|| vScreen.y > gDraw().GetScreenH() + 400)
 				return false;
 		}
 
@@ -245,12 +245,12 @@ bool CVisualUtils::IsOnScreenNoEntity(const C_TFPlayer* pLocal, const Vec3& vAbs
 	{
 		Vec3 vScreen = {};
 
-		if (H::Draw->W2S(vPos, vScreen))
+		if (gDraw().W2S(vPos, vScreen))
 		{
 			if (vScreen.x < -400
-				|| vScreen.x > H::Draw->GetScreenW() + 400
+				|| vScreen.x > gDraw().GetScreenW() + 400
 				|| vScreen.y < -400
-				|| vScreen.y > H::Draw->GetScreenH() + 400)
+				|| vScreen.y > gDraw().GetScreenH() + 400)
 				return false;
 		}
 		else

@@ -19,7 +19,7 @@ MAKE_HOOK(IEngineVGuiInternal_Paint, Memory::GetVFunc(I::EngineVGui, 14), void, 
 
 	if (mode & PAINT_UIPANELS)
 	{
-		H::Draw->UpdateW2SMatrix();
+		gDraw().UpdateW2SMatrix();
 
 		I::MatSystemSurface->StartDrawing();
 		{

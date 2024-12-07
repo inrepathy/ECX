@@ -23,8 +23,8 @@ void CMiscVisuals::AimbotFOVCircle()
 	{
 		if (const auto flAimFOV = G::flAimbotFOV)
 		{
-			const float flRadius = tanf(DEG2RAD(flAimFOV) / 2.0f) / tanf(DEG2RAD(static_cast<float>(pLocal->m_iFOV())) / 2.0f) * H::Draw->GetScreenW();
-			H::Draw->OutlinedCircle(H::Draw->GetScreenW() / 2, H::Draw->GetScreenH() / 2, static_cast<int>(flRadius), 70, {255, 255, 255, static_cast<byte>(255.0f * CFG::Visuals_Aimbot_FOV_Circle_Alpha)});
+			const float flRadius = tanf(DEG2RAD(flAimFOV) / 2.0f) / tanf(DEG2RAD(static_cast<float>(pLocal->m_iFOV())) / 2.0f) * gDraw().GetScreenW();
+			gDraw().OutlinedCircle(gDraw().GetScreenW() / 2, gDraw().GetScreenH() / 2, static_cast<int>(flRadius), 70, {255, 255, 255, static_cast<byte>(255.0f * CFG::Visuals_Aimbot_FOV_Circle_Alpha)});
 		}
 	}
 }
@@ -97,14 +97,14 @@ void CMiscVisuals::AAVisualizer()
 
 		// this doesn't accommodate for view angles nor AntiAim_Distortion.. but i guess its better than nothing
 		Vec3 screen1, screen2;
-		if (H::Draw->W2S(origin, screen1))
+		if (gDraw().W2S(origin, screen1))
 		{
-			if (H::Draw->W2S(Math::GetRotatedPosition(origin, CFG::AntiAim_Yaw, distance), screen2))
-				H::Draw->Line(screen1.x, screen1.y, screen2.x, screen2.y, real_color);
+			if (gDraw().W2S(Math::GetRotatedPosition(origin, CFG::AntiAim_Yaw, distance), screen2))
+				gDraw().Line(screen1.x, screen1.y, screen2.x, screen2.y, real_color);
 
 			if (CFG::AntiAim_FakeAngle) {
-				if (H::Draw->W2S(Math::GetRotatedPosition(origin, CFG::AntiAim_Fake_Yaw, distance), screen2))
-					H::Draw->Line(screen1.x, screen1.y, screen2.x, screen2.y, fake_color);
+				if (gDraw().W2S(Math::GetRotatedPosition(origin, CFG::AntiAim_Fake_Yaw, distance), screen2))
+					gDraw().Line(screen1.x, screen1.y, screen2.x, screen2.y, fake_color);
 			}
 		}
 }
@@ -155,9 +155,9 @@ void CMiscVisuals::TrailVisualizer() {
 
 	for (size_t i = 1; i < trail.size(); ++i) {
 		Vec3 screen1, screen2;
-		if (H::Draw->W2S(trail[i - 1].position, screen1) && H::Draw->W2S(trail[i].position, screen2)) {
+		if (gDraw().W2S(trail[i - 1].position, screen1) && gDraw().W2S(trail[i].position, screen2)) {
 			Color_t trailColor = CFG::TrailColor;
-			H::Draw->Line(screen1.x, screen1.y, screen2.x, screen2.y, trailColor);
+			gDraw().Line(screen1.x, screen1.y, screen2.x, screen2.y, trailColor);
 		}
 	}
 }
@@ -188,15 +188,15 @@ void CMiscVisuals::ShiftBar()
 	static int nBarW = 80;
 	static int nBarH = 4;
 
-	const int nBarX = (H::Draw->GetScreenW() / 2) - (nBarW / 2);
-	const int nBarY = (H::Draw->GetScreenH() / 2) + 100;
-	const int circleX = H::Draw->GetScreenW() / 2;
+	const int nBarX = (gDraw().GetScreenW() / 2) - (nBarW / 2);
+	const int nBarY = (gDraw().GetScreenH() / 2) + 100;
+	const int circleX = gDraw().GetScreenW() / 2;
 
 	const int textY = nBarY - 12;
 
 	if (CFG::Exploits_Shifting_Indicator_Style == 0)
 	{
-		H::Draw->Rect(nBarX - 1, nBarY - 1, nBarW + 2, nBarH + 2, CFG::Menu_Background);
+		gDraw().Rect(nBarX - 1, nBarY - 1, nBarW + 2, nBarH + 2, CFG::Menu_Background);
 
 		if (Shifting::nAvailableTicks > 0)
 		{
@@ -209,12 +209,12 @@ void CMiscVisuals::ShiftBar()
 				0.0f, static_cast<float>(nBarW)
 			));
 
-			H::Draw->GradientRect(nBarX, nBarY, nFillWidth, nBarH, colorDim, color, false);
-			H::Draw->OutlinedRect(nBarX, nBarY, nFillWidth, nBarH, color);
+			gDraw().GradientRect(nBarX, nBarY, nFillWidth, nBarH, colorDim, color, false);
+			gDraw().OutlinedRect(nBarX, nBarY, nFillWidth, nBarH, color);
 
 			char tickText[32];
 			snprintf(tickText, sizeof(tickText), "%d", Shifting::nAvailableTicks);
-			H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, color, 0, tickText);
+			gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, color, 0, tickText);
 		}
 	}
 
@@ -222,19 +222,19 @@ void CMiscVisuals::ShiftBar()
 	{
 		const float end{ Math::RemapValClamped(static_cast<float>(Shifting::nAvailableTicks), 0.0f, MAX_COMMANDS, -90.0f, 359.0f) };
 
-		H::Draw->Arc(circleX, nBarY, 21, 6.0f, -90.0f, 359.0f, CFG::Menu_Background);
-		H::Draw->Arc(circleX, nBarY, 20, 4.0f, -90.0f, end, CFG::Menu_Accent_Secondary);
+		gDraw().Arc(circleX, nBarY, 21, 6.0f, -90.0f, 359.0f, CFG::Menu_Background);
+		gDraw().Arc(circleX, nBarY, 20, 4.0f, -90.0f, end, CFG::Menu_Accent_Secondary);
 
 		wchar_t tickText[32];
 		swprintf(tickText, sizeof(tickText) / sizeof(wchar_t), L"%d", Shifting::nAvailableTicks);
-		H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, CFG::Menu_Accent_Secondary, 0, tickText);
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, CFG::Menu_Accent_Secondary, 0, tickText);
 	}
 
 	if (G::nTicksSinceCanFire < 30 && F::RapidFire->IsWeaponSupported(pWeapon))
 	{
 		if (CFG::Exploits_Shifting_Indicator_Style == 0)
 		{
-			H::Draw->Rect(nBarX - 1, (nBarY + nBarH + 4) - 1, nBarW + 2, nBarH + 2, CFG::Menu_Background);
+			gDraw().Rect(nBarX - 1, (nBarY + nBarH + 4) - 1, nBarW + 2, nBarH + 2, CFG::Menu_Background);
 
 			if (G::nTicksSinceCanFire > 0)
 			{
@@ -247,8 +247,8 @@ void CMiscVisuals::ShiftBar()
 					0.0f, static_cast<float>(nBarW)
 				));
 
-				H::Draw->GradientRect(nBarX, nBarY + nBarH + 4, nFillWidth, nBarH, colorDim, color, false);
-				H::Draw->OutlinedRect(nBarX, nBarY + nBarH + 4, nFillWidth, nBarH, color);
+				gDraw().GradientRect(nBarX, nBarY + nBarH + 4, nFillWidth, nBarH, colorDim, color, false);
+				gDraw().OutlinedRect(nBarX, nBarY + nBarH + 4, nFillWidth, nBarH, color);
 			}
 		}
 
@@ -256,8 +256,8 @@ void CMiscVisuals::ShiftBar()
 		{
 			const float end{ Math::RemapValClamped(static_cast<float>(G::nTicksSinceCanFire), 0.0f, 24.0f, -90.0f, 359.0f) };
 
-			H::Draw->Arc(circleX, nBarY, 24, 2.0f, -90.0f, 359.0f, CFG::Menu_Background);
-			H::Draw->Arc(circleX, nBarY, 24, 2.0f, -90.0f, end, { 241, 196, 15, 255 });
+			gDraw().Arc(circleX, nBarY, 24, 2.0f, -90.0f, 359.0f, CFG::Menu_Background);
+			gDraw().Arc(circleX, nBarY, 24, 2.0f, -90.0f, end, { 241, 196, 15, 255 });
 		}
 	}
 }

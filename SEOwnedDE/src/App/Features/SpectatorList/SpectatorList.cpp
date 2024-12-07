@@ -96,7 +96,7 @@ void CSpectatorList::Run()
 	const auto bgColor = F::VisualUtils->GetAlphaColor(CFG::Menu_Background, CFG::Visuals_SpectatorList_Background_Alpha);
 
 	// Background
-	H::Draw->Rect(
+	gDraw().Rect(
 		CFG::Visuals_SpectatorList_Pos_X,
 		CFG::Visuals_SpectatorList_Pos_Y,
 		LIST_WIDTH,
@@ -105,7 +105,7 @@ void CSpectatorList::Run()
 	);
 
 	// Title
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		CFG::Visuals_SpectatorList_Pos_X + (LIST_WIDTH / 2),
 		CFG::Visuals_SpectatorList_Pos_Y + (CFG::Menu_Drag_Bar_Height / 2),
@@ -115,7 +115,7 @@ void CSpectatorList::Run()
 	);
 
 	// Outline
-	H::Draw->OutlinedRect(
+	gDraw().OutlinedRect(
 		CFG::Visuals_SpectatorList_Pos_X,
 		CFG::Visuals_SpectatorList_Pos_Y,
 		LIST_WIDTH,
@@ -134,7 +134,7 @@ void CSpectatorList::Run()
 		const int iPos = int(n) + 1;
 
 		// Background
-		H::Draw->Rect(
+		gDraw().Rect(
 			CFG::Visuals_SpectatorList_Pos_X,
 			CFG::Visuals_SpectatorList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) - 1,
 			LIST_WIDTH,
@@ -149,10 +149,10 @@ void CSpectatorList::Run()
 		const int nY = CFG::Visuals_SpectatorList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) - 1;
 
 		// Divider
-		H::Draw->Line(nModeX + nModeOffsetX, nY, nModeX + nModeOffsetX, nY + CFG::Menu_Drag_Bar_Height, outlineColor);
+		gDraw().Line(nModeX + nModeOffsetX, nY, nModeX + nModeOffsetX, nY + CFG::Menu_Drag_Bar_Height, outlineColor);
 
 		// Spectator mode
-		H::Draw->String(
+		gDraw().String(
 			H::Fonts->Get(EFonts::Menu),
 			nModeX + (nModeOffsetX / 2),
 			nTextY + (CFG::Menu_Drag_Bar_Height / 2) + 1,
@@ -165,7 +165,7 @@ void CSpectatorList::Run()
 		I::MatSystemSurface->SetClippingRect(nModeX, nTextY, (nModeX + LIST_WIDTH) - (CFG::Menu_Spacing_X + 1), nTextY + CFG::Menu_Drag_Bar_Height);
 
 		// Player name
-		H::Draw->String(
+		gDraw().String(
 			H::Fonts->Get(EFonts::Menu),
 			nTextX,
 			nTextY + (CFG::Menu_Drag_Bar_Height / 2) + 1,
@@ -177,7 +177,7 @@ void CSpectatorList::Run()
 		I::MatSystemSurface->DisableClipping(true);
 
 		// Outline
-		H::Draw->OutlinedRect(
+		gDraw().OutlinedRect(
 			CFG::Visuals_SpectatorList_Pos_X,
 			CFG::Visuals_SpectatorList_Pos_Y + (CFG::Menu_Drag_Bar_Height * iPos) - 1,
 			LIST_WIDTH,

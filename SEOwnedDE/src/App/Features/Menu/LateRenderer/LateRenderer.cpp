@@ -37,10 +37,10 @@ void CLateRenderer::DrawAll()
 	}
 
 	for (const auto &Rect : m_vecRects)
-		H::Draw->Rect(Rect.m_nX, Rect.m_nY, Rect.m_nW, Rect.m_nH, Rect.m_Color);
+		gDraw().Rect(Rect.m_nX, Rect.m_nY, Rect.m_nW, Rect.m_nH, Rect.m_Color);
 
 	for (const auto &OutlinedRect : m_vecOutlinedRects)
-		H::Draw->OutlinedRect(OutlinedRect.m_nX, OutlinedRect.m_nY, OutlinedRect.m_nW, OutlinedRect.m_nH, OutlinedRect.m_Color);
+		gDraw().OutlinedRect(OutlinedRect.m_nX, OutlinedRect.m_nY, OutlinedRect.m_nW, OutlinedRect.m_nH, OutlinedRect.m_Color);
 
 	for (const auto &String : m_vecStrings)
 	{
@@ -49,7 +49,7 @@ void CLateRenderer::DrawAll()
 			I::MatSystemSurface->SetClippingRect(String.m_Clip.x, String.m_Clip.y, String.m_Clip.x + String.m_Clip.w, String.m_Clip.y + String.m_Clip.h);
 		}
 
-		H::Draw->String(String.m_dwFont, String.m_nX, String.m_nY, String.m_Color, String.m_nAlign, String.m_pwszString);
+		gDraw().String(String.m_dwFont, String.m_nX, String.m_nY, String.m_Color, String.m_nAlign, String.m_pwszString);
 
 		if (String.m_Clip.x)
 			I::MatSystemSurface->DisableClipping(true);

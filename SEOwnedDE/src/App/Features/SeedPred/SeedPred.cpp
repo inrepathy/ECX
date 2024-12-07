@@ -256,7 +256,7 @@ void CSeedPred::Paint()
 		int x{2};
 		int y{2};
 
-		H::Draw->String
+		gDraw().String
 		(
 			H::Fonts->Get(EFonts::ESP_SMALL),
 			x, y,
@@ -266,7 +266,7 @@ void CSeedPred::Paint()
 
 		y += 10;
 
-		H::Draw->String
+		gDraw().String
 		(
 			H::Fonts->Get(EFonts::ESP_SMALL),
 			x, y,
@@ -276,7 +276,7 @@ void CSeedPred::Paint()
 
 		y += 10;
 
-		H::Draw->String
+		gDraw().String
 		(
 			H::Fonts->Get(EFonts::ESP_SMALL),
 			x, y,

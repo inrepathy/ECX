@@ -24,7 +24,7 @@ void CApp::Start()
     U::SignatureManager->InitializeAllSignatures();
     U::InterfaceManager->InitializeAllInterfaces();
 
-    H::Draw->UpdateScreenSize();
+    gDraw().UpdateScreenSize();
     H::Fonts->Reload();
 
     if (I::EngineClient->IsInGame() && I::EngineClient->IsConnected())

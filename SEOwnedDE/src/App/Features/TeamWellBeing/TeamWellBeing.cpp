@@ -74,7 +74,7 @@ void CTeamWellBeing::Run()
 	const auto bgColor = F::VisualUtils->GetAlphaColor(CFG::Menu_Background, CFG::Visuals_TeamWellBeing_Background_Alpha);
 
 	// Background
-	H::Draw->Rect(
+	gDraw().Rect(
 		CFG::Visuals_TeamWellBeing_Pos_X,
 		CFG::Visuals_TeamWellBeing_Pos_Y,
 		CFG::Visuals_TeamWellBeing_Width,
@@ -83,7 +83,7 @@ void CTeamWellBeing::Run()
 	);
 
 	// Title
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		CFG::Visuals_TeamWellBeing_Pos_X + (CFG::Visuals_TeamWellBeing_Width / 2),
 		CFG::Visuals_TeamWellBeing_Pos_Y + (CFG::Menu_Drag_Bar_Height / 2),
@@ -93,7 +93,7 @@ void CTeamWellBeing::Run()
 	);
 
 	// Outline
-	H::Draw->OutlinedRect(
+	gDraw().OutlinedRect(
 		CFG::Visuals_TeamWellBeing_Pos_X,
 		CFG::Visuals_TeamWellBeing_Pos_Y,
 		CFG::Visuals_TeamWellBeing_Width,
@@ -143,7 +143,7 @@ void CTeamWellBeing::Run()
 		};
 
 		// Player background
-		H::Draw->Rect(
+		gDraw().Rect(
 			CFG::Visuals_TeamWellBeing_Pos_X,
 			drawY,
 			CFG::Visuals_TeamWellBeing_Width,
@@ -151,7 +151,7 @@ void CTeamWellBeing::Run()
 			bgColor
 		);
 
-		H::Draw->StartClipping
+		gDraw().StartClipping
 		(
 			CFG::Visuals_TeamWellBeing_Pos_X,
 			drawY,
@@ -160,7 +160,7 @@ void CTeamWellBeing::Run()
 		);
 
 		// Player name
-		H::Draw->String(
+		gDraw().String(
 			H::Fonts->Get(EFonts::Menu),
 			CFG::Visuals_TeamWellBeing_Pos_X + CFG::Menu_Spacing_X,
 			textY,
@@ -169,9 +169,9 @@ void CTeamWellBeing::Run()
 			Utils::ConvertUtf8ToWide(pi.name).c_str()
 		);
 
-		H::Draw->EndClipping();
+		gDraw().EndClipping();
 
-		H::Draw->Texture(classSeparatorX - (18 / 2), textY, 13, 13, F::VisualUtils->GetClassIcon(player->m_iClass()), POS_CENTERXY);
+		gDraw().Texture(classSeparatorX - (18 / 2), textY, 13, 13, F::VisualUtils->GetClassIcon(player->m_iClass()), POS_CENTERXY);
 
 		const auto barStartX{ classSeparatorX + CFG::Menu_Spacing_X };
 		const auto maxBarW{ static_cast<int>(static_cast<float>(CFG::Visuals_TeamWellBeing_Width) * 0.7f) - (18 + (CFG::Menu_Spacing_X * 2)) };
@@ -182,7 +182,7 @@ void CTeamWellBeing::Run()
 			                                       static_cast<float>(maxBarW)))
 		};
 
-		H::Draw->Rect
+		gDraw().Rect
 		(
 			barStartX,
 			drawY + CFG::Menu_Spacing_Y,
@@ -194,7 +194,7 @@ void CTeamWellBeing::Run()
 		// Health bar
 		if (barW)
 		{
-			H::Draw->Rect
+			gDraw().Rect
 			(
 				barStartX,
 				drawY + CFG::Menu_Spacing_Y,
@@ -205,7 +205,7 @@ void CTeamWellBeing::Run()
 
 			if (overhealBarW)
 			{
-				H::Draw->Rect
+				gDraw().Rect
 				(
 					barStartX,
 					drawY + CFG::Menu_Spacing_Y,
@@ -215,7 +215,7 @@ void CTeamWellBeing::Run()
 				);
 			}
 
-			H::Draw->OutlinedRect
+			gDraw().OutlinedRect
 			(
 				barStartX,
 				drawY + CFG::Menu_Spacing_Y,
@@ -225,7 +225,7 @@ void CTeamWellBeing::Run()
 			);
 		}
 
-		H::Draw->OutlinedRect(
+		gDraw().OutlinedRect(
 			CFG::Visuals_TeamWellBeing_Pos_X,
 			drawY,
 			CFG::Visuals_TeamWellBeing_Width,
@@ -233,7 +233,7 @@ void CTeamWellBeing::Run()
 			outlineColor
 		);
 
-		H::Draw->OutlinedRect(
+		gDraw().OutlinedRect(
 			nameSeparatorX,
 			drawY,
 			1,
@@ -241,7 +241,7 @@ void CTeamWellBeing::Run()
 			outlineColor
 		);
 
-		H::Draw->OutlinedRect(
+		gDraw().OutlinedRect(
 			classSeparatorX,
 			drawY,
 			1,

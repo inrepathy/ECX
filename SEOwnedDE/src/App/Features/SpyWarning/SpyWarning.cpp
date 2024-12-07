@@ -91,12 +91,12 @@ void CSpyWarning::Run()
 			if (!pPlayer)
 				continue;
 
-			const int nScreenCenterX = static_cast<int>(static_cast<float>(H::Draw->GetScreenW()) * SCREEN_OFFSET_X_SCALE);
-			const int nScreenCenterY = static_cast<int>(static_cast<float>(H::Draw->GetScreenH()) * SCREEN_OFFSET_Y_SCALE);
+			const int nScreenCenterX = static_cast<int>(static_cast<float>(gDraw().GetScreenW()) * SCREEN_OFFSET_X_SCALE);
+			const int nScreenCenterY = static_cast<int>(static_cast<float>(gDraw().GetScreenH()) * SCREEN_OFFSET_Y_SCALE);
 			const auto spyPos = pPlayer->GetRenderCenter();
 
 			Vec3 vScreen = {};
-			H::Draw->ScreenPosition(spyPos, vScreen);
+			gDraw().ScreenPosition(spyPos, vScreen);
 
 			Vec3 vAngle = {};
 			Math::VectorAngles({nScreenCenterX - vScreen.x, nScreenCenterY - vScreen.y, 0.0f}, vAngle);
@@ -118,16 +118,16 @@ void CSpyWarning::Run()
 			};
 
 			Math::RotateTriangle(vPoints, vAngle.y);
-			H::Draw->FilledTriangle(vPoints, F::VisualUtils->GetEntityColor(pLocal, pPlayer));
+			gDraw().FilledTriangle(vPoints, F::VisualUtils->GetEntityColor(pLocal, pPlayer));
 		}
 
 		// Spy icon
 		if (!spies.empty())
 		{
-			const int nScreenCenterX = static_cast<int>(static_cast<float>(H::Draw->GetScreenW()) * SCREEN_OFFSET_X_SCALE);
-			const int nScreenCenterY = static_cast<int>(static_cast<float>(H::Draw->GetScreenH()) * SCREEN_OFFSET_Y_SCALE);
+			const int nScreenCenterX = static_cast<int>(static_cast<float>(gDraw().GetScreenW()) * SCREEN_OFFSET_X_SCALE);
+			const int nScreenCenterY = static_cast<int>(static_cast<float>(gDraw().GetScreenH()) * SCREEN_OFFSET_Y_SCALE);
 
-			H::Draw->Texture(nScreenCenterX, nScreenCenterY, 36, 36, F::VisualUtils->GetClassIcon(TF_CLASS_SPY), POS_CENTERXY);
+			gDraw().Texture(nScreenCenterX, nScreenCenterY, 36, 36, F::VisualUtils->GetClassIcon(TF_CLASS_SPY), POS_CENTERXY);
 		}
 	}
 }

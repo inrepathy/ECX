@@ -61,7 +61,7 @@ void CSpyCamera::Run()
 	const auto bgColor = F::VisualUtils->GetAlphaColor(CFG::Menu_Background, CFG::Visuals_SpyCamera_Background_Alpha);
 
 	// Background
-	H::Draw->Rect(
+	gDraw().Rect(
 		CFG::Visuals_SpyCamera_Pos_X,
 		CFG::Visuals_SpyCamera_Pos_Y,
 		CFG::Visuals_SpyCamera_Pos_W,
@@ -70,7 +70,7 @@ void CSpyCamera::Run()
 	);
 
 	// Outline
-	H::Draw->OutlinedRect(
+	gDraw().OutlinedRect(
 		CFG::Visuals_SpyCamera_Pos_X,
 		CFG::Visuals_SpyCamera_Pos_Y,
 		CFG::Visuals_SpyCamera_Pos_W,
@@ -79,7 +79,7 @@ void CSpyCamera::Run()
 	);
 
 	// Title
-	H::Draw->String(
+	gDraw().String(
 		H::Fonts->Get(EFonts::Menu),
 		CFG::Visuals_SpyCamera_Pos_X + (CFG::Visuals_SpyCamera_Pos_W / 2),
 		CFG::Visuals_SpyCamera_Pos_Y + (CFG::Menu_Drag_Bar_Height / 2),
@@ -179,7 +179,7 @@ void CSpyCamera::Run()
 		m_IsRendering = false;
 
 		// Outline
-		H::Draw->OutlinedRect(
+		gDraw().OutlinedRect(
 			CFG::Visuals_SpyCamera_Pos_X,
 			CFG::Visuals_SpyCamera_Pos_Y,
 			CFG::Visuals_SpyCamera_Pos_W,

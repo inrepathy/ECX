@@ -43,4 +43,4 @@ public:
 	void FillRectRounded(int x, int y, int w, int h, int radius, Color_t col);
 };
 
-MAKE_SINGLETON_SCOPED(CDraw, Draw, H);
+CDraw& gDraw();

@@ -302,27 +302,27 @@ void CDraw::Draw3DBox(const Vec3& min, const Vec3& max, const Color_t& clr)
 	// Transform each point from world to screen
 	for (int i = 0; i < 8; ++i)
 	{
-		if (!H::Draw->W2S(points[i], screen[i]))
+		if (!gDraw().W2S(points[i], screen[i]))
 			return; // Exit if any point is not visible
 	}
 
 	// Draw front face
-	H::Draw->Line(screen[0].x, screen[0].y, screen[1].x, screen[1].y, clr);
-	H::Draw->Line(screen[1].x, screen[1].y, screen[2].x, screen[2].y, clr);
-	H::Draw->Line(screen[2].x, screen[2].y, screen[3].x, screen[3].y, clr);
-	H::Draw->Line(screen[3].x, screen[3].y, screen[0].x, screen[0].y, clr);
+	gDraw().Line(screen[0].x, screen[0].y, screen[1].x, screen[1].y, clr);
+	gDraw().Line(screen[1].x, screen[1].y, screen[2].x, screen[2].y, clr);
+	gDraw().Line(screen[2].x, screen[2].y, screen[3].x, screen[3].y, clr);
+	gDraw().Line(screen[3].x, screen[3].y, screen[0].x, screen[0].y, clr);
 
 	// Draw back face
-	H::Draw->Line(screen[4].x, screen[4].y, screen[5].x, screen[5].y, clr);
-	H::Draw->Line(screen[5].x, screen[5].y, screen[6].x, screen[6].y, clr);
-	H::Draw->Line(screen[6].x, screen[6].y, screen[7].x, screen[7].y, clr);
-	H::Draw->Line(screen[7].x, screen[7].y, screen[4].x, screen[4].y, clr);
+	gDraw().Line(screen[4].x, screen[4].y, screen[5].x, screen[5].y, clr);
+	gDraw().Line(screen[5].x, screen[5].y, screen[6].x, screen[6].y, clr);
+	gDraw().Line(screen[6].x, screen[6].y, screen[7].x, screen[7].y, clr);
+	gDraw().Line(screen[7].x, screen[7].y, screen[4].x, screen[4].y, clr);
 
 	// Draw sides
-	H::Draw->Line(screen[0].x, screen[0].y, screen[4].x, screen[4].y, clr);
-	H::Draw->Line(screen[1].x, screen[1].y, screen[5].x, screen[5].y, clr);
-	H::Draw->Line(screen[2].x, screen[2].y, screen[6].x, screen[6].y, clr);
-	H::Draw->Line(screen[3].x, screen[3].y, screen[7].x, screen[7].y, clr);
+	gDraw().Line(screen[0].x, screen[0].y, screen[4].x, screen[4].y, clr);
+	gDraw().Line(screen[1].x, screen[1].y, screen[5].x, screen[5].y, clr);
+	gDraw().Line(screen[2].x, screen[2].y, screen[6].x, screen[6].y, clr);
+	gDraw().Line(screen[3].x, screen[3].y, screen[7].x, screen[7].y, clr);
 }
 
 
@@ -345,4 +345,10 @@ void CDraw::FillRectRounded(int x, int y, int w, int h, int radius, Color_t col)
 	}
 
 	Polygon(64, round, col);
+}
+
+CDraw g_DrawInstance;
+
+CDraw& gDraw() {
+	return g_DrawInstance;
 }

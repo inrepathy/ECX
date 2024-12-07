@@ -195,10 +195,10 @@ void CRadar::Run()
 			const int nRadarX = CFG::Radar_Pos_X;
 			const int nRadarY = CFG::Radar_Pos_Y;
 
-			H::Draw->Rect(nRadarX, nRadarY, nRadarSize, nRadarSize, bgColor);
-			H::Draw->OutlinedRect(nRadarX, nRadarY, nRadarSize, nRadarSize, outlineColor);
+			gDraw().Rect(nRadarX, nRadarY, nRadarSize, nRadarSize, bgColor);
+			gDraw().OutlinedRect(nRadarX, nRadarY, nRadarSize, nRadarSize, outlineColor);
 
-			H::Draw->Line(
+			gDraw().Line(
 				nRadarX + (nRadarSize / 8),
 				nRadarY + (nRadarSize / 2),
 				nRadarX + (nRadarSize - ((nRadarSize / 8))),
@@ -206,7 +206,7 @@ void CRadar::Run()
 				crossColor
 			);
 
-			H::Draw->Line(
+			gDraw().Line(
 				nRadarX + (nRadarSize / 2),
 				nRadarY + (nRadarSize / 8),
 				nRadarX + (nRadarSize / 2),
@@ -223,13 +223,13 @@ void CRadar::Run()
 			int nRadarX = CFG::Radar_Pos_X + nRadarSize / 2;
 			int nRadarY = CFG::Radar_Pos_Y + nRadarSize / 2;
 
-			H::Draw->FilledCircle(nRadarX, nRadarY, nRadarSize / 2, 100, bgColor);
-			H::Draw->OutlinedCircle(nRadarX, nRadarY, nRadarSize / 2, 100, outlineColor);
+			gDraw().FilledCircle(nRadarX, nRadarY, nRadarSize / 2, 100, bgColor);
+			gDraw().OutlinedCircle(nRadarX, nRadarY, nRadarSize / 2, 100, outlineColor);
 
 			nRadarX = CFG::Radar_Pos_X;
 			nRadarY = CFG::Radar_Pos_Y;
 
-			H::Draw->Line(
+			gDraw().Line(
 				nRadarX + (nRadarSize / 8),
 				nRadarY + (nRadarSize / 2),
 				nRadarX + (nRadarSize - ((nRadarSize / 8))),
@@ -237,7 +237,7 @@ void CRadar::Run()
 				crossColor
 			);
 
-			H::Draw->Line(
+			gDraw().Line(
 				nRadarX + (nRadarSize / 2),
 				nRadarY + (nRadarSize / 8),
 				nRadarX + (nRadarSize / 2),
@@ -273,7 +273,7 @@ void CRadar::Run()
 				if (!GetDrawPosition(x, y, pEntity->GetCenter()))
 					continue;
 
-				H::Draw->Texture(x, y, nIconSize, nIconSize, F::VisualUtils->GetHealthIconTextureId(), POS_CENTERXY);
+				gDraw().Texture(x, y, nIconSize, nIconSize, F::VisualUtils->GetHealthIconTextureId(), POS_CENTERXY);
 			}
 		}
 
@@ -289,7 +289,7 @@ void CRadar::Run()
 				if (!GetDrawPosition(x, y, pEntity->GetCenter()))
 					continue;
 
-				H::Draw->Texture(x, y, nIconSize, nIconSize, F::VisualUtils->GetAmmoIconTextureId(), POS_CENTERXY);
+				gDraw().Texture(x, y, nIconSize, nIconSize, F::VisualUtils->GetAmmoIconTextureId(), POS_CENTERXY);
 			}
 		}
 
@@ -314,7 +314,7 @@ void CRadar::Run()
 				if (!GetDrawPosition(x, y, pEntity->GetCenter()))
 					continue;
 
-				H::Draw->Texture(x, y, static_cast<int>(36.0f * s), static_cast<int>(40.0f * s), F::VisualUtils->GetHalloweenGiftTextureId(), POS_CENTERXY);
+				gDraw().Texture(x, y, static_cast<int>(36.0f * s), static_cast<int>(40.0f * s), F::VisualUtils->GetHalloweenGiftTextureId(), POS_CENTERXY);
 			}
 		}
 	}
@@ -370,9 +370,9 @@ void CRadar::Run()
 			Color_t entColor = F::VisualUtils->GetEntityColor(pLocal, pBuilding);
 			entColor.a = 100;
 
-			H::Draw->FilledCircle(x, y, (nIconSize + 8) / 2, 20, entColor);
-			H::Draw->Texture(x, y, nIconSize, nIconSize, nTexture, POS_CENTERXY);
-			//H::Draw->OutlinedCircle(x, y, (nIconSize + 8) / 2, 20, CFG::Color_ESP_Outline);
+			gDraw().FilledCircle(x, y, (nIconSize + 8) / 2, 20, entColor);
+			gDraw().Texture(x, y, nIconSize, nIconSize, nTexture, POS_CENTERXY);
+			//gDraw().OutlinedCircle(x, y, (nIconSize + 8) / 2, 20, CFG::Color_ESP_Outline);
 		}
 	}
 
@@ -432,9 +432,9 @@ void CRadar::Run()
 			Color_t entColor = F::VisualUtils->GetEntityColor(pLocal, pPlayer);
 			entColor.a = 100;
 
-			H::Draw->FilledCircle(x, y, (nIconSize + 4) / 2, 20, entColor);
-			H::Draw->Texture(x, y, nIconSize, nIconSize, F::VisualUtils->GetClassIcon(pPlayer->m_iClass()), POS_CENTERXY);
-			//H::Draw->OutlinedCircle(x, y, (nIconSize + 4) / 2, 20, CFG::Color_ESP_Outline);
+			gDraw().FilledCircle(x, y, (nIconSize + 4) / 2, 20, entColor);
+			gDraw().Texture(x, y, nIconSize, nIconSize, F::VisualUtils->GetClassIcon(pPlayer->m_iClass()), POS_CENTERXY);
+			//gDraw().OutlinedCircle(x, y, (nIconSize + 4) / 2, 20, CFG::Color_ESP_Outline);
 		}
 	}
 
@@ -451,7 +451,7 @@ void CRadar::Run()
 			if (!GetDrawPosition(x, y, pEntity->GetCenter()))
 				continue;
 
-			H::Draw->String(H::Fonts->Get(EFonts::ESP_SMALL), x, y, CFG::Color_MVM_Money, POS_CENTERXY, "$");
+			gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), x, y, CFG::Color_MVM_Money, POS_CENTERXY, "$");
 		}
 	}
 }

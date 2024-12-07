@@ -86,7 +86,7 @@ void CPaint::Run()
 		return Color_t{static_cast<byte>(r), static_cast<byte>(g), static_cast<byte>(b), static_cast<byte>(255)};
 	};
 
-	int w = H::Draw->GetScreenW(), h = H::Draw->GetScreenH();
+	int w = gDraw().GetScreenW(), h = gDraw().GetScreenH();
 
 	if (w < 1 || h < 1 || w > 4096 || h > 2160)
 		return;
