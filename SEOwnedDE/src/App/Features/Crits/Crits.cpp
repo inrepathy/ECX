@@ -182,7 +182,7 @@ void CCrits::Indicator()
 		if (Shifting::nAvailableTicks > 0)
 		{
 			const int nFillWidth = static_cast<int>(Math::RemapValClamped(
-				static_cast<float>(Shifting::nAvailableTicks),
+				static_cast<float>(0),
 				0.0f, static_cast<float>(MAX_COMMANDS),
 				0.0f, static_cast<float>(nBarW)
 			));
@@ -220,11 +220,11 @@ void CCrits::Indicator()
 
 	if (CFG::Exploits_Shifting_Indicator_Style == 1)
 	{
-		const float end{ Math::RemapValClamped(static_cast<float>(Shifting::nAvailableTicks), 0.0f, MAX_COMMANDS, -90.0f, 359.0f) };
+		const float end{ Math::RemapValClamped(static_cast<float>(0), 0.0f, MAX_COMMANDS, -90.0f, 359.0f) };
 
 		gDraw().Arc(nBarX + nBarW / 2, nBarY, 21, 6.0f, -90.0f, 359.0f, CFG::Menu_Background);
 		gDraw().Arc(nBarX + nBarW / 2, nBarY, 20, 4.0f, -90.0f, end, CFG::Menu_Accent_Secondary);
-		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, CFG::Menu_Accent_Secondary, 0, std::to_wstring(Shifting::nAvailableTicks).c_str());
+		gDraw().String(H::Fonts->Get(EFonts::ESP_SMALL), nBarX, textY, CFG::Menu_Accent_Secondary, 0, std::to_wstring(0).c_str());
 	}
 
 	// The crit banned message rendering is handled in the bucket section now.

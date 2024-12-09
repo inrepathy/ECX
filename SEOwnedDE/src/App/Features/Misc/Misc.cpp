@@ -44,10 +44,7 @@ void CMisc::FakeDuck(CUserCmd* pCmd)
 
 		const auto pLocal = H::Entities->GetLocal();
 
-
 		static auto active{ false };
-
-
 
 		*pSendPacket = false;
 		if (pLocal->m_bDucking() && pLocal->m_vecViewOffset().z == 45 && I::ClientState->chokedcommands > 12)

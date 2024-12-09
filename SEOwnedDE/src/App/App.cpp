@@ -64,7 +64,8 @@ void CApp::Start()
 
         msgColor = { 28, 179, 210, 255 };
     }
-    I::EngineClient->ClientCmd_Unrestricted("clear");
+  //  I::EngineClient->ClientCmd_Unrestricted("clear");
+    I::EngineClient->ClientCmd_Unrestricted("toggleconsole; clear");
     Sleep(25);
     I::CVar->ConsoleColorPrintf(msgColor, "ecx framework, developed by grizz\n");
     I::CVar->ConsoleColorPrintf(msgColor, "based on lak3 and spook's seownedde\n");

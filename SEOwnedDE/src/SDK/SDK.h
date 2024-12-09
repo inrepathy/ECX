@@ -331,6 +331,7 @@ namespace Shifting
 	}
 }
 
+
 #define GET_ENT_FROM_USER_ID(userid) I::ClientEntityList->GetClientEntity(I::EngineClient->GetPlayerForUserID(userid))
 
 struct ShaderStencilState_t
