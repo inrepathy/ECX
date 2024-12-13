@@ -1177,14 +1177,6 @@ bool CAimbotProjectile::ShouldAim(const CUserCmd* pCmd, C_TFPlayer* pLocal, C_TF
 {
 	if (CFG::Aimbot_Projectile_Aim_Type != 1 || !IsFiring(pCmd, pLocal, pWeapon) || !pWeapon->HasPrimaryAmmoForShot())
 		return false;
-
-	float hitChance = CFG::ProjectileHC; 
-	if (hitChance < 0.0f || hitChance > 100.0f) // probably bad 
-		return false; 
-
-	float randomChance = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 100.0f;
-
-	return randomChance <= hitChance;
 }
 
 
@@ -1249,6 +1241,21 @@ bool CAimbotProjectile::ShouldFire(CUserCmd* pCmd, C_TFPlayer* pLocal, C_TFWeapo
 		return false;
 	}
 
+
+	if (H::Input->IsPressed(CFG::Aimbot_Key)) { // i think this optimizies it? if hitchance isnt working remove this if
+		float hitChance = CFG::ProjectileHC;
+		if (hitChance < 0.0f || hitChance > 100.0f)
+			return false;
+
+		float randomChance = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 100.0f;
+
+		if (randomChance > hitChance) {
+			return true;
+		}
+		else if (hitChance > randomChance) {
+			return false;
+		}
+	}
 	return true;
 }
 
